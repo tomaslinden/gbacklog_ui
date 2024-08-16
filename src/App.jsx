@@ -2,6 +2,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
 import Navbar from './components/Navbar'
 import Subjects from './components/Subjects'
+import SubjectCreate from './components/SubjectCreate'
+import prodSubjectService from './services/subjects';
+import devSubjectService from './services/mockSubjects';
+
+let subjectService;
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  subjectService = devSubjectService;
+} else {
+  subjectService = prodSubjectService;
+}
 
 function App() {
   return (
@@ -9,15 +19,12 @@ function App() {
       <header>
         <Navbar />
       </header>
-      <div class="main-content">
+      <div className="main-content">
         <BrowserRouter>
           <Routes>
-              <Route path="/" element={<Subjects />}>
-              <Route index element={<Subjects />} />
-              <Route path="subjects" element={<Subjects />} />
-              {/* Todo implement functionality for creating subjects */}
-              {/* <Route path="createSubject" element={<SubjectCreate />} /> */}
-            </Route>
+              <Route index element={<Subjects {...{ subjectService }} />} />
+              <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
+              <Route path="/createSubject" element={<SubjectCreate />} {...{ subjectService }} />
           </Routes>
         </BrowserRouter>
       </div>

@@ -1,6 +1,6 @@
 const getAll = () => {
     return new Promise((resolve, reject) => {
-        resolve([{"name": "My test subject"}])
+        resolve([{"id": "1", "name": "My test subject"}])
     });
 }
 
