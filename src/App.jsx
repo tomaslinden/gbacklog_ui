@@ -1,26 +1,26 @@
-import { useState, useEffect } from 'react'
-import subjectService from './services/subjects'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
+import Navbar from './components/Navbar'
+import Subjects from './components/Subjects'
 
 function App() {
-  const [subjects, setSubjects] = useState([])
-
-  useEffect(() => {
-    subjectService
-      .getAll()
-      .then(subjects => {
-        setSubjects(subjects)
-      })
-  }, [])
-  
   return (
     <>
-      Subjects:
-      <ul>
-        {subjects.map(subject => 
-          <>Subject: {JSON.stringify(subject)}</>
-        )}
-      </ul>
+      <header>
+        <Navbar />
+      </header>
+      <div class="main-content">
+        <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<Subjects />}>
+              <Route index element={<Subjects />} />
+              <Route path="subjects" element={<Subjects />} />
+              {/* Todo implement functionality for creating subjects */}
+              {/* <Route path="createSubject" element={<SubjectCreate />} /> */}
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
     </>
   )
 }
