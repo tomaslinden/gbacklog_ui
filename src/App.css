@@ -1,11 +1,9 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
-
 .main-content {
-  background-color: lightgray;
+  background-color: rgb(232,232,232);
   padding: 5px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: gray;
 }

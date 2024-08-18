@@ -3,6 +3,8 @@ import './App.css'
 import Navbar from './components/Navbar'
 import Subjects from './components/Subjects'
 import SubjectCreate from './components/SubjectCreate'
+import Frameworks from './components/Frameworks'
+import Reviews from './components/Reviews'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
 
@@ -16,18 +18,20 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 function App() {
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
-      <div className="main-content">
-        <BrowserRouter>
-          <Routes>
-              <Route index element={<Subjects {...{ subjectService }} />} />
-              <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
-              <Route path="/createSubject" element={<SubjectCreate />} {...{ subjectService }} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <header>
+          <Navbar />
+        </header>
+        <div className="main-content">
+            <Routes>
+                <Route index element={<Subjects {...{ subjectService }} />} />
+                <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
+                <Route path="/createSubject" element={<SubjectCreate />} {...{ subjectService }} />
+                <Route path="/frameworks" element={<Frameworks />} />
+                <Route path="/reviews" element={<Reviews />} />
+            </Routes>
+        </div>
+      </BrowserRouter>
     </>
   )
 }
