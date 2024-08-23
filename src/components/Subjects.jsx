@@ -78,7 +78,14 @@ const Subjects = ({ subjectService }) => {
                             <div className="d-flex align-items-center">{subject.name}</div>
                             <div className="p-2"></div>
                             <div>
-                                <button className="btn btn-primary me-md-2" style={{position: 'relative', left:"-4px"}} type="button">Modify</button>
+                                <Link to={`/modifySubject/${subject.id}`}>
+                                    <button className="btn btn-primary me-md-2"
+                                        style={{position: 'relative', left:"-4px"}}
+                                        type="button">
+                                        Modify
+                                    </button>
+                                </Link>
+
                                 <button className="btn btn-primary" type="button"
                                     onClick={() => {
                                         setSubjectSelectedForDeletion(subject)

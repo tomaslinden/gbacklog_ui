@@ -9,6 +9,11 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
+const getById = id => {
+    const request = axios.get(`${baseUrl}/${id}`)
+    return request.then(response => response.data)
+}
+
 const create = newSubject => {
     const request = axios.post(baseUrl, newSubject)
     return request.then(response => response.data)
@@ -19,6 +24,11 @@ const deleteSubject = id => {
     return request.then(response => response.data)
 }
 
+const update = (id, newSubject) => {
+    const request = axios.put(`${baseUrl}/${id}`, newSubject)
+    return request.then(response => response.data)
+}
+
 export default { 
-    getAll, create, deleteSubject
+    getAll, getById, create, deleteSubject, update
 }

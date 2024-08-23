@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-const SubjectCreate = ({ subjectService }) => {
+// Todo: Rename SubjectCreate to SubjectUpsert ?
+const SubjectCreate = ({ subjectService, mode }) => {
     const [subjectName, setSubjectName] = useState('')
     const [subjectNameValidationError, setSubjectNameValidationError] = useState('')
     const [isValidated, setIsValidated] = useState(false)
@@ -12,6 +13,19 @@ const SubjectCreate = ({ subjectService }) => {
     const subjectNameMaxLength = 50;
     
     const navigate = useNavigate()
+
+    let params = useParams();
+
+    useEffect(() => {
+        if (mode === 'modify') {
+            const { id } = params
+            subjectService
+                .getById(id)
+                .then(subject => {
+                    setSubjectName(subject.name);
+                })
+        }
+    }, []) 
 
     const handleNoteChange = (event) => {
         setSubjectName(event.target.value)
@@ -40,23 +54,43 @@ const SubjectCreate = ({ subjectService }) => {
         return isValid;
     }
 
-    const addSubject = (event) => {
+    const handleFormSubmit = event => {
         event.preventDefault()
-        validateForm();
+        event.stopPropagation()
         if (validateForm()) {
-            subjectService.create({
-                name: subjectName
-            }).then(returnedSubject => {
-                setIsSubjectSuccess(true)
-                setTimeout(() => {
-                    setIsSubjectSuccess(false)
-                    navigate('/subjects')
-                }, 5000)
-            })      
+            if (mode === 'modify') {
+                updateSubject()
+            } else {
+                createSubject()
+            }
         } else {
             console.log('There are validation errors')
         }
-        event.stopPropagation()
+    }
+   
+    const getObjectToUpsert = () => {
+        return {
+            name: subjectName
+        }
+    }
+
+    const createSubject = () => {
+        subjectService.create(getObjectToUpsert())
+            .then(handleOnUpsertSuccess)
+    }
+
+    const updateSubject = () => {
+        const { id } = params
+        subjectService.update(id, getObjectToUpsert())
+            .then(handleOnUpsertSuccess)      
+    }
+
+    const handleOnUpsertSuccess = () => {
+        setIsSubjectSuccess(true)
+        setTimeout(() => {
+            setIsSubjectSuccess(false)
+            navigate('/subjects')
+        }, 2000)
     }
 
     const getFormClass = () => {
@@ -77,11 +111,11 @@ const SubjectCreate = ({ subjectService }) => {
 
             {isSubjectSuccess && (
                 <div className="alert alert-success mt-4" role="alert">
-                    Subject created
+                    Subject {mode === 'modify' ? 'modified' : 'created'} 
                 </div>
             )}
 
-            <form className={getFormClass()} onSubmit={addSubject} noValidate>
+            <form className={getFormClass()} onSubmit={handleFormSubmit} noValidate>
                 <div className='mb-3 col-md-6'>
                     <label htmlFor='subjectName' className='form-label'>Name</label>
                     <input 

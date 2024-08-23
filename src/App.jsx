@@ -30,6 +30,7 @@ function App() {
                 <Route index element={<Subjects {...{ subjectService }} />} />
                 <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
                 <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
+                <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
                 <Route path="/frameworks" element={<Frameworks />} />
                 <Route path="/reviews" element={<Reviews />} />
             </Routes>
