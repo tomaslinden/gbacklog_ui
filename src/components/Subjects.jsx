@@ -1,20 +1,44 @@
 import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
 
-// import subjectService from '../services/subjects'
-// Used during development
-// import subjectService from '../services/mockSubjects'
-
 const Subjects = ({ subjectService }) => {
     const [subjects, setSubjects] = useState([])
+    const [isShowSubjectDeleteWarning, setShowSubjectDeleteWarning] = useState(false)
+    const [subjectSelectedForDeletion, setSubjectSelectedForDeletion] = useState(null)
+    const [isSubjectDeleteSuccess, setSubjectDeleteSuccess] = useState(false)
+    // Todo add handling for delete subject error
 
     useEffect(() => {
-      subjectService
-        .getAll()
-        .then(subjects => {
-          setSubjects(subjects)
-        })
+        getAllSubjects()
     }, []) 
+
+    const getAllSubjects = () => {
+        subjectService
+            .getAll()
+            .then(subjects => {
+            setSubjects(subjects)
+            })
+    }
+
+    const handleSubjectDelete = () => {
+        subjectService
+            .deleteSubject(subjectSelectedForDeletion.id)
+            .then(() => {
+                getAllSubjects()
+                setSubjectDeleteSuccess(true)
+                closeSubjectDeletionDialog()
+                setSubjectSelectedForDeletion(null)
+                setTimeout(() => {
+                    setSubjectDeleteSuccess(false)
+                    closeSubjectDeletionDialog()
+                }, 3000)
+            })
+    }
+
+    const closeSubjectDeletionDialog = () => {
+        setShowSubjectDeleteWarning(false)
+        setSubjectSelectedForDeletion(null)
+    }
 
     return (
         <>
@@ -23,7 +47,23 @@ const Subjects = ({ subjectService }) => {
             <Link to="/createSubject">
                 <button type="button" className="btn btn-primary mt-4">Add subject</button>
             </Link>
-            
+
+            {isSubjectDeleteSuccess && (
+                <div className="alert alert-success mt-4" role="alert">
+                    Subject deleted
+                </div>
+            )}
+
+            {isShowSubjectDeleteWarning && (
+                <div className="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                    <strong>Are you sure you want to delete this subject?</strong>
+                    <div>{subjectSelectedForDeletion.name}</div>
+                    <button type="button" className="btn btn-danger mt-2 ms-2" onClick={handleSubjectDelete}>Yes</button>
+                    <button type="button" className="btn btn-primary mt-2 ms-2" onClick={closeSubjectDeletionDialog}>No</button>
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={closeSubjectDeletionDialog}></button>
+                </div>
+            )}
+
             <ul className="list-group mt-4">
                 {subjects.map(subject => 
                     <li key={subject.id} className="list-group-item">
@@ -39,7 +79,13 @@ const Subjects = ({ subjectService }) => {
                             <div className="p-2"></div>
                             <div>
                                 <button className="btn btn-primary me-md-2" style={{position: 'relative', left:"-4px"}} type="button">Modify</button>
-                                <button className="btn btn-primary" type="button">Delete</button>
+                                <button className="btn btn-primary" type="button"
+                                    onClick={() => {
+                                        setSubjectSelectedForDeletion(subject)
+                                        setShowSubjectDeleteWarning(true)
+                                    }}
+                                    disabled={isSubjectDeleteSuccess}
+                                >Delete</button>
                             </div>
                         </div>
                     </li>

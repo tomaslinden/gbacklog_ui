@@ -10,6 +10,12 @@ const create = (newSubject) => {
     });
 }
 
+const deleteSubject = id => {
+    return new Promise((resolve, reject) => {
+        resolve()
+    });
+}
+
 export default { 
-    getAll, create
+    getAll, create, deleteSubject
 }

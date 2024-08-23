@@ -6,6 +6,7 @@ const SubjectCreate = ({ subjectService }) => {
     const [subjectNameValidationError, setSubjectNameValidationError] = useState('')
     const [isValidated, setIsValidated] = useState(false)
     const [isSubjectSuccess, setIsSubjectSuccess] = useState(false)
+    // Todo add handling for subject create error
     const [isSubjectError, setIsSubjectError] = useState(false)
 
     const subjectNameMaxLength = 50;
