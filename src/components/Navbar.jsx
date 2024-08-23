@@ -11,13 +11,13 @@ const Navbar = () => (
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link to="/subjects">Review subjects</Link>
+              <Link to="/subjects">Review subjects&nbsp;&nbsp;&nbsp;</Link>
             </li>
             <li className="nav-item">
-              <Link to="/frameworks">Review frameworks</Link>
+              <Link to="/frameworks">Review frameworks&nbsp;&nbsp;&nbsp;</Link>
             </li>
             <li className="nav-item">
-              <Link to="/reviews">Reviews</Link>
+              <Link to="/reviews">Reviews&nbsp;&nbsp;&nbsp;</Link>
             </li>
           </ul>
           <form className="d-flex" role="search">

@@ -3,48 +3,88 @@ import { Link } from "react-router-dom";
 
 const SubjectCreate = () => {
     const [subjectName, setSubjectName] = useState('')
+    const [subjectNameValidationError, setSubjectNameValidationError] = useState('')
+    const [isValidated, setIsValidated] = useState(false)
+
+    const subjectNameMaxLength = 50;
 
     const handleNoteChange = (event) => {
         setSubjectName(event.target.value)
     }
     
+    const isSubjectNameValid = () => {
+        return subjectNameValidationError === ''
+    }
+
+    const validateSubjectName = () => {
+        const subjectNameLength = subjectName.trim().length;
+        let subjectNameValidationError = '';
+        if (subjectNameLength == 0) {
+            subjectNameValidationError = 'Please provide a subject name'
+        } else if (subjectNameLength > subjectNameMaxLength) {
+            subjectNameValidationError = `The subject name cannot exceed ${subjectNameMaxLength} characters`
+        }
+        setSubjectNameValidationError(subjectNameValidationError);
+        return subjectNameValidationError === ''
+    }
+
+    const validateForm = () => {
+        let isValid = true;
+        isValid = isValid && validateSubjectName()
+        setIsValidated(true);
+        return isValid;
+    }
+
+    const isFormValid = () => {
+        return validateForm;
+    }
+
     const addSubject = (event) => {
         event.preventDefault()
-        // const subjectObject = {
-        //   name: subjectName,
-        // }
-      
-        // Todo add functionality for creating subjects
-        // subjectService
-        //   .create(subjectObject)
-        //     .then(returnedSubject => {
-        //     })
-        // Todo add handlers for success and error
-        // Display alerts as suitable
+        validateForm();
+        if (isFormValid()) {
+            console.log("Form is valid -- submit");
+        } else {
+            console.log("There are validation errors");
+        }
+        event.stopPropagation()
+    }
+
+    const getFormClass = () => {
+        let formClass = 'mt-4 row g-3 needs-validation'
+        if (isValidated) {
+            formClass += ' was-validated'
+        }
+        console.log('getFormClass formClass', formClass);
+        return formClass
     }
 
     return (
         <>
             <h1>Add subject</h1>
 
-            <Link to="/subjects">
-                <button type="button" className="btn btn-primary mt-4">Back to subjects</button>
+            <Link to='/subjects'>
+                <button type='button' className='btn btn-primary mt-4'>Back to subjects</button>
             </Link>
 
-            <form className="mt-4" onSubmit={addSubject}>
-                <div className="mb-3">
-                    <label for="subjectName" className="form-label">Name</label>
+            <form className={getFormClass()} onSubmit={addSubject} noValidate>
+                <div className='mb-3 col-md-6'>
+                    <label htmlFor='subjectName' className='form-label'>Name</label>
                     <input 
-                        type="text"
-                        className="form-control"
-                        id="subjectName"
-                        aria-describedby="subjectNameHelp"
+                        type='text'
+                        className={'form-control ' + (isSubjectNameValid() ? 'is-valid' : 'is-invalid')}
+                        id='subjectName'
+                        aria-describedby='subjectNameHelp'
                         value={subjectName}
                         onChange={handleNoteChange}
+                        required
                     />
-                    <div id="subjectNameHelp" className="form-text">A name for the review subject</div>
+                    <div id='subjectNameHelp' className='form-text'>A name for the review subject</div>
+                    {isSubjectNameValid && <div className='invalid-feedback'>{subjectNameValidationError}</div>}
                 </div>
-                <button type="submit" className="btn btn-primary">Create</button>
+                <div className='col-12'>
+                    <button className='btn btn-primary' type='submit' >Create</button>
+                </div>
             </form>
         </>
     )
