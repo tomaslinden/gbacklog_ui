@@ -97,6 +97,7 @@ const SubjectCreate = ({ subjectService }) => {
                         value={subjectName}
                         onChange={handleNoteChange}
                         required
+                        disabled={isSubjectSuccess}
                     />
                     <div id='subjectNameHelp' className='form-text'>A name for the review subject</div>
                     {isSubjectNameValid && <div className='invalid-feedback'>{subjectNameValidationError}</div>}
