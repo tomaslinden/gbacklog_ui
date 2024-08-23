@@ -15,6 +15,9 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   subjectService = prodSubjectService;
 }
 
+// Enable this to use production MongoDB during development
+subjectService = prodSubjectService;
+
 function App() {
   return (
     <>
@@ -26,7 +29,7 @@ function App() {
             <Routes>
                 <Route index element={<Subjects {...{ subjectService }} />} />
                 <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
-                <Route path="/createSubject" element={<SubjectCreate />} {...{ subjectService }} />
+                <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
                 <Route path="/frameworks" element={<Frameworks />} />
                 <Route path="/reviews" element={<Reviews />} />
             </Routes>

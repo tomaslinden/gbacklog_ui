@@ -34,7 +34,7 @@ const Subjects = ({ subjectService }) => {
                                 <button type="button" className="btn btn-primary mt-4">Delete</button>                       
                             </div>
                         </div> */}
-                        <div class="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between">
                             <div className="d-flex align-items-center">{subject.name}</div>
                             <div className="p-2"></div>
                             <div>

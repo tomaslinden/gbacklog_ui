@@ -4,6 +4,12 @@ const getAll = () => {
     });
 }
 
+const create = (newSubject) => {
+    return new Promise((resolve, reject) => {
+        resolve({newSubject})
+    });
+}
+
 export default { 
-    getAll 
+    getAll, create
 }

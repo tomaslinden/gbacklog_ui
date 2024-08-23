@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const SubjectCreate = () => {
+const SubjectCreate = ({ subjectService }) => {
     const [subjectName, setSubjectName] = useState('')
     const [subjectNameValidationError, setSubjectNameValidationError] = useState('')
     const [isValidated, setIsValidated] = useState(false)
+    const [isSubjectSuccess, setIsSubjectSuccess] = useState(false)
+    const [isSubjectError, setIsSubjectError] = useState(false)
 
     const subjectNameMaxLength = 50;
+    
+    const navigate = useNavigate()
 
     const handleNoteChange = (event) => {
         setSubjectName(event.target.value)
@@ -44,8 +48,18 @@ const SubjectCreate = () => {
         validateForm();
         if (isFormValid()) {
             console.log("Form is valid -- submit");
+            subjectService.create({
+                name: subjectName
+            }).then(returnedSubject => {
+                console.log('Created subject 2', returnedSubject)
+                setIsSubjectSuccess(true)
+                setTimeout(() => {
+                    setIsSubjectSuccess(false)
+                    navigate('/subjects')
+                }, 5000)
+            })      
         } else {
-            console.log("There are validation errors");
+            console.log('There are validation errors')
         }
         event.stopPropagation()
     }
@@ -55,7 +69,6 @@ const SubjectCreate = () => {
         if (isValidated) {
             formClass += ' was-validated'
         }
-        console.log('getFormClass formClass', formClass);
         return formClass
     }
 
@@ -66,6 +79,12 @@ const SubjectCreate = () => {
             <Link to='/subjects'>
                 <button type='button' className='btn btn-primary mt-4'>Back to subjects</button>
             </Link>
+
+            {isSubjectSuccess && (
+                <div className="alert alert-success mt-4" role="alert">
+                    Subject created
+                </div>
+            )}
 
             <form className={getFormClass()} onSubmit={addSubject} noValidate>
                 <div className='mb-3 col-md-6'>
@@ -83,7 +102,7 @@ const SubjectCreate = () => {
                     {isSubjectNameValid && <div className='invalid-feedback'>{subjectNameValidationError}</div>}
                 </div>
                 <div className='col-12'>
-                    <button className='btn btn-primary' type='submit' >Create</button>
+                    <button className='btn btn-primary' type='submit' disabled={isSubjectSuccess}>Create</button>
                 </div>
             </form>
         </>
