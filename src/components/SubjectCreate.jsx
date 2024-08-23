@@ -132,7 +132,9 @@ const SubjectCreate = ({ subjectService, mode }) => {
                     {isSubjectNameValid && <div className='invalid-feedback'>{subjectNameValidationError}</div>}
                 </div>
                 <div className='col-12'>
-                    <button className='btn btn-primary' type='submit' disabled={isSubjectSuccess}>Create</button>
+                    <button className='btn btn-primary' type='submit' disabled={isSubjectSuccess}>
+                        {mode === 'modify' ? 'Modify' : 'Create'}
+                    </button>
                 </div>
             </form>
         </>
