@@ -40,19 +40,13 @@ const SubjectCreate = ({ subjectService }) => {
         return isValid;
     }
 
-    const isFormValid = () => {
-        return validateForm;
-    }
-
     const addSubject = (event) => {
         event.preventDefault()
         validateForm();
-        if (isFormValid()) {
-            console.log("Form is valid -- submit");
+        if (validateForm()) {
             subjectService.create({
                 name: subjectName
             }).then(returnedSubject => {
-                console.log('Created subject 2', returnedSubject)
                 setIsSubjectSuccess(true)
                 setTimeout(() => {
                     setIsSubjectSuccess(false)
