@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
 import Navbar from './components/Navbar'
-import Subjects from './components/Subjects'
-import SubjectCreate from './components/SubjectCreate'
-import Frameworks from './components/Frameworks'
-import Reviews from './components/Reviews'
+import Subjects from './components/subjects/Subjects'
+import SubjectCreate from './components/Subjects/SubjectCreate'
+import Frameworks from './components/frameworks/Frameworks'
+import Reviews from './components/reviews/Reviews'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
 

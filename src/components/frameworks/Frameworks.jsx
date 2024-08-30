@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 const Frameworks = () => {
     return (
         <>
-            <h1>Reviews of &lt;subject&gt; through review framework &lt;framework&gt;</h1>
+            <h1>Review frameworks</h1>
 
-            <Link to="/createReview">
-                <button type="button" className="btn btn-primary mt-4">Create review</button>
+            <Link to="/createFramework">
+                <button type="button" className="btn btn-primary mt-4">Add framework</button>
             </Link>
             
             <ul className="list-group mt-4">
                 <li className="list-group-item">
-                    <div class="d-flex justify-content-between">
-                        <div className="d-flex align-items-center">My review</div>
+                    <div className="d-flex justify-content-between">
+                        <div className="d-flex align-items-center">My review framework</div>
                         <div className="p-2"></div>
                         <div>
                             <button className="btn btn-primary me-md-2" style={{position: 'relative', left:"-4px"}} type="button">Modify</button>
