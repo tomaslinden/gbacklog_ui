@@ -4,15 +4,21 @@ import Navbar from './components/Navbar'
 import Subjects from './components/subjects/Subjects'
 import SubjectCreate from './components/Subjects/SubjectCreate'
 import Frameworks from './components/frameworks/Frameworks'
+import FrameworkCreate from './components/frameworks/FrameworkCreate'
 import Reviews from './components/reviews/Reviews'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
+import prodFrameworkService from './services/frameworks';
+import devFrameworkService from './services/mockFrameworks';
 
 let subjectService;
+let frameworkService;
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   subjectService = devSubjectService;
+  frameworkService = devFrameworkService;
 } else {
   subjectService = prodSubjectService;
+  frameworkService = prodFrameworkService;
 }
 
 // Enable this to use production MongoDB during development
@@ -32,6 +38,7 @@ function App() {
                 <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
                 <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
                 <Route path="/frameworks" element={<Frameworks />} />
+                <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} />} />
                 <Route path="/reviews" element={<Reviews />} />
             </Routes>
         </div>

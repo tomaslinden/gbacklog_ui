@@ -27,7 +27,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
         }
     }, []) 
 
-    const handleNoteChange = (event) => {
+    const handleSubjectChange = (event) => {
         setSubjectName(event.target.value)
     }
     
@@ -124,7 +124,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
                         id='subjectName'
                         aria-describedby='subjectNameHelp'
                         value={subjectName}
-                        onChange={handleNoteChange}
+                        onChange={handleSubjectChange}
                         required
                         disabled={isSubjectSuccess}
                     />
@@ -133,7 +133,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
                 </div>
                 <div className='col-12'>
                     <button className='btn btn-primary' type='submit' disabled={isSubjectSuccess}>
-                        {mode === 'modify' ? 'Modify' : 'Create'}
+                        {mode === 'modify' ? 'Modify draft' : 'Create draft'}
                     </button>
                 </div>
             </form>
