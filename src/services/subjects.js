@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const baseUrl = '/api/subjects'
 // Used during development
+// Do not commit and restore before rebuilding UI from backlog!
 // const baseUrl = 'http://localhost:3001/api/subjects'
 
 const getAll = () => {
