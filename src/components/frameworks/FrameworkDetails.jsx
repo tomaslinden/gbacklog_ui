@@ -16,7 +16,7 @@ const FrameworkDetails = ({
         <h3 className='mt-4'>Facets</h3>
         {facets.map(({ name, handle, description }, index) => {
             return (
-                <div key={index} className="card mt-3" style={{width: '18rem'}}>
+                <div key={index} className="card mt-3">
                     <div className="card-body">
                         <h4 className="card-title">#{index + 1}: {name}</h4>
                         <div
