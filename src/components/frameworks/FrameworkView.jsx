@@ -10,12 +10,10 @@ const FrameworkView = ({ frameworkService }) => {
 
     useEffect(() => {
         const { id } = params
-        console.log('FrameworkView', id)
         frameworkService
             .getById(id)
             .then(receivedFramework => {
                 setFramework(receivedFramework);
-                console.log('receivedFramework', receivedFramework)
                 setLoaded(true)
             })
     }, []) 

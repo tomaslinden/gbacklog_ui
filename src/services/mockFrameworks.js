@@ -1,12 +1,38 @@
 const getAll = () => {
     return new Promise((resolve, reject) => {
-        resolve([{"id": "1", "name": "My test framework"}])
+        resolve([
+            {
+                "name": "My mock test framework",
+                "description": "A mock framework description",
+                "facets": [
+                    {
+                        "name": "My test facet",
+                        "handle": "my-test-facet",
+                        "description": "A facet description",
+                        "_id": "66daf1650b6d034449eb18d3"
+                    }
+                ],
+                "id": "66daf1650b6d034449eb18d2"
+            }
+        ])
     });
 }
 
 const getById = id => {
     return new Promise((resolve, reject) => {
-        resolve({"id": "1", "name": "My test framework"})
+        resolve({
+            "name": "My mock test framework",
+            "description": "A mock framework description",
+            "facets": [
+                {
+                    "name": "My test facet",
+                    "handle": "my-test-facet",
+                    "description": "A facet description",
+                    "_id": "66daf1650b6d034449eb18d3"
+                }
+            ],
+            "id": "66daf1650b6d034449eb18d2"
+        })
     });
 }
 

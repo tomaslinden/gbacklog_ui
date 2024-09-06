@@ -24,7 +24,6 @@ const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescriptio
                     title='Are you sure you want to save this framework?'
                     affirmativeText='Save'
                     handleAffermative={() => {
-                        console.log('Save framework')
                         frameworkService.create({
                             name: frameworkName,
                             description: frameworkDescription,
@@ -34,8 +33,8 @@ const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescriptio
                             setFrameworkCreateSuccess(true)
                             setTimeout(() => {
                                 setFrameworkCreateSuccess(false)
-                                // Todo: redirect to view framework (not preview)
-                            }, 3000)            
+                                {/* Todo disable buttons and take user to framework view upon successful framework creation */}
+                                }, 3000)            
                         })
                     }}
                     cancelText='Cancel'
@@ -51,7 +50,6 @@ const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescriptio
                     facets
                 }}
             />
-
             <div className='col-12 mt-5'>
                 <button className='btn btn-primary me-2' type='submit' disabled={false} onClick={() => setIsPreview(false)}>
                     Modify framework

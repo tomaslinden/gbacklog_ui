@@ -2,7 +2,6 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import { Info } from 'react-feather';
-import { Link } from "react-router-dom";
 
 const FrameworkDetails = ({
     frameworkName,
