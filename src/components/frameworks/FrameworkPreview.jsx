@@ -5,34 +5,49 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import { Info } from 'react-feather';
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
 
-const FrameworkPreview = ({ frameworkName, frameworkDescription, facets, setIsPreview }) => {
+const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescription, facets, setIsPreview }) => {
     const [isFrameworkCreateSuccess, setFrameworkCreateSuccess] = useState(false)
     const [isShowFrameworkCreateWarning, setShowFrameworkCreateWarning] = useState(false)
 
     const handleDescription = 'This is a programmatic name for the facet. It is used to reference the framework\'s facets in reviews.'
 
-    const handleFramworkSave = () => {
+    const closeSubjectCreateDialog = () => {
+        setShowFrameworkCreateWarning(false)
     }
-
+    
     return (
         <>
             {isFrameworkCreateSuccess && (
-                <div className="alert alert-success mt-4" role="alert">
+                <div className="alert alert-success mt-5" role="alert">
                     Framework saved
                 </div>
             )}
 
-            {isShowFrameworkCreateWarning && (<>
+            {isShowFrameworkCreateWarning && (
+                <div className='mt-5'>
                 <ConfirmationAlert
                     title='Are you sure you want to save this framework?'
                     affirmativeText='Save'
                     handleAffermative={() => {
                         console.log('Save framework')
+                        frameworkService.create({
+                            name: frameworkName,
+                            description: frameworkDescription,
+                            facets
+                        }).then((result) => {
+                            closeSubjectCreateDialog()
+                            setFrameworkCreateSuccess(true)
+                            setTimeout(() => {
+                                setFrameworkCreateSuccess(false)
+                                // Todo: redirect to view framework (not preview)
+                            }, 3000)            
+                        })
                     }}
                     cancelText='Cancel'
-                    handleCancel={() => setShowFrameworkCreateWarning(false)}
+                    handleCancel={closeSubjectCreateDialog}
                 />
-            </>)}
+                </div>
+            )}
 
             <h3 className='mt-5'>{frameworkName}</h3>
             <div>{frameworkDescription}</div>

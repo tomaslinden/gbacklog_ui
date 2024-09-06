@@ -37,7 +37,6 @@ const FrameworkCreateForm = ({
     defaultFacet.name = 'Facet #1'     
 
     useEffect(() => {
-        console.log('mode', mode)
         if (mode === 'create') {
             if (facets.length === 0) {
                 setFacets([ defaultFacet ])

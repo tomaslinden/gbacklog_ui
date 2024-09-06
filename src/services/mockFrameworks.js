@@ -10,9 +10,9 @@ const getById = id => {
     });
 }
 
-const create = (newSubject) => {
+const create = (newFramework) => {
     return new Promise((resolve, reject) => {
-        resolve({newSubject})
+        resolve({newFramework})
     });
 }
 
