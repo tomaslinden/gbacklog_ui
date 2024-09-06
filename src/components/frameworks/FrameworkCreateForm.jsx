@@ -7,7 +7,7 @@ const trimAndRemoveDuplicateWhitespace = oldString => {
 }
 
 const formFacetHandleFromName = name => {
-    let handle = structuredClone(name)
+    let handle = structuredClone(name).toLowerCase()
     handle = trimAndRemoveDuplicateWhitespace(handle)
     handle = handle.replace(/\s+/g,'-')
     handle = handle.replace(/[^0-9a-z\-]/gi, '')
@@ -235,6 +235,7 @@ const FrameworkCreateForm = ({
                             />
                             <div id='frameworkNameHelp' className='form-text'>A human-friendly name for facet #{index + 1}</div>
                         </div>
+                        {/* Todo: make handles editable (along with a "generate" button) */}
                         <div className='mb-4 col-md-4 mt-2'>
                             <label htmlFor='frameworkDescription' className='form-label'>Description for facet #{index + 1}</label>
                             <input 
@@ -253,7 +254,7 @@ const FrameworkCreateForm = ({
                             <button className='btn btn-primary' onClick={(event) => {
                                 deleteFacet(event, index)
                             }}>
-                                Delete
+                                Delete facet
                             </button>
                         </div>
                     </div>
