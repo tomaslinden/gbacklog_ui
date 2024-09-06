@@ -35,10 +35,11 @@ function App() {
             <Routes>
                 <Route index element={<Subjects {...{ subjectService }} />} />
                 <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
+                {/* Todo: add mode='crate' to createSubject as default mode */}
                 <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
                 <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
                 <Route path="/frameworks" element={<Frameworks />} />
-                <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} />} />
+                <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
                 <Route path="/reviews" element={<Reviews />} />
             </Routes>
         </div>
