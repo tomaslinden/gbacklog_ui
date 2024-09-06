@@ -70,7 +70,11 @@ const Frameworks = ({ frameworkService }) => {
                 {frameworks.map(framework => 
                     <li key={framework.id} className="list-group-item">
                         <div className="d-flex justify-content-between">
-                            <div className="d-flex align-items-center">{framework.name}</div>
+                            <div className="d-flex align-items-center">
+                                <Link to={`/framework/${framework.id}`}>
+                                    {framework.name}
+                                </Link>
+                            </div>
                             <div className="p-2"></div>
                             <div>
                                 {/* <Link to={`/modifySubject/${framework.id}`}>

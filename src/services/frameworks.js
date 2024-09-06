@@ -25,8 +25,8 @@ const deleteFramework = id => {
     return request.then(response => response.data)
 }
 
-const update = (id, newSubject) => {
-    const request = axios.put(`${baseUrl}/${id}`, newSubject)
+const update = (id, newFramework) => {
+    const request = axios.put(`${baseUrl}/${id}`, newFramework)
     return request.then(response => response.data)
 }
 

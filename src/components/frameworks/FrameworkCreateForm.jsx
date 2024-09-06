@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 const trimAndRemoveDuplicateWhitespace = oldString => {
     let newString = structuredClone(oldString).trim()
@@ -183,6 +184,10 @@ const FrameworkCreateForm = ({
     }
 
     return (<>
+        <Link to='/frameworks'>
+            <button type='button' className='btn btn-primary mt-4'>Back to frameworks</button>
+        </Link>
+
         <form className={getFormClass()} onSubmit={handleFormSubmit} noValidate>
             <div className='container mt-4'>
                 <div className='mb-3 col-md-6'>

@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Subjects from './components/subjects/Subjects'
 import SubjectCreate from './components/Subjects/SubjectCreate'
 import Frameworks from './components/frameworks/Frameworks'
+import FrameworkView from './components/frameworks/FrameworkView'
 import FrameworkCreate from './components/frameworks/FrameworkCreate'
 import Reviews from './components/reviews/Reviews'
 import prodSubjectService from './services/subjects';
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
                 <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
                 <Route path="/frameworks" element={<Frameworks {...{ frameworkService }} />} />
+                <Route path="/framework/:id" element={<FrameworkView {...{ frameworkService }} />} />
                 <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
                 <Route path="/reviews" element={<Reviews />} />
             </Routes>
