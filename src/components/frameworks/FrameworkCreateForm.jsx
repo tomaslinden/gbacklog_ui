@@ -124,6 +124,7 @@ const FrameworkCreateForm = ({
         isValid = isValid && validateFrameworkName()
         isValid = isValid && validateFacets()
         // Todo add test for testing for facet name and handle uniqueness
+        // Todo add test for checking that there is at least one facet (and add a maximum number of facets also to the Mongoose schema)
         setIsValidated(true);
         return isValid;
     }
@@ -213,6 +214,7 @@ const FrameworkCreateForm = ({
                     />
                     <div id='frameworkDescriptionHelp' className='form-text'>A description for the framework</div>
                     {isFrameworkDescriptionValid && <div className='invalid-feedback'>{frameworkDescriptionValidationError}</div>}
+                    {/* Add displaying of characters left. Fetch these from the backend. */}
                 </div>
 
                 <h2>Facets</h2>
@@ -247,6 +249,7 @@ const FrameworkCreateForm = ({
                                 }}
                             />
                             <div id='frameworkDescriptionHelp' className='form-text'>A description for facet #{index + 1}</div>
+                            {/* Add displaying of characters left. Fetch these from the backend. */}
                         </div>
                         <div className='mb-4 col-md-4' style={{display: 'flex', alignItems: 'center'}}>
                             {/* Todo make delete facet work */}
