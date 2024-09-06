@@ -37,7 +37,7 @@ function App() {
             <Routes>
                 <Route index element={<Subjects {...{ subjectService }} />} />
                 <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
-                {/* Todo: add mode='crate' to createSubject as default mode */}
+                {/* Todo: add mode='create' to createSubject instead of having a default mode */}
                 <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
                 <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
                 <Route path="/frameworks" element={<Frameworks {...{ frameworkService }} />} />

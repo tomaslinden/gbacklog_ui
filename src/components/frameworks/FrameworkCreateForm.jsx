@@ -218,6 +218,9 @@ const FrameworkCreateForm = ({
                 </div>
 
                 <h2>Facets</h2>
+                {/* Todo add counter for facets so the numbering is correct.
+                How to reproduce: remove a facet, the re-add one -> the numbering is incorrect.
+                This bug also affects framework preview. */}
                 {facets.map(({ name, description }, index) => (
                     <div className='row' key={index}>
                         <div className='mb-4 col-md-4 mt-2'>

@@ -16,7 +16,7 @@ const create = (newFramework) => {
     });
 }
 
-const deleteFrameworks = id => {
+const deleteFramework = id => {
     return new Promise((resolve, reject) => {
         resolve()
     });
@@ -29,5 +29,5 @@ const update = id => {
 }
 
 export default { 
-    getAll, getById, create, deleteFrameworks, update
+    getAll, getById, create, deleteFramework, update
 }
