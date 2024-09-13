@@ -24,8 +24,8 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 
 // Enable this to use production MongoDB during development
 // Do not commit and restore before rebuilding UI from backlog!
-// subjectService = prodSubjectService;
-// frameworkService = prodFrameworkService;
+subjectService = prodSubjectService;
+frameworkService = prodFrameworkService;
 
 function App() {
   return (

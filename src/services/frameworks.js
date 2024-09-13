@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const baseUrl = '/api/frameworks'
+// const baseUrl = '/api/frameworks'
 // Used during development
 // Do not commit and restore before rebuilding UI from backlog!
-// const baseUrl = 'http://localhost:3001/api/frameworks'
+const baseUrl = 'http://localhost:3001/api/frameworks'
 
 const getAll = () => {
     const request = axios.get(baseUrl)

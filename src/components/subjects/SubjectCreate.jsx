@@ -10,7 +10,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
     // Todo add handling for subject create error
     const [isSubjectError, setIsSubjectError] = useState(false)
 
-    const subjectNameMaxLength = 50;
+    const subjectNameMaxLength = 100; // Keep this in sync with the DB schema
     
     const navigate = useNavigate()
 
