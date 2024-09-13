@@ -43,6 +43,7 @@ function App() {
                 <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
                 <Route path="/frameworks" element={<Frameworks {...{ frameworkService }} />} />
                 <Route path="/framework/:id" element={<FrameworkView {...{ frameworkService }} />} />
+                <Route path="/modifyFramework/:id" element={<FrameworkCreate {...{ frameworkService }} mode='modify' />} />
                 <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
                 <Route path="/reviews" element={<Reviews />} />
             </Routes>
