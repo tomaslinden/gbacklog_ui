@@ -16,7 +16,6 @@ const formFacetHandleFromName = name => {
 }
 
 const FrameworkCreateForm = ({ 
-    frameworkService,
     mode,
     setIsPreview,
     frameworkName,
@@ -42,13 +41,6 @@ const FrameworkCreateForm = ({
             if (facets.length === 0) {
                 setFacets([ defaultFacet ])
             }
-        } else if (mode === 'modify') {
-            const { id } = params
-            frameworkService
-                .getById(id)
-                .then(framework => {
-                    // Todo
-                })
         }
     }, []) 
 
@@ -134,12 +126,8 @@ const FrameworkCreateForm = ({
         event.preventDefault()
         event.stopPropagation()
         if (validateForm()) {
-            if (mode === 'modify') {
-                // Todo
-            } else {
-                addHandlesToFacets()
-                setIsPreview(true)
-            }
+            addHandlesToFacets()
+            setIsPreview(true)
         } else {
             console.log('There are validation errors')
         }
@@ -240,7 +228,6 @@ const FrameworkCreateForm = ({
                                     handleFrameworkFacetChange(event, index, 'name')
                                 }}
                                 required
-                                // disabled={isFrameworkSuccess}
                             />
                             <div id='frameworkNameHelp' className='form-text'>A human-friendly name for facet #{index + 1}</div>
                         </div>
@@ -259,7 +246,7 @@ const FrameworkCreateForm = ({
                             <div id='frameworkDescriptionHelp' className='form-text'>A description for facet #{index + 1}</div>
                             {/* Add displaying of characters left. Fetch these from the backend. */}
                         </div>
-                        <div className='mb-4 col-md-4' style={{display: 'flex', alignItems: 'center'}}>
+                        <div className='mb-4 col-md-4 mt-3' style={{display: 'flex', alignItems: 'center'}}>
                             {/* Todo make delete facet work */}
                             <button className='btn btn-primary' onClick={(event) => {
                                 deleteFacet(event, index)

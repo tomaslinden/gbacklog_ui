@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import FrameworkDetails from './FrameworkDetails';
 
-const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescription, facets, setIsPreview }) => {
+const FrameworkPreview = ({ 
+    frameworkService,
+    mode,
+    frameworkId,
+    frameworkName,
+    frameworkDescription,
+    facets,
+    setIsPreview
+}) => {
     const [isFrameworkCreateSuccess, setFrameworkCreateSuccess] = useState(false)
     const [createdFramework, setCreatedFramework] = useState(false)
     const [isShowFrameworkCreateWarning, setShowFrameworkCreateWarning] = useState(false)
@@ -12,6 +20,20 @@ const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescriptio
         setShowFrameworkCreateWarning(false)
     }
     
+    const getFrameworkObjectToUpsert = () => {
+        return {
+            name: frameworkName,
+            description: frameworkDescription,
+            facets
+        }
+    }
+
+    const handleFrameworkUpsertSuccess = (result) => {
+        setCreatedFramework(result)
+        closeSubjectCreateDialog()
+        setFrameworkCreateSuccess(true)
+    }
+
     return (
         <>
             {isFrameworkCreateSuccess && (<>
@@ -20,7 +42,7 @@ const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescriptio
                 </div>
                 <Link to={`/framework/${createdFramework.id}`}>
                     <button className='btn btn-primary me-2'>
-                        View created framework
+                        View {mode === 'created' ? 'created' : 'modified'} framework
                     </button>
                 </Link>
                 <Link to={`/frameworks`}>
@@ -35,16 +57,17 @@ const FrameworkPreview = ({ frameworkService, frameworkName, frameworkDescriptio
                 <ConfirmationAlert
                     title='Are you sure you want to save this framework?'
                     affirmativeText='Save'
-                    handleAffermative={() => {
-                        frameworkService.create({
-                            name: frameworkName,
-                            description: frameworkDescription,
-                            facets
-                        }).then((result) => {
-                            setCreatedFramework(result)
-                            closeSubjectCreateDialog()
-                            setFrameworkCreateSuccess(true)
-                        })
+                    handleAffirmative={() => {
+                        if (mode === 'create') {
+                            frameworkService.create(
+                                getFrameworkObjectToUpsert()
+                            ).then(handleFrameworkUpsertSuccess)
+                        } else if (mode === 'modify') {
+                            frameworkService.update(
+                                frameworkId, 
+                                getFrameworkObjectToUpsert()
+                            ).then(handleFrameworkUpsertSuccess)
+                        }
                     }}
                     cancelText='Cancel'
                     handleCancel={closeSubjectCreateDialog}

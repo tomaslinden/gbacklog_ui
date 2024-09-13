@@ -60,7 +60,7 @@ const Frameworks = ({ frameworkService }) => {
                     title='Are you sure you want to delete this framework?'
                     subtitle={frameworkSelectedForDeletion.name}
                     affirmativeText='Delete'
-                    handleAffermative={handleFrameworkDelete}
+                    handleAffirmative={handleFrameworkDelete}
                     cancelText='Cancel'
                     handleCancel={closeFrameworkDeletionDialog}
                 />
@@ -77,13 +77,13 @@ const Frameworks = ({ frameworkService }) => {
                             </div>
                             <div className="p-2"></div>
                             <div>
-                                {/* <Link to={`/modifySubject/${framework.id}`}>
+                                <Link to={`/modifyFramework/${framework.id}`}>
                                     <button className="btn btn-primary me-md-2"
                                         style={{position: 'relative', left:"-4px"}}
                                         type="button">
                                         Modify
                                     </button>
-                                </Link> */}
+                                </Link>
 
                                 <button className="btn btn-primary" type="button"
                                     onClick={() => {

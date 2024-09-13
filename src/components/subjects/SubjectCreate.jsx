@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 // Todo: Rename SubjectCreate to SubjectUpsert ?
 const SubjectCreate = ({ subjectService, mode }) => {
