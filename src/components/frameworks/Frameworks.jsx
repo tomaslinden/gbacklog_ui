@@ -46,7 +46,7 @@ const Frameworks = ({ frameworkService }) => {
             <h1>Review frameworks</h1>
 
             <Link to="/createFramework">
-                <button type="button" className="btn btn-primary mt-4">Add framework</button>
+                <button type="button" className="btn btn-primary mt-4">Create framework</button>
             </Link>
 
             {isFrameworkDeleteSuccess && (

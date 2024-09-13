@@ -2,13 +2,13 @@ const getAll = () => {
     return new Promise((resolve, reject) => {
         resolve([
             {
-                "name": "My mock test framework",
-                "description": "A mock framework description",
+                "name": "Free-form",
+                "description": "A framework allowing free-form reviews to be made",
                 "facets": [
                     {
-                        "name": "My test facet",
-                        "handle": "my-test-facet",
-                        "description": "A facet description",
+                        "name": "Free form notes",
+                        "handle": "free-form-notes",
+                        "description": "Free form notes of the review subject",
                         "_id": "66daf1650b6d034449eb18d3"
                     }
                 ],
@@ -21,18 +21,18 @@ const getAll = () => {
 const getById = id => {
     return new Promise((resolve, reject) => {
         resolve({
-            "name": "My mock test framework",
-            "description": "A mock framework description",
+            "name": "Free-form",
+            "description": "A framework allowing free-form reviews to be made",
             "facets": [
                 {
-                    "name": "My test facet",
-                    "handle": "my-test-facet",
-                    "description": "A facet description",
+                    "name": "Free form notes",
+                    "handle": "free-form-notes",
+                    "description": "Free form notes of the review subject",
                     "_id": "66daf1650b6d034449eb18d3"
                 }
             ],
             "id": "66daf1650b6d034449eb18d2"
-        })
+    })
     });
 }
 

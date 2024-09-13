@@ -46,7 +46,7 @@ const Subjects = ({ subjectService }) => {
             <h1>Review subjects</h1>
 
             <Link to="/createSubject">
-                <button type="button" className="btn btn-primary mt-4">Add subject</button>
+                <button type="button" className="btn btn-primary mt-4">Create subject</button>
             </Link>
 
             {isSubjectDeleteSuccess && (

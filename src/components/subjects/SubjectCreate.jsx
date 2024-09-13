@@ -103,7 +103,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
 
     return (
         <>
-            <h1>Add subject</h1>
+            <h1>Create subject</h1>
 
             <Link to='/subjects'>
                 <button type='button' className='btn btn-primary mt-4'>Back to subjects</button>

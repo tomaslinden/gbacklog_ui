@@ -25,8 +25,8 @@ const deleteSubject = id => {
     return request.then(response => response.data)
 }
 
-const update = (id, newSubject) => {
-    const request = axios.put(`${baseUrl}/${id}`, newSubject)
+const update = (id, updatedSubject) => {
+    const request = axios.put(`${baseUrl}/${id}`, updatedSubject)
     return request.then(response => response.data)
 }
 

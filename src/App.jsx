@@ -7,25 +7,32 @@ import Frameworks from './components/frameworks/Frameworks'
 import FrameworkView from './components/frameworks/FrameworkView'
 import FrameworkCreate from './components/frameworks/FrameworkCreate'
 import Reviews from './components/reviews/Reviews'
+import ReviewCreate from './components/reviews/ReviewCreate'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
 import prodFrameworkService from './services/frameworks';
 import devFrameworkService from './services/mockFrameworks';
+import prodReviewService from './services/reviews';
+import devReviewService from './services/mockReviews';
 
 let subjectService;
 let frameworkService;
+let reviewService;
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   subjectService = devSubjectService;
   frameworkService = devFrameworkService;
+  reviewService = devReviewService;
 } else {
   subjectService = prodSubjectService;
   frameworkService = prodFrameworkService;
+  reviewService = prodReviewService;
 }
 
 // Enable this to use production MongoDB during development
 // Do not commit and restore before rebuilding UI from backlog!
 // subjectService = prodSubjectService;
 // frameworkService = prodFrameworkService;
+// reviewService = prodReviewService;
 
 function App() {
   return (
@@ -46,6 +53,7 @@ function App() {
                 <Route path="/modifyFramework/:id" element={<FrameworkCreate {...{ frameworkService }} mode='modify' />} />
                 <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
                 <Route path="/reviews" element={<Reviews />} />
+                <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
             </Routes>
         </div>
       </BrowserRouter>

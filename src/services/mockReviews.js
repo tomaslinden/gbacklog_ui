@@ -1,22 +1,22 @@
 const getAll = () => {
     return new Promise((resolve, reject) => {
-        resolve([{"id": "1", "name": "Sailing cruise"}])
+        resolve([{"id": "1", "name": "My test review"}])
     });
 }
 
 const getById = id => {
     return new Promise((resolve, reject) => {
-        resolve({"id": "1", "name": "Sailing cruise"})
+        resolve({"id": "1", "name": "My test review"})
     });
 }
 
-const create = (newSubject) => {
+const create = (newReview) => {
     return new Promise((resolve, reject) => {
-        resolve({newSubject})
+        resolve({newReview})
     });
 }
 
-const deleteSubject = id => {
+const deleteReview = id => {
     return new Promise((resolve, reject) => {
         resolve()
     });
@@ -29,5 +29,5 @@ const update = id => {
 }
 
 export default { 
-    getAll, getById, create, deleteSubject, update
+    getAll, getById, create, deleteReview, update
 }
