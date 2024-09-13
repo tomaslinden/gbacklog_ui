@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
 import ReviewCreateSelect from './ReviewCreateSelect'
 import ReviewCreateActual from './ReviewCreateActual'
 
@@ -19,9 +20,17 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
             </Link>
 
             {selectedSubject && selectedFramework &&
-                <div className='mt-4'>
+                <Card className='mt-5'>
+                    <Card.Body>
+                    <p>
                     Review being created of subject <strong>{selectedSubject.name}</strong> using review framework <strong>{selectedFramework.name}</strong>.
-                </div>
+                    </p>
+                    <p style={{marginBottom: '0px'}}>
+                        {/* Todo add check for period at the end of description */}
+                        {selectedFramework.description}
+                    </p>
+                    </Card.Body>
+                </Card>
             }
 
             {phase === 'select' &&

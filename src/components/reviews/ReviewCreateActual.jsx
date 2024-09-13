@@ -53,9 +53,10 @@ const ReviewCreateActual = ({
                 const { handle, name, description } = facet
                 return (
                     <Fragment key={handle}>
-                        <Form.Group style={{width: '100%'}} controlId="exampleForm.ControlTextarea1">
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
                             <Form.Label>
                                 <div
+                                    className='mt-2'
                                     style={{
                                         display: 'flex',
                                         justifyContent: 'flex-start',

@@ -34,7 +34,7 @@ const FrameworkCreateForm = ({
 
     const facetTemplate = { handle: '', name: '', description: '' }
     let defaultFacet = structuredClone(facetTemplate)
-    defaultFacet.name = 'Facet #1'     
+    defaultFacet.name = 'Facet #1'
 
     useEffect(() => {
         if (mode === 'create') {
