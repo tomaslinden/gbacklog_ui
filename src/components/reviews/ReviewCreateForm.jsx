@@ -82,7 +82,7 @@ const ReviewCreateForm = ({
         const value = event.target.value;
         let facetContentsCopy = structuredClone(facetContents)
         let facetContentsTouchedCopy = structuredClone(facetContentTouched)
-        facetContentsCopy[handle] = value.trim()
+        facetContentsCopy[handle] = value
         facetContentsTouchedCopy[handle] = true
         setFacetContents(facetContentsCopy)
         setFacetContentTouched(facetContentsTouchedCopy)

@@ -29,7 +29,7 @@ const ReviewCreatePreview = ({
         const facetContentsToSend = facetHandles.map((handle) => {
             return {
                 handle,
-                contents: facetContents[handle]
+                contents: facetContents[handle].trim()
             }
         })
 
