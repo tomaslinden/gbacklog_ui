@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
+import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import ReviewCreateSelect from './ReviewCreateSelect'
 
 const Reviews = ({ subjectService, frameworkService, reviewService }) => {
@@ -29,19 +30,19 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
             })
     }
 
-    // const handleReviewDelete = () => {
-    //     reviewService
-    //         .deleteSubject(reviewSelectedForDeletion.id)
-    //         .then(() => {
-    //             getAllReviews()
-    //             setReviewDeleteSuccess(true)
-    //             closeReviewDeletionDialog()
-    //             setTimeout(() => {
-    //                 setReviewDeleteSuccess(false)
-    //                 closeSubjectDeletionDialog()
-    //             }, 3000)
-    //         })
-    // }
+    const handleReviewDelete = () => {
+        reviewService
+            .deleteReview(reviewSelectedForDeletion.id)
+            .then(() => {
+                getAllReviews()
+                setReviewDeleteSuccess(true)
+                closeReviewDeletionDialog()
+                setTimeout(() => {
+                    setReviewDeleteSuccess(false)
+                    closeSubjectDeletionDialog()
+                }, 3000)
+            })
+    }
 
     const closeReviewDeletionDialog = () => {
         setShowReviewDeleteWarning(false)
@@ -69,6 +70,17 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                 continueButtonText: 'Get reviews'
             } } />
 
+            {isShowReviewDeleteWarning && (<>
+                <ConfirmationAlert
+                    title='Are you sure you want to delete this review?'
+                    subtitle={reviewSelectedForDeletion.name}
+                    affirmativeText='Delete'
+                    handleAffirmative={handleReviewDelete}
+                    cancelText='Cancel'
+                    handleCancel={closeReviewDeletionDialog}
+                />
+            </>)}
+
             {selectedSubject && selectedFramework && reviews.map(review => {
                 return (
                     <div> 
@@ -93,14 +105,16 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                             <Link to={`/modifyReview/${review.id}`}>
                                 <button className="btn btn-primary me-md-2"
                                     style={{position: 'relative', left:"-4px"}}
-                                    type="button">
+                                    type="button"
+                                    disabled
+                                >
                                     Modify
                                 </button>
                             </Link>
 
                             <button className="btn btn-primary" type="button"
                                 onClick={() => {
-                                    setReviewSelectedForDeletion(subject)
+                                    setReviewSelectedForDeletion(review)
                                     setShowReviewDeleteWarning(true)
                                     window.scrollTo(0, 0)
                                 }}
