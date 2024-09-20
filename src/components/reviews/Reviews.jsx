@@ -27,7 +27,6 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
     }
 
     const handleReviewDelete = () => {
-        console.log('handleReviewDelete')
         reviewService
             .deleteSubject(reviewSelectedForDeletion.id)
             .then(() => {
@@ -63,7 +62,6 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                 setFrameworkId,
                 setSelectedSubject,
                 setSelectedFramework,
-                // setPhase
                 continueButtonText: 'Get reviews'
             } } />
 

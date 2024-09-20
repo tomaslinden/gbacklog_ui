@@ -8,6 +8,7 @@ import FrameworkView from './components/frameworks/FrameworkView'
 import FrameworkCreate from './components/frameworks/FrameworkCreate'
 import Reviews from './components/reviews/Reviews'
 import ReviewCreate from './components/reviews/ReviewCreate'
+import ReviewView from './components/reviews/ReviewView'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
 import prodFrameworkService from './services/frameworks';
@@ -52,7 +53,6 @@ function App() {
                 <Route path="/framework/:id" element={<FrameworkView {...{ frameworkService }} />} />
                 <Route path="/modifyFramework/:id" element={<FrameworkCreate {...{ frameworkService }} mode='modify' />} />
                 <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
-                <Route path="/reviews" element={<Reviews />} />
                 <Route path="/reviews" element={<Reviews {...{ subjectService, frameworkService, reviewService }} />} />
                 <Route path="/review/:id" element={<ReviewView {...{ reviewService }} />} />
                 <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />

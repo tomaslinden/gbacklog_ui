@@ -49,11 +49,6 @@ const ReviewCreateSelect = ({
         event.preventDefault()
         event.stopPropagation()
         if (validateForm()) {
-            // if (mode === 'modify') {
-            //     // updateReview()
-            // } else {
-            //     // createReview()
-            // }
             // Todo optimize this so that only the ids of subjects and frameworks are retrieved in the first phase
             // Then once a subject and a framework has been selected, fetch the actual
             // subject and framework.
