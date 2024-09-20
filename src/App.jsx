@@ -8,6 +8,7 @@ import FrameworkView from './components/frameworks/FrameworkView'
 import FrameworkCreate from './components/frameworks/FrameworkCreate'
 import Reviews from './components/reviews/Reviews'
 import ReviewCreate from './components/reviews/ReviewCreate'
+import ReviewModify from './components/reviews/ReviewModify'
 import ReviewView from './components/reviews/ReviewView'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
