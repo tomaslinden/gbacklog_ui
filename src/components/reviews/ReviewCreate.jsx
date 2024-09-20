@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import ReviewCreateSelect from './ReviewCreateSelect'
-import ReviewCreateActual from './ReviewCreateActual'
+import ReviewCreateForm from './ReviewCreateForm'
+import ReviewCreatePreview from './ReviewCreatePreview'
 
 const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode }) => {
     const [subjectId, setSubjectId] = useState('')
     const [frameworkId, setFrameworkId] = useState('')
     const [selectedSubject, setSelectedSubject] = useState()
     const [selectedFramework, setSelectedFramework] = useState()
+    const [facetContents, setFacetContents] = useState({})
     const [phase, setPhase] = useState('select')
   
     return (
@@ -43,12 +45,30 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                     setFrameworkId,
                     setSelectedSubject,
                     setSelectedFramework,
-                    setPhase
+                    onSelectSuccess: () => setPhase('create'),
+                    continueButtonText: 'Continue to review'
                 } } />
             }
 
             {phase === 'create' &&
-                <ReviewCreateActual { ...{ selectedSubject, selectedFramework } } />
+                <ReviewCreateForm { ...{
+                    selectedFramework,
+                    facetContents,
+                    setFacetContents,
+                    setPhase
+                } } />
+            }
+
+            {phase === 'preview' &&
+                <ReviewCreatePreview {...{ 
+                    reviewService,
+                    selectedFramework,
+                    facetContents,
+                    setPhase,
+                    subjectId,
+                    frameworkId,
+                    mode: 'create'
+                }} />
             }
         </>
     )

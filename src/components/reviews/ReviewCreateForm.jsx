@@ -5,10 +5,12 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Info } from 'react-feather';
 
-const ReviewCreateActual = ({
-    selectedFramework
+const ReviewCreateForm = ({
+    selectedFramework,
+    setPhase,
+    facetContents,
+    setFacetContents
 }) => {
-    const [facetContents, setFacetContents] = useState({})
     const [facetContentValidations, setFacetContentValidations] = useState({})
     const [facetContentTouched, setFacetContentTouched] = useState({})
 
@@ -19,7 +21,7 @@ const ReviewCreateActual = ({
         let newFacetContentValidations = {}
         let newFacetContentTouched = {}
         facets.forEach(({ handle }) => {
-            newFacetContents[handle] = ''
+            newFacetContents[handle] = getSingleFacetContents(handle)
             newFacetContentValidations[handle] = true
             newFacetContentTouched[handle] = false
         })
@@ -68,6 +70,7 @@ const ReviewCreateActual = ({
         event.stopPropagation()
         if (validateFacets()) {
             console.log('Form valid, proceed')
+            setPhase('preview')
         } else {
             console.log('There are validation errors')
         }
@@ -133,9 +136,9 @@ const ReviewCreateActual = ({
                 )
             })}
             <Button className='mt-4' variant="primary" type="submit">
-                Submit
+                Preview
             </Button>
         </Form>
     </>)
 }
-export default ReviewCreateActual
+export default ReviewCreateForm

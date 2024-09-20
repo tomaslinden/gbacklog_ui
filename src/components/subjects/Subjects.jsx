@@ -60,7 +60,7 @@ const Subjects = ({ subjectService }) => {
                     title='Are you sure you want to delete this subject?'
                     subtitle={subjectSelectedForDeletion.name}
                     affirmativeText='Delete'
-                    handleAffermative={handleSubjectDelete}
+                    handleAffirmative={handleSubjectDelete}
                     cancelText='Cancel'
                     handleCancel={closeSubjectDeletionDialog}
                 />

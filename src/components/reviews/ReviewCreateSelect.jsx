@@ -11,7 +11,9 @@ const ReviewCreateSelect = ({
     setFrameworkId,
     setSelectedSubject,
     setSelectedFramework,
-    setPhase
+    // setPhase
+    onSelectSuccess,
+    continueButtonText
 }) => {
     const [subjects, setSubjects] = useState([])
     const [frameworks, setFrameworks] = useState([])
@@ -57,7 +59,7 @@ const ReviewCreateSelect = ({
             // subject and framework.
             setSelectedSubject(subjects.find(subject => subject.id === subjectId))
             setSelectedFramework(frameworks.find(framework => framework.id === frameworkId))
-            setPhase('create')
+            onSelectSuccess && onSelectSuccess()
         } else {
             console.log('There are validation errors')
         }
@@ -89,7 +91,7 @@ const ReviewCreateSelect = ({
                     <option value=''>Select subject</option>
                     {subjects.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
                 </Form.Select>
-                <Form.Text aria-describedby='subjectSelectHelp'>Select a subject to review</Form.Text>
+                {/* <Form.Text aria-describedby='subjectSelectHelp'>Select a subject to review</Form.Text> */}
             </Form.Group>
         </div>
         <div className='mb-3 col-md-6'>
@@ -108,12 +110,12 @@ const ReviewCreateSelect = ({
                     <option value=''>Select framework</option>
                     {frameworks.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
                 </Form.Select>
-                <Form.Text aria-describedby='frameworkSelectHelp'>Select a framework to use for the review</Form.Text>
+                {/* <Form.Text aria-describedby='frameworkSelectHelp'>Select a framework to use for the review</Form.Text> */}
             </Form.Group>
         </div>
         <div className='col-12'>
             <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-                Continue to review
+                {continueButtonText}
             </Button>
         </div>
         </Form>
