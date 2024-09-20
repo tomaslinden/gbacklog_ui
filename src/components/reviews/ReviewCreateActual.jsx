@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
@@ -6,33 +6,68 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { Info } from 'react-feather';
 
 const ReviewCreateActual = ({
-    // selectedSubject,
     selectedFramework
 }) => {
-    const [isValidated, setIsValidated] = useState(false)
     const [facetContents, setFacetContents] = useState({})
+    const [facetContentValidations, setFacetContentValidations] = useState({})
+    const [facetContentTouched, setFacetContentTouched] = useState({})
 
     const { facets } = selectedFramework
 
+    useEffect(() => {
+        let newFacetContents = {}
+        let newFacetContentValidations = {}
+        let newFacetContentTouched = {}
+        facets.forEach(({ handle }) => {
+            newFacetContents[handle] = ''
+            newFacetContentValidations[handle] = true
+            newFacetContentTouched[handle] = false
+        })
+        setFacetContents(newFacetContents)
+        setFacetContentValidations(newFacetContentValidations)
+        setFacetContentTouched(newFacetContentTouched)
+    }, [])
+
+    useEffect(() => {
+        validateFacets()
+    }, [facetContents])
+    
     const getFormClass = () => {
         let formClass = 'mt-4 needs-validation'
-        if (isValidated) {
-            formClass += ' was-validated'
-        }
         return formClass
     }
 
-    const validateForm = () => {
-        let isValid = true;
-        isValid = isValid && isSubjectIdValid()
-        setIsValidated(true);
-        return isValid;
+    const isFacetContentsTouched = (handle) => {
+        return facetContentTouched[handle]
     }
 
+    const isFacetContentsValid = (handle) => {
+        return facetContentValidations[handle]
+    }
+
+    const validateFacets = () => {
+        let isValid = true;
+        if (Object.keys(facetContents).length > 0) {
+            let facetContentValidationsCopy = structuredClone(facetContentValidations)
+            facets.forEach(({ handle }) => {
+                const facetContentsLength = facetContents[handle].length
+                if (facetContentsLength === 0 || facetContentsLength > 500) { // Synchronize with backend
+                    isValid = false
+                    facetContentValidationsCopy[handle] = false
+                } else {
+                    facetContentValidationsCopy[handle] = true
+                }
+            })
+            setFacetContentValidations(facetContentValidationsCopy)
+        }
+        return isValid
+    }
+    
     const handleFormSubmit = event => {
         event.preventDefault()
         event.stopPropagation()
-        if (validateForm()) {
+        if (validateFacets()) {
+            console.log('Form valid, proceed')
         } else {
             console.log('There are validation errors')
         }
@@ -43,12 +78,15 @@ const ReviewCreateActual = ({
     const setSingleFacetContents = (event, handle) => {
         const value = event.target.value;
         let facetContentsCopy = structuredClone(facetContents)
-        facetContentsCopy[handle] = value
+        let facetContentsTouchedCopy = structuredClone(facetContentTouched)
+        facetContentsCopy[handle] = value.trim()
+        facetContentsTouchedCopy[handle] = true
         setFacetContents(facetContentsCopy)
+        setFacetContentTouched(facetContentsTouchedCopy)
     }
 
     return (<>
-        <Form className={getFormClass()} noValidate validated={isValidated} onSubmit={handleFormSubmit}>
+        <Form className={getFormClass()} noValidate onSubmit={handleFormSubmit}>
             {facets.map((facet, index) => {
                 const { handle, name, description } = facet
                 return (
@@ -87,11 +125,16 @@ const ReviewCreateActual = ({
                                 onChange={(event) => {
                                     setSingleFacetContents(event, handle)
                                 }}
+                                isValid={isFacetContentsTouched(handle) && isFacetContentsValid(handle)}
+                                isInvalid={isFacetContentsTouched(handle) && !isFacetContentsValid(handle)}
                             />
                         </Form.Group>
                     </Fragment>
                 )
             })}
+            <Button className='mt-4' variant="primary" type="submit">
+                Submit
+            </Button>
         </Form>
     </>)
 }

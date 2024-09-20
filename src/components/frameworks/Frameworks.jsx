@@ -21,7 +21,6 @@ const Frameworks = ({ frameworkService }) => {
     }
 
     const handleFrameworkDelete = () => {
-        console.log('handleFrameworkDelete frameworkService', frameworkService)
         frameworkService
             .deleteFramework(frameworkSelectedForDeletion.id)
             .then(() => {
