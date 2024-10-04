@@ -55,7 +55,7 @@ const ReviewCreatePreview = ({
                 Review saved
             </div>
             <Link to={`/review/${createdReview.id}`}>
-                <button className='btn btn-primary me-2'>
+                <button className='btn btn-primary me-2' disabled>
                     View {mode === 'create' ? 'created' : 'modified'} review
                 </button>
             </Link>
