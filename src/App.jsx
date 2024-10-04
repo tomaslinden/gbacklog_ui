@@ -57,7 +57,7 @@ function App() {
                 <Route path="/reviews" element={<Reviews {...{ subjectService, frameworkService, reviewService }} />} />
                 <Route path="/review/:id" element={<ReviewView {...{ reviewService }} />} />
                 <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
-                <Route path="/modifyReview/:id" element={<ReviewModify {...{ subjectService, frameworkService, reviewService }} />} />
+                <Route path="/modifyReview/:id" element={<ReviewModify {...{ frameworkService, reviewService }} />} />
             </Routes>
         </div>
       </BrowserRouter>

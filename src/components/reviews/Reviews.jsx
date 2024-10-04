@@ -106,7 +106,6 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                                 <button className="btn btn-primary me-md-2"
                                     style={{position: 'relative', left:"-4px"}}
                                     type="button"
-                                    disabled
                                 >
                                     Modify
                                 </button>

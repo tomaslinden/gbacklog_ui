@@ -13,8 +13,10 @@ const ReviewCreatePreview = ({
     setPhase,
     subjectId,
     frameworkId,
-    mode
+    mode,
+    handleSave
 }) => {
+    // Rename these to upsert
     const [isReviewCreateSuccess, setReviewCreateSuccess] = useState(false)
     const [createdReview, setCreatedReview] = useState(false)
 
@@ -41,9 +43,8 @@ const ReviewCreatePreview = ({
     }
 
     const handleReviewSave = () => {
-        reviewService.create(getReviewObject()).then((result) => {
+        handleSave(getReviewObject()).then((result) => {
             setCreatedReview(result)
-            // closeSubjectCreateDialog()
             setReviewCreateSuccess(true)    
         })
     }
@@ -97,7 +98,10 @@ const ReviewCreatePreview = ({
                 Save review
             </Button>
 
-            <Button className='mt-4 ms-2' variant="primary" onClick={() => setPhase('create')}>
+            <Button
+                className='mt-4 ms-2'
+                variant="primary"
+                onClick={() => setPhase(mode === 'create' ? 'create' : 'modify')}>
                 Continue editing
             </Button>
         </>}

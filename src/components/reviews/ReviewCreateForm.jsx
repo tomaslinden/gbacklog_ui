@@ -69,10 +69,8 @@ const ReviewCreateForm = ({
         event.preventDefault()
         event.stopPropagation()
         if (validateFacets()) {
-            console.log('Form valid, proceed')
             setPhase('preview')
         } else {
-            console.log('There are validation errors')
         }
     }
 

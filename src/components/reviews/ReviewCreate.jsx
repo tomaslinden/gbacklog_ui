@@ -67,7 +67,10 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                     setPhase,
                     subjectId,
                     frameworkId,
-                    mode: 'create'
+                    mode: 'create',
+                    handleSave: (reviewToSave) => {
+                        return reviewService.create(reviewToSave)
+                    }
                 }} />
             }
         </>
