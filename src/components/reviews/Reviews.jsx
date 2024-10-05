@@ -30,6 +30,11 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
             })
     }
 
+    const closeReviewDeletionDialog = () => {
+        setShowReviewDeleteWarning(false)
+        setReviewSelectedForDeletion(null)
+    }
+
     const handleReviewDelete = () => {
         reviewService
             .deleteReview(reviewSelectedForDeletion.id)
@@ -42,11 +47,6 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                     closeSubjectDeletionDialog()
                 }, 3000)
             })
-    }
-
-    const closeReviewDeletionDialog = () => {
-        setShowReviewDeleteWarning(false)
-        setReviewSelectedForDeletion(null)
     }
 
     return (

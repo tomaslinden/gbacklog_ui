@@ -23,7 +23,7 @@ const GeneralUsageInstructions = () => {
             </div>
           </Card.Title>
           <Card.Text>
-            This service is meant to bring about positive change by providing a service for creating positive and constructive reviews on various things. Do not target individuals or specific organizations. Please be considerate when using this service.
+            This service is meant to bring about positive change by providing a service for creating positive and constructive reviews on various topics. Do not target individuals or specific organizations. Please be considerate when using this service.
           </Card.Text>
           <Card.Text>
             <em><span>‘Love the Lord your God with all your heart and with all your soul and with all your mind.’ This is the first and greatest commandment. And the second is like it: ‘Love your neighbor as yourself.’</span></em> (Matthew 22:36-39 NIV)
