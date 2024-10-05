@@ -15,6 +15,10 @@ const formFacetHandleFromName = name => {
     return handle
 }
 
+// Todo refactor framework create form to use react bootsrap in stead of native bootstrap for forms
+// This might fix the illogical way facet validation currently works
+// (it is af it works the other way around, i.e. is valid containing false means that is valid)
+
 const FrameworkCreateForm = ({ 
     mode,
     setIsPreview,
@@ -75,7 +79,14 @@ const FrameworkCreateForm = ({
 
     const isFacetNameValid = (index) => {
         // The facet is valid if it is not set in the facetErrors or it is an empty string
+        // Todo fix validation of facet errors (seems to work in an illogical manner)
         return facetErrors[index] === undefined || facetErrors[index]?.name === ''
+    }
+
+    const addFacetValidationError = (index, errorMessage) => {
+        let facetsErrorsCopy = structuredClone(facetErrors)
+        facetsErrorsCopy[index] = errorMessage
+        setFacetErrors(facetsErrorsCopy)
     }
 
     const validateFacetName = (index) => {
@@ -86,16 +97,23 @@ const FrameworkCreateForm = ({
         } else if (frameworkNameLength > frameworkNameMaxLength) {
             facetNameValidationError = `The framework name cannot exceed ${frameworkNameMaxLength} characters`
         }
-        let facetsErrorsCopy = structuredClone(facetErrors)
-        facetsErrorsCopy[index] = facetNameValidationError
-        setFacetErrors(facetsErrorsCopy)
+        addFacetValidationError(index, facetNameValidationError)
         return facetNameValidationError === ''
     }
 
     const validateFacets = () => {
         let isValid = true;
+        let localFacetHandles = {}
         facets.forEach((facet, index) => {
             isValid = isValid && validateFacetName(index)
+            const { name } = facet
+            if (localFacetHandles.hasOwnProperty(name)) {
+                isValid = false // A framework must have unique facet handles
+                addFacetValidationError(localFacetHandles[name], 'Facet names cannot be duplicates')
+                addFacetValidationError(index, 'Facet names cannot be duplicates')
+            } else {
+                localFacetHandles[name] = index
+            }
         })
         return isValid
     }
@@ -167,7 +185,7 @@ const FrameworkCreateForm = ({
         event.preventDefault()
         resetFacetErrors() // Because facet indices have changed
         let facetsCopy = structuredClone(facets)
-        delete facetsCopy[index]
+        facetsCopy.splice(index, 1)
         setFacets(facetsCopy)
     }
 
@@ -200,8 +218,9 @@ const FrameworkCreateForm = ({
                         id='frameworkDescription'
                         aria-describedby='frameworkDescriptionHelp'
                         onChange={handleFrameworkDescriptionChange}
+                        value={frameworkDescription}
                     >
-                        {frameworkDescription}
+                        
                     </textarea>
                     <div id='frameworkDescriptionHelp' className='form-text'>A description for the framework</div>
                     {isFrameworkDescriptionValid && <div className='invalid-feedback'>{frameworkDescriptionValidationError}</div>}
