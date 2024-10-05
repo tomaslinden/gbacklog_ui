@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Card from 'react-bootstrap/Card';
-import CloseButton from 'react-bootstrap/CloseButton';
 import './App.css'
 import Navbar from './components/Navbar'
+import GeneralUsageInstructions from './components/GeneralUsageInstructions'
 import Subjects from './components/subjects/Subjects'
 import SubjectCreate from './components/Subjects/SubjectCreate'
 import Frameworks from './components/frameworks/Frameworks'
@@ -44,28 +43,10 @@ function App() {
       <BrowserRouter>
         <header>
           <Navbar />
-
-          <Card className='mt-4'>
-            <Card.Body>
-              <Card.Title>
-                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                  <div>General usage principles</div>
-                  <div><CloseButton style={{
-                    width: '4px',
-                    backgroundSize: 'auto'
-                  }}/></div>
-                </div>
-              </Card.Title>
-              <Card.Text>
-                This service is meant to bring about positive change by providing a service for creating positive and constructive reviews on various things. Do not target individuals or specific organizations.
-              </Card.Text>
-              <Card.Text>
-                <em><span>‘Love the Lord your God with all your heart and with all your soul and with all your mind.’ This is the first and greatest commandment. And the second is like it: ‘Love your neighbor as yourself.’</span></em> (Matthew 22:36-39 NIV)
-              </Card.Text>
-            </Card.Body>
-          </Card>
-
         </header>
+
+        <GeneralUsageInstructions />
+
         <div className="main-content mt-4">
             <Routes>
                 <Route index element={<Subjects {...{ subjectService }} />} />
