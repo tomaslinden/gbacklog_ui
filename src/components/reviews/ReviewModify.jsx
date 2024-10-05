@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ReviewCreateForm from './ReviewCreateForm'
 import ReviewCreatePreview from './ReviewCreatePreview'
 import { getFacetsFromReviewAsObject } from '../utilities'
@@ -33,6 +33,10 @@ const ReviewModify = ({ frameworkService, reviewService }) => {
     }
 
     return (<>
+        <Link to='/reviews'>
+            <button type='button' className='btn btn-primary mt-4'>Back to reviews</button>
+        </Link>
+
         {phase === 'modify' && selectedFramework && Object.keys(facetContents).length > 0 &&
             <ReviewCreateForm { ...{
                 selectedFramework,

@@ -112,7 +112,7 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                             </Link>
 
                             <Link to={`/modifyReview/${review.id}`}>
-                                <button className="btn btn-primary me-md-2"
+                                <button className="btn btn-primary ms-1 me-md-2"
                                     style={{position: 'relative', left:"-4px"}}
                                     type="button"
                                 >
