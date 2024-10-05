@@ -25,7 +25,7 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                 <Card className='mt-5'>
                     <Card.Body>
                     <p>
-                    Review being created of subject <strong>{selectedSubject.name}</strong> using review framework <strong>{selectedFramework.name}</strong>.
+                    Review being created of subject <strong>{selectedSubject.name}</strong> using the review framework <strong>{selectedFramework.name}</strong>.
                     </p>
                     <p style={{marginBottom: '0px'}}>
                         {/* Todo add check for period at the end of description */}

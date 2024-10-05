@@ -188,7 +188,6 @@ const FrameworkCreateForm = ({
                         value={frameworkName}
                         onChange={handleFrameworkNameChange}
                         required
-                        // disabled={isFrameworkSuccess}
                     />
                     <div id='frameworkNameHelp' className='form-text'>A name for the framework</div>
                     {isFrameworkNameValid && <div className='invalid-feedback'>{frameworkNameValidationError}</div>}
@@ -196,15 +195,14 @@ const FrameworkCreateForm = ({
 
                 <div className='mb-3 col-md-6'>
                     <label htmlFor='frameworkDescription' className='form-label'>Framework description</label>
-                    <input 
-                        type='text'
+                    <textarea
                         className={'form-control ' + (isFrameworkDescriptionValid() ? 'is-valid' : 'is-invalid')}
                         id='frameworkDescription'
                         aria-describedby='frameworkDescriptionHelp'
-                        value={frameworkDescription}
                         onChange={handleFrameworkDescriptionChange}
-                        // disabled={isFrameworkSuccess}
-                    />
+                    >
+                        {frameworkDescription}
+                    </textarea>
                     <div id='frameworkDescriptionHelp' className='form-text'>A description for the framework</div>
                     {isFrameworkDescriptionValid && <div className='invalid-feedback'>{frameworkDescriptionValidationError}</div>}
                     {/* Add displaying of characters left. Fetch these from the backend. */}

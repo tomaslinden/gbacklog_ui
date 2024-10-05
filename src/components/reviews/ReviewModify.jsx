@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import { useParams } from "react-router-dom";
 import ReviewCreateForm from './ReviewCreateForm'
 import ReviewCreatePreview from './ReviewCreatePreview'
+import { getFacetsFromReviewAsObject } from '../utilities'
 
 const ReviewModify = ({ frameworkService, reviewService }) => {
     const [subjectId, setSubjectId] = useState('')
@@ -29,13 +28,7 @@ const ReviewModify = ({ frameworkService, reviewService }) => {
     }, []) 
 
     const transformAndSetFacetContents = (localReview) => {
-        // Refactor this to use the reduce higher order function instead
-        let newFacetContents = {}
-
-        localReview.facetContents.forEach(({ handle, contents }) => {
-            newFacetContents[handle] = contents
-        })
-
+        const newFacetContents = getFacetsFromReviewAsObject(localReview)
         setFacetContents(newFacetContents)
     }
 

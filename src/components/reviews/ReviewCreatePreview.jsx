@@ -1,13 +1,9 @@
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip';
-import { Info } from 'react-feather';
+import ReviewViewContents from './ReviewViewContents'
 
 const ReviewCreatePreview = ({
-    reviewService,
     selectedFramework,
     facetContents,
     setPhase,
@@ -21,11 +17,6 @@ const ReviewCreatePreview = ({
     const [createdReview, setCreatedReview] = useState(false)
 
     const facetHandles = Object.keys(facetContents)
-
-    const getFacetProperty = (facetHandle, property) => {
-        const foundFacet = selectedFramework.facets.find(facet => facet.handle === facetHandle)
-        return foundFacet?.[property]
-    }
 
     const getReviewObject = () => {
         const facetContentsToSend = facetHandles.map((handle) => {
@@ -55,7 +46,7 @@ const ReviewCreatePreview = ({
                 Review saved
             </div>
             <Link to={`/review/${createdReview.id}`}>
-                <button className='btn btn-primary me-2' disabled>
+                <button className='btn btn-primary me-2'>
                     View {mode === 'create' ? 'created' : 'modified'} review
                 </button>
             </Link>
@@ -66,32 +57,7 @@ const ReviewCreatePreview = ({
             </Link>
         </>)}
 
-        {facetHandles.map((handle) => {
-            return (<Fragment key={handle}>
-                <Card className='mt-4'>
-                    <Card.Body>
-                        <Card.Title style={{display: 'flex', alignItems: 'center'}}>
-                            <div>{getFacetProperty(handle, 'name')}</div>
-                            <OverlayTrigger
-                                delay={{ hide: 450, show: 300 }}
-                                overlay={(props) => (
-                                    <Tooltip {...props}>{getFacetProperty(handle, 'description')}</Tooltip>
-                                )}
-                            >
-                                {/* Todo: Add a suitable aria label for the tooltip so that it becomes accessible */}
-                                <Button
-                                    className="btn btn-light btn-sm"
-                                    style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
-                                ><Info size="24" /></Button>
-                            </OverlayTrigger>
-                        </Card.Title>
-                        <Card.Text>
-                            {facetContents[handle]}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Fragment>)
-        })}
+        <ReviewViewContents {...{ facetContents, selectedFramework }} />
 
         {!isReviewCreateSuccess && <>
             <Button className='mt-4' variant="warning" onClick={handleReviewSave}>

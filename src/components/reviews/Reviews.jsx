@@ -102,6 +102,15 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                         </CardGroup>
 
                         <div className='mt-2 ms-1'>
+                            <Link to={`/review/${review.id}`}>
+                                <button className="btn btn-primary me-md-2"
+                                    style={{position: 'relative', left:"-4px"}}
+                                    type="button"
+                                >
+                                    View
+                                </button>
+                            </Link>
+
                             <Link to={`/modifyReview/${review.id}`}>
                                 <button className="btn btn-primary me-md-2"
                                     style={{position: 'relative', left:"-4px"}}

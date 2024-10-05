@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Card from 'react-bootstrap/Card';
+import CloseButton from 'react-bootstrap/CloseButton';
 import './App.css'
 import Navbar from './components/Navbar'
 import Subjects from './components/subjects/Subjects'
@@ -42,6 +44,27 @@ function App() {
       <BrowserRouter>
         <header>
           <Navbar />
+
+          <Card className='mt-4'>
+            <Card.Body>
+              <Card.Title>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <div>General usage principles</div>
+                  <div><CloseButton style={{
+                    width: '4px',
+                    backgroundSize: 'auto'
+                  }}/></div>
+                </div>
+              </Card.Title>
+              <Card.Text>
+                This service is meant to bring about positive change by providing a service for creating positive and constructive reviews on various things. Do not target individuals or specific organizations.
+              </Card.Text>
+              <Card.Text>
+                <em><span>‘Love the Lord your God with all your heart and with all your soul and with all your mind.’ This is the first and greatest commandment. And the second is like it: ‘Love your neighbor as yourself.’</span></em> (Matthew 22:36-39 NIV)
+              </Card.Text>
+            </Card.Body>
+          </Card>
+
         </header>
         <div className="main-content mt-4">
             <Routes>
@@ -55,7 +78,7 @@ function App() {
                 <Route path="/modifyFramework/:id" element={<FrameworkCreate {...{ frameworkService }} mode='modify' />} />
                 <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
                 <Route path="/reviews" element={<Reviews {...{ subjectService, frameworkService, reviewService }} />} />
-                <Route path="/review/:id" element={<ReviewView {...{ reviewService }} />} />
+                <Route path="/review/:id" element={<ReviewView {...{ reviewService, frameworkService }} />} />
                 <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
                 <Route path="/modifyReview/:id" element={<ReviewModify {...{ frameworkService, reviewService }} />} />
             </Routes>
