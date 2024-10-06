@@ -46,7 +46,8 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                     setSelectedSubject,
                     setSelectedFramework,
                     onSelectSuccess: () => setPhase('create'),
-                    continueButtonText: 'Continue to review'
+                    continueButtonText: 'Continue to review',
+                    type: 'createReview'
                 } } />
             }
 

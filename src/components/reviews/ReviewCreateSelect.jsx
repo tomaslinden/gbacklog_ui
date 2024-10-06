@@ -13,7 +13,8 @@ const ReviewCreateSelect = ({
     setSelectedFramework,
     // setPhase
     onSelectSuccess,
-    continueButtonText
+    continueButtonText,
+    type
 }) => {
     const [subjects, setSubjects] = useState([])
     const [frameworks, setFrameworks] = useState([])
@@ -28,6 +29,13 @@ const ReviewCreateSelect = ({
             .getAll()
             .then(frameworks => setFrameworks(frameworks))
     }, []) 
+
+    useEffect(() => {
+        if(type === 'searchReviews' && subjectId?.length > 0 && frameworkId?.length > 0) {
+            console.log('triggered')
+            handleFormSubmit()
+        }
+    }, [subjectId, frameworkId])
 
     const isSubjectIdValid = () => {
         return subjectId !== ''
@@ -46,8 +54,8 @@ const ReviewCreateSelect = ({
     }
 
     const handleFormSubmit = event => {
-        event.preventDefault()
-        event.stopPropagation()
+        event?.preventDefault()
+        event?.stopPropagation()
         if (validateForm()) {
             // Todo optimize this so that only the ids of subjects and frameworks are retrieved in the first phase
             // Then once a subject and a framework has been selected, fetch the actual

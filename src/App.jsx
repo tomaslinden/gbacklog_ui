@@ -45,24 +45,26 @@ function App() {
           <Navbar />
         </header>
 
-        <GeneralUsageInstructions />
+        <div className="main-content">
+            <GeneralUsageInstructions className="mt-4" />
 
-        <div className="main-content mt-4">
-            <Routes>
-                <Route index element={<Subjects {...{ subjectService }} />} />
-                <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
-                {/* Todo: add mode='create' to createSubject instead of having a default mode */}
-                <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
-                <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
-                <Route path="/frameworks" element={<Frameworks {...{ frameworkService }} />} />
-                <Route path="/framework/:id" element={<FrameworkView {...{ frameworkService }} />} />
-                <Route path="/modifyFramework/:id" element={<FrameworkCreate {...{ frameworkService }} mode='modify' />} />
-                <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
-                <Route path="/reviews" element={<Reviews {...{ subjectService, frameworkService, reviewService }} />} />
-                <Route path="/review/:id" element={<ReviewView {...{ reviewService, frameworkService }} />} />
-                <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
-                <Route path="/modifyReview/:id" element={<ReviewModify {...{ frameworkService, reviewService }} />} />
-            </Routes>
+            <div className="mt-4">
+              <Routes>
+                  <Route index element={<Subjects {...{ subjectService }} />} />
+                  <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
+                  {/* Todo: add mode='create' to createSubject instead of having a default mode */}
+                  <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
+                  <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
+                  <Route path="/frameworks" element={<Frameworks {...{ frameworkService }} />} />
+                  <Route path="/framework/:id" element={<FrameworkView {...{ frameworkService }} />} />
+                  <Route path="/modifyFramework/:id" element={<FrameworkCreate {...{ frameworkService }} mode='modify' />} />
+                  <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
+                  <Route path="/reviews" element={<Reviews {...{ subjectService, frameworkService, reviewService }} />} />
+                  <Route path="/review/:id" element={<ReviewView {...{ reviewService, frameworkService }} />} />
+                  <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
+                  <Route path="/modifyReview/:id" element={<ReviewModify {...{ frameworkService, reviewService }} />} />
+              </Routes>
+            </div>
         </div>
       </BrowserRouter>
     </>

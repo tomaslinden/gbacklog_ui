@@ -67,7 +67,8 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                 setSelectedSubject,
                 setSelectedFramework,
                 onSelectSuccess: getAllReviews,
-                continueButtonText: 'Get reviews'
+                continueButtonText: 'Get reviews',
+                type: 'searchReviews'
             } } />
 
             {isShowReviewDeleteWarning && (<>
@@ -83,8 +84,8 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
 
             {selectedSubject && selectedFramework && reviews.map(review => {
                 return (
-                    <div> 
-                        <CardGroup key={review.id} className='mt-4'>
+                    <div key={review.id}> 
+                        <CardGroup className='mt-4'>
                             {selectedFramework.facets.map((facet) => {
                                 return (
                                     <Card key={facet.handle}>
