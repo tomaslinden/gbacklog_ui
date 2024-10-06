@@ -22,7 +22,7 @@ const ReviewCreateSelect = ({
 
     useEffect(() => {
         subjectService
-            .getAll()
+            .getAllFinal()
             .then(subjects => setSubjects(subjects))
 
         frameworkService

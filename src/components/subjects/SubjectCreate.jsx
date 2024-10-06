@@ -70,7 +70,8 @@ const SubjectCreate = ({ subjectService, mode }) => {
    
     const getObjectToUpsert = () => {
         return {
-            name: subjectName
+            name: subjectName,
+            status: 'draft'
         }
     }
 
