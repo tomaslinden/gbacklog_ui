@@ -28,6 +28,7 @@ const FrameworkView = ({ frameworkService }) => {
         <FrameworkDetails
             frameworkName={framework.name}
             frameworkDescription={framework.description}
+            frameworkStatus={framework.status}
             facets={framework.facets}
         />
     </>}</>)

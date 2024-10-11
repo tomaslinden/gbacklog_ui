@@ -26,7 +26,7 @@ const ReviewCreateSelect = ({
             .then(subjects => setSubjects(subjects))
 
         frameworkService
-            .getAll()
+            .getAllFinal()
             .then(frameworks => setFrameworks(frameworks))
     }, []) 
 

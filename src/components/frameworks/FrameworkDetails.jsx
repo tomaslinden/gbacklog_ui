@@ -6,13 +6,15 @@ import { Info } from 'react-feather';
 const FrameworkDetails = ({
     frameworkName,
     frameworkDescription,
+    frameworkStatus,
     facets
 }) => {
     const handleDescription = 'This is a programmatic name for the facet. It is used to reference the framework\'s facets in reviews.'
 
     return (<>
         <h3 className='mt-5'>{frameworkName}</h3>
-        <div>{frameworkDescription}</div>
+        <p>{frameworkDescription}</p>
+        {frameworkStatus && <p>Status: <em>{frameworkStatus}</em></p>}
         <h3 className='mt-4'>Facets</h3>
         {facets.map(({ name, handle, description }, index) => {
             return (

@@ -10,6 +10,11 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
+const getAllFinal = () => {
+    const request = axios.get(baseUrl + '?status=final')
+    return request.then(response => response.data)
+}
+
 const getById = id => {
     const request = axios.get(`${baseUrl}/${id}`)
     return request.then(response => response.data)
@@ -30,6 +35,12 @@ const update = (id, updatedFramework) => {
     return request.then(response => response.data)
 }
 
+const finalize = (id) => {
+    const body = { status: 'final' };
+    const request = axios.patch(`${baseUrl}/${id}`, body)
+    return request.then(response => response.data)
+}
+
 export default { 
-    getAll, getById, create, deleteFramework, update
+    getAll, getAllFinal, getById, create, deleteFramework, update, finalize
 }

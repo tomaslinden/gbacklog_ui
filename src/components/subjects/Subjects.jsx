@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
 
@@ -117,19 +118,20 @@ const Subjects = ({ subjectService }) => {
                                         disabled={isConfirmationSuccess}
                                     >Finalize</button>
 
-                                    <button className="btn btn-primary btn-sm"
-                                        type="button"
-                                        as={Link} to={`/modifySubject/${subject.id}`}
-                                    >
-                                        Modify
-                                    </button>
-
                                     <button className="btn btn-primary btn-sm" type="button"
                                         onClick={() => {
                                             openConfirmationDialog('delete', subject)
                                         }}
                                         disabled={isConfirmationSuccess}
                                     >Delete</button>
+
+                                    <Link to={`/modifySubject/${subject.id}`}>
+                                        <button className="btn btn-primary btn-sm me-md-2"
+                                            style={{position: 'relative', left:"-4px"}}
+                                            type="button">
+                                            Modify
+                                        </button>
+                                    </Link>
                                 </div>
                             }
                         </div>

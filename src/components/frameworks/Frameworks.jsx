@@ -8,6 +8,11 @@ const Frameworks = ({ frameworkService }) => {
     const [frameworkSelectedForDeletion, setFrameworkSelectedForDeletion] = useState(null)
     const [isFrameworkDeleteSuccess, setFrameworkDeleteSuccess] = useState(false)
 
+    const [confirmationType, setConfirmationType] = useState(null)
+    const [isShowConfirmation, setShowConfirmation] = useState(false)
+    const [itemSelectedForConfirmation, setItemSelectedForConfirmation] = useState(null)
+    const [isConfirmationSuccess, setConfirmationSuccess] = useState(false)
+    
     useEffect(() => {
         getAllFrameworks()
     }, []) 
@@ -22,22 +27,44 @@ const Frameworks = ({ frameworkService }) => {
 
     const handleFrameworkDelete = () => {
         frameworkService
-            .deleteFramework(frameworkSelectedForDeletion.id)
+            .deleteFramework(itemSelectedForConfirmation.id)
             .then(() => {
                 getAllFrameworks()
-                setFrameworkDeleteSuccess(true)
-                closeFrameworkDeletionDialog()
-                setFrameworkSelectedForDeletion(null)
+                setConfirmationSuccess(true)
+                closeConfirmationDialog()
+                setItemSelectedForConfirmation(null)
                 setTimeout(() => {
-                    setFrameworkDeleteSuccess(false)
-                    closeFrameworkDeletionDialog()
+                    setConfirmationSuccess(false)
+                    closeConfirmationDialog()
                 }, 3000)
             })
     }
+    
+    const handleFrameworkFinalize = () => {
+        frameworkService
+            .finalize(itemSelectedForConfirmation.id)
+            .then(() => {
+                getAllFrameworks()
+                setConfirmationSuccess(true)
+                closeConfirmationDialog()
+                setItemSelectedForConfirmation(null)
+                setTimeout(() => {
+                    setConfirmationSuccess(false)
+                    closeConfirmationDialog()
+                }, 3000)
+            })
+    }
+    
+    const closeConfirmationDialog = () => {
+        setShowConfirmation(false)
+        setItemSelectedForConfirmation(null)
+    }
 
-    const closeFrameworkDeletionDialog = () => {
-        setShowFrameworkDeleteWarning(false)
-        setFrameworkSelectedForDeletion(null)
+    const openConfirmationDialog = (type, item) => {
+        setConfirmationType(type)
+        setItemSelectedForConfirmation(item)
+        setShowConfirmation(true)
+        window.scrollTo(0, 0)
     }
     
     return (
@@ -48,20 +75,31 @@ const Frameworks = ({ frameworkService }) => {
                 <button type="button" className="btn btn-primary mt-4">Create framework</button>
             </Link>
 
-            {isFrameworkDeleteSuccess && (
+            {isConfirmationSuccess && (
                 <div className="alert alert-success mt-4" role="alert">
-                    Framework deleted
+                    Framework {confirmationType === 'delete' ? 'deleted' : 'finalized'}
                 </div>
             )}
 
-            {isShowFrameworkDeleteWarning && (<>
+            {isShowConfirmation && confirmationType === 'delete' && (<>
                 <ConfirmationAlert
                     title='Are you sure you want to delete this framework?'
-                    subtitle={frameworkSelectedForDeletion.name}
+                    subtitle={itemSelectedForConfirmation.name}
                     affirmativeText='Delete'
                     handleAffirmative={handleFrameworkDelete}
                     cancelText='Cancel'
-                    handleCancel={closeFrameworkDeletionDialog}
+                    handleCancel={closeConfirmationDialog}
+                />
+            </>)}
+
+            {isShowConfirmation && confirmationType === 'finalize' && (<>
+                <ConfirmationAlert
+                    title='Are you sure you want to finalize this framework? You cannot modify it once you do.'
+                    subtitle={itemSelectedForConfirmation.name}
+                    affirmativeText='Finalize'
+                    handleAffirmative={handleFrameworkFinalize}
+                    cancelText='Cancel'
+                    handleCancel={closeConfirmationDialog}
                 />
             </>)}
 
@@ -75,24 +113,31 @@ const Frameworks = ({ frameworkService }) => {
                                 </Link>
                             </div>
                             <div className="p-2"></div>
-                            <div>
-                                <Link to={`/modifyFramework/${framework.id}`}>
-                                    <button className="btn btn-primary me-md-2"
-                                        style={{position: 'relative', left:"-4px"}}
-                                        type="button">
-                                        Modify
-                                    </button>
-                                </Link>
+                            {framework.status != 'final' &&
+                                <div className="btn-group" role="group">
+                                    <button className="btn btn-primary btn-sm" type="button"
+                                        onClick={() => {
+                                            openConfirmationDialog('finalize', framework)
+                                        }}
+                                        disabled={isConfirmationSuccess}
+                                    >Finalize</button>
 
-                                <button className="btn btn-primary" type="button"
-                                    onClick={() => {
-                                        setFrameworkSelectedForDeletion(framework)
-                                        setShowFrameworkDeleteWarning(true)
-                                        window.scrollTo(0, 0)
-                                    }}
-                                    disabled={isFrameworkDeleteSuccess}
-                                >Delete</button>
-                            </div>
+                                    <button className="btn btn-primary btn-sm" type="button"
+                                        onClick={() => {
+                                            openConfirmationDialog('delete', framework)
+                                        }}
+                                        disabled={isConfirmationSuccess}
+                                    >Delete</button>
+
+                                    <Link to={`/modifyFramework/${framework.id}`}>
+                                        <button className="btn btn-primary btn-sm me-md-2"
+                                            style={{position: 'relative', left:"-4px"}}
+                                            type="button">
+                                            Modify
+                                        </button>
+                                    </Link>
+                                </div>
+                            }
                         </div>
                     </li>
                 )}
