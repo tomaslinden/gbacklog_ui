@@ -7,10 +7,11 @@ const ReviewCreatePreview = ({
     selectedFramework,
     facetContents,
     setPhase,
-    subjectId,
     frameworkId,
     mode,
-    handleSave
+    handleSave,
+    reviewTargetType,
+    reviewTargetId
 }) => {
     // Rename these to upsert
     const [isReviewCreateSuccess, setReviewCreateSuccess] = useState(false)
@@ -28,7 +29,8 @@ const ReviewCreatePreview = ({
 
         return {
             frameworkId,
-            subjectId,
+            targetType: reviewTargetType,
+            targetId: reviewTargetId,
             facetContents: facetContentsToSend
         }
     }

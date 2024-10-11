@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
+import { useState } from 'react'
+import { Link } from 'react-router-dom';
 import ReviewCreateSelect from './ReviewCreateSelect'
 import ReviewCreateForm from './ReviewCreateForm'
 import ReviewCreatePreview from './ReviewCreatePreview'
+import ReviewOverview from './ReviewOverview'
 
 const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode }) => {
-    const [subjectId, setSubjectId] = useState('')
     const [frameworkId, setFrameworkId] = useState('')
-    const [selectedSubject, setSelectedSubject] = useState()
     const [selectedFramework, setSelectedFramework] = useState()
     const [facetContents, setFacetContents] = useState({})
     const [phase, setPhase] = useState('select')
-  
+    const [reviewTargetType, setReviewTargetType] = useState('')
+    const [reviewTargetId, setReviewTargetId] = useState('')
+    const [selectedReviewTarget, setSelectedReviewTarget] = useState()
+
     return (
         <>
             <h1>Create review</h1>
@@ -21,33 +22,30 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                 <button type='button' className='btn btn-primary mt-4'>Back to reviews</button>
             </Link>
 
-            {selectedSubject && selectedFramework &&
-                <Card className='mt-5'>
-                    <Card.Body>
-                    <p>
-                    Review being created of subject <strong>{selectedSubject.name}</strong> using the review framework <strong>{selectedFramework.name}</strong>.
-                    </p>
-                    <p style={{marginBottom: '0px'}}>
-                        {/* Todo add check for period at the end of description */}
-                        {selectedFramework.description}
-                    </p>
-                    </Card.Body>
-                </Card>
+            {selectedReviewTarget && selectedFramework &&
+                <ReviewOverview { ...{ 
+                    mode: 'create',
+                    reviewTargetType,
+                    reviewTargetName: selectedReviewTarget.name,
+                    framework: selectedFramework
+                } } />
             }
 
             {phase === 'select' &&
                 <ReviewCreateSelect { ...{ 
                     subjectService,
                     frameworkService,
-                    subjectId,
-                    setSubjectId,
                     frameworkId,
                     setFrameworkId,
-                    setSelectedSubject,
                     setSelectedFramework,
                     onSelectSuccess: () => setPhase('create'),
                     continueButtonText: 'Continue to review',
-                    type: 'createReview'
+                    componentUsageType: 'createReview',
+                    reviewTargetType,
+                    setReviewTargetType,
+                    reviewTargetId,
+                    setReviewTargetId,
+                    setSelectedReviewTarget
                 } } />
             }
 
@@ -66,12 +64,13 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                     selectedFramework,
                     facetContents,
                     setPhase,
-                    subjectId,
                     frameworkId,
                     mode: 'create',
                     handleSave: (reviewToSave) => {
                         return reviewService.create(reviewToSave)
-                    }
+                    },
+                    reviewTargetType,
+                    reviewTargetId
                 }} />
             }
         </>

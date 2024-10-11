@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from "react-router-dom";
 import ReviewViewContents from './ReviewViewContents'
 import { getFacetsFromReviewAsObject } from '../utilities'
+import ReviewOverview from './ReviewOverview'
 
-const ReviewView = ({ reviewService, frameworkService }) => {
+const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
     const [review, setReview] = useState()
     const [framework, setFramework] = useState()
+    const [reviewTarget, setReviewTarget] = useState()
 
     let params = useParams();
 
@@ -21,6 +23,24 @@ const ReviewView = ({ reviewService, frameworkService }) => {
                     })
             })
     }, []) 
+
+    useEffect(() => {
+        if (review?.targetType === 'subject') {
+            subjectService
+                .getById(review.targetId)
+                .then(subject => {
+                    console.log('subject', subject)
+                    setReviewTarget(subject)
+                })
+        } else if (review?.targetType === 'framework') {
+            frameworkService
+                .getById(review.targetId)
+                .then(framework => {
+                    console.log('framework', framework)
+                    setReviewTarget(framework)
+                })
+        }
+    }, [review]) 
     
     const facetContentsAsObject = getFacetsFromReviewAsObject(review)
 
@@ -31,14 +51,23 @@ const ReviewView = ({ reviewService, frameworkService }) => {
             <button type="button" className="btn btn-primary mt-4">View all reviews</button>
         </Link>
 
-        {review && framework &&
+        {review && reviewTarget && framework && <>
             <div className='mt-5'>
+                <ReviewOverview { ...{ 
+                    mode: 'view',
+                    reviewTargetType: review.targetType,
+                    reviewTargetName: reviewTarget.name,
+                    framework: framework
+                } } />
+            </div>
+
+            <div className='mt-4'>
                 <ReviewViewContents {...{ 
                     facetContents: facetContentsAsObject, 
                     selectedFramework: framework
                 }} />
             </div>
-        }
+        </>}
 
     </>)
 }

@@ -7,22 +7,24 @@ import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import ReviewCreateSelect from './ReviewCreateSelect'
 
 const Reviews = ({ subjectService, frameworkService, reviewService }) => {
-    const [subjectId, setSubjectId] = useState('')
     const [frameworkId, setFrameworkId] = useState('')
-    const [selectedSubject, setSelectedSubject] = useState()
     const [selectedFramework, setSelectedFramework] = useState()
     const [reviews, setReviews] = useState([])
     const [isShowReviewDeleteWarning, setShowReviewDeleteWarning] = useState(false)
     const [reviewSelectedForDeletion, setReviewSelectedForDeletion] = useState(null)
     const [isReviewDeleteSuccess, setReviewDeleteSuccess] = useState(false)
-
+    const [reviewTargetType, setReviewTargetType] = useState('')
+    const [reviewTargetId, setReviewTargetId] = useState('')
+    const [selectedReviewTarget, setSelectedReviewTarget] = useState()
+    
     const getAllReviews = () => {
         reviewService
             .getAll()
             .then(reviews => {
                 const filteredReviews = reviews.filter((review) => {
+                    // Todo update this so that it supports reviewTargetType
                     return (
-                        review.subjectId === subjectId &&
+                        review.targetId === reviewTargetId &&
                         review.frameworkId === frameworkId
                     )
                 })
@@ -60,15 +62,17 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
             <ReviewCreateSelect { ...{ 
                 subjectService,
                 frameworkService,
-                subjectId,
-                setSubjectId,
                 frameworkId,
                 setFrameworkId,
-                setSelectedSubject,
                 setSelectedFramework,
                 onSelectSuccess: getAllReviews,
                 continueButtonText: 'Get reviews',
-                type: 'searchReviews'
+                componentUsagetype: 'searchReviews',
+                reviewTargetType,
+                setReviewTargetType,
+                reviewTargetId,
+                setReviewTargetId,
+                setSelectedReviewTarget
             } } />
 
             {isShowReviewDeleteWarning && (<>
@@ -82,7 +86,7 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                 />
             </>)}
 
-            {selectedSubject && selectedFramework && reviews.map(review => {
+            {selectedReviewTarget && selectedFramework && reviews.map(review => {
                 return (
                     <div key={review.id}> 
                         <CardGroup className='mt-4'>

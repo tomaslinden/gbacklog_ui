@@ -70,7 +70,6 @@ const ReviewCreateForm = ({
         event.stopPropagation()
         if (validateFacets()) {
             setPhase('preview')
-        } else {
         }
     }
 
