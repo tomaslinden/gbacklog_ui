@@ -5,14 +5,10 @@ import { ConfirmationAlert } from '../common/ConfirmationAlert';
 const Subjects = ({ subjectService }) => {
     const [subjects, setSubjects] = useState([])
 
-    // Todo combinde delete and finalization functionality (remove duplication)
-    const [isShowSubjectDeleteWarning, setShowSubjectDeleteWarning] = useState(false)
-    const [subjectSelectedForDeletion, setSubjectSelectedForDeletion] = useState(null)
-    const [isSubjectDeleteSuccess, setSubjectDeleteSuccess] = useState(false)
-    const [isShowSubjectFinalizationWarning, setShowSubjectFinalizationWarning] = useState(false)
-    const [subjectSelectedForFinalization, setSubjectSelectedForFinalization] = useState(null)
-    const [isSubjectFinalizationSuccess, setSubjectFinalizationSuccess] = useState(false)
-    // Todo add handling for delete subject error
+    const [confirmationType, setConfirmationType] = useState(null)
+    const [isShowConfirmation, setShowConfirmation] = useState(false)
+    const [itemSelectedForConfirmation, setItemSelectedForConfirmation] = useState(null)
+    const [isConfirmationSuccess, setConfirmationSuccess] = useState(false)
 
     useEffect(() => {
         getAllSubjects()
@@ -26,44 +22,48 @@ const Subjects = ({ subjectService }) => {
             })
     }
 
+    // Todo add handling for delete/finalize subject error
+
     const handleSubjectDelete = () => {
         subjectService
-            .deleteSubject(subjectSelectedForDeletion.id)
+            .deleteSubject(itemSelectedForConfirmation.id)
             .then(() => {
                 getAllSubjects()
-                setSubjectDeleteSuccess(true)
-                closeSubjectDeletionDialog()
-                setSubjectSelectedForDeletion(null)
+                setConfirmationSuccess(true)
+                closeConfirmationDialog()
+                setItemSelectedForConfirmation(null)
                 setTimeout(() => {
-                    setSubjectDeleteSuccess(false)
-                    closeSubjectDeletionDialog()
+                    setConfirmationSuccess(false)
+                    closeConfirmationDialog()
                 }, 3000)
             })
     }
 
     const handleSubjectFinalize = () => {
         subjectService
-            .finalize(subjectSelectedForFinalization.id)
+            .finalize(itemSelectedForConfirmation.id)
             .then(() => {
                 getAllSubjects()
-                setSubjectFinalizationSuccess(true)
-                closeSubjectFinalizationDialog()
-                setSubjectSelectedForFinalization(null)
+                setConfirmationSuccess(true)
+                closeConfirmationDialog()
+                setItemSelectedForConfirmation(null)
                 setTimeout(() => {
-                    setSubjectFinalizationSuccess(false)
-                    closeSubjectFinalizationDialog()
+                    setConfirmationSuccess(false)
+                    closeConfirmationDialog()
                 }, 3000)
             })
     }
-    
-    const closeSubjectDeletionDialog = () => {
-        setShowSubjectDeleteWarning(false)
-        setSubjectSelectedForDeletion(null)
+
+    const closeConfirmationDialog = () => {
+        setShowConfirmation(false)
+        setItemSelectedForConfirmation(null)
     }
 
-    const closeSubjectFinalizationDialog = () => {
-        setShowSubjectFinalizationWarning(false)
-        setSubjectSelectedForDeletion(null)
+    const openConfirmationDialog = (type, item) => {
+        setConfirmationType(type)
+        setItemSelectedForConfirmation(item)
+        setShowConfirmation(true)
+        window.scrollTo(0, 0)
     }
 
     return (
@@ -74,31 +74,31 @@ const Subjects = ({ subjectService }) => {
                 <button type="button" className="btn btn-primary mt-4">Create subject</button>
             </Link>
 
-            {isSubjectDeleteSuccess && (
+            {isConfirmationSuccess && (
                 <div className="alert alert-success mt-4" role="alert">
-                    Subject deleted
+                    Subject {confirmationType === 'delete' ? 'deleted' : 'finalized'}
                 </div>
             )}
 
-            {isShowSubjectDeleteWarning && (<>
+            {isShowConfirmation && confirmationType === 'delete' && (<>
                 <ConfirmationAlert
                     title='Are you sure you want to delete this subject?'
-                    subtitle={subjectSelectedForDeletion.name}
+                    subtitle={itemSelectedForConfirmation.name}
                     affirmativeText='Delete'
                     handleAffirmative={handleSubjectDelete}
                     cancelText='Cancel'
-                    handleCancel={closeSubjectDeletionDialog}
+                    handleCancel={closeConfirmationDialog}
                 />
             </>)}
 
-            {isShowSubjectFinalizationWarning && (<>
+            {isShowConfirmation && confirmationType === 'finalize' && (<>
                 <ConfirmationAlert
                     title='Are you sure you want to finalize this subject? You cannot modify it once you do.'
-                    subtitle={subjectSelectedForFinalization.name}
+                    subtitle={itemSelectedForConfirmation.name}
                     affirmativeText='Finalize'
                     handleAffirmative={handleSubjectFinalize}
                     cancelText='Cancel'
-                    handleCancel={closeSubjectFinalizationDialog}
+                    handleCancel={closeConfirmationDialog}
                 />
             </>)}
 
@@ -109,32 +109,26 @@ const Subjects = ({ subjectService }) => {
                             <div className="d-flex align-items-center">{subject.name}</div>
                             <div className="p-2"></div>
                             {subject.status != 'final' &&
-                                <div class="btn-group" role="group">
+                                <div className="btn-group" role="group">
                                     <button className="btn btn-primary btn-sm" type="button"
                                         onClick={() => {
-                                            setSubjectSelectedForFinalization(subject)
-                                            setShowSubjectFinalizationWarning(true)
-                                            window.scrollTo(0, 0)
+                                            openConfirmationDialog('finalize', subject)
                                         }}
-                                        disabled={isSubjectFinalizationSuccess}
+                                        disabled={isConfirmationSuccess}
                                     >Finalize</button>
 
                                     <button className="btn btn-primary btn-sm"
                                         type="button"
                                         as={Link} to={`/modifySubject/${subject.id}`}
                                     >
-                                        {/* <Link to={`/modifySubject/${subject.id}`}> */}
-                                            Modify
-                                        {/* </Link> */}
+                                        Modify
                                     </button>
 
                                     <button className="btn btn-primary btn-sm" type="button"
                                         onClick={() => {
-                                            setSubjectSelectedForDeletion(subject)
-                                            setShowSubjectDeleteWarning(true)
-                                            window.scrollTo(0, 0)
+                                            openConfirmationDialog('delete', subject)
                                         }}
-                                        disabled={isSubjectDeleteSuccess}
+                                        disabled={isConfirmationSuccess}
                                     >Delete</button>
                                 </div>
                             }
