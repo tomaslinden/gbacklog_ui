@@ -1,4 +1,5 @@
 import Card from 'react-bootstrap/Card';
+import RenderReviewCard from './RenderReviewCard'
 
 const ReviewOverview = ({
     mode,
@@ -8,7 +9,7 @@ const ReviewOverview = ({
 }) => (
     <Card className='mt-4'>
         <Card.Body>
-            <Card.Text>
+            <RenderReviewCard>
                 <p>
                     {mode === 'create' ? 'Creating a' : 'A'} review of the <em>{reviewTargetType}</em> <strong>{reviewTargetName}</strong> using the framework <strong>{framework.name}</strong>.
                 </p>
@@ -16,7 +17,7 @@ const ReviewOverview = ({
                     {/* Todo add check for period at the end of description */}
                     {framework.description}
                 </p>
-            </Card.Text>
+            </RenderReviewCard>
         </Card.Body>
     </Card>    
 )

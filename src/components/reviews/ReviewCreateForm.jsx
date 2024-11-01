@@ -1,9 +1,11 @@
 import { Fragment, useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Info } from 'react-feather';
+import ClosableCardTitle from '../common/ClosableCardTitle'
 
 const ReviewCreateForm = ({
     selectedFramework,
@@ -13,6 +15,7 @@ const ReviewCreateForm = ({
 }) => {
     const [facetContentValidations, setFacetContentValidations] = useState({})
     const [facetContentTouched, setFacetContentTouched] = useState({})
+    const [displayInstructions, setDisplayInstructions] = useState(true)
 
     const { facets } = selectedFramework
 
@@ -47,13 +50,18 @@ const ReviewCreateForm = ({
         return facetContentValidations[handle]
     }
 
+    // Todo: add validation for disallowing using hashes in the markdown syntax.
     const validateFacets = () => {
         let isValid = true;
         if (Object.keys(facetContents).length > 0) {
             let facetContentValidationsCopy = structuredClone(facetContentValidations)
             facets.forEach(({ handle }) => {
-                const facetContentsLength = facetContents[handle].length
+                const singleFacetContents = facetContents[handle];
+                const facetContentsLength = singleFacetContents.length
                 if (facetContentsLength === 0 || facetContentsLength > 500) { // Synchronize with backend
+                    isValid = false
+                    facetContentValidationsCopy[handle] = false
+                } else if (singleFacetContents.indexOf('#') > -1) {
                     isValid = false
                     facetContentValidationsCopy[handle] = false
                 } else {
@@ -86,6 +94,17 @@ const ReviewCreateForm = ({
     }
 
     return (<>
+        {displayInstructions &&
+            <Card className='mt-4'>
+                <Card.Body>
+                    <ClosableCardTitle handleClose={() => setDisplayInstructions(false)}>
+                        Instructions
+                    </ClosableCardTitle>
+                    The review facet contents support using <a href='https://commonmark.org/help/' target='_blank'>Markdown syntax</a>.
+                    Note that using the headings (i.e. hashes, such as "#" and "##", in markdown) are disallowed as they are reserved for the rest of the pages' contents.
+                </Card.Body>
+            </Card>
+        }
         <Form className={getFormClass()} noValidate onSubmit={handleFormSubmit}>
             {facets.map((facet, index) => {
                 const { handle, name, description } = facet

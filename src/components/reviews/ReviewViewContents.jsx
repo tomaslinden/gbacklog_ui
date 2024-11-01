@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Info } from 'react-feather';
+import RenderMarkdown from './RenderMarkdown'
+import RenderReviewCard from './RenderReviewCard'
 
 // Todo: rename selectedFramework to framework
 const ReviewViewContents = ({ facetContents, selectedFramework }) => {
@@ -34,9 +36,11 @@ const ReviewViewContents = ({ facetContents, selectedFramework }) => {
                                 ><Info size="24" /></Button>
                             </OverlayTrigger>
                         </Card.Title>
-                        <Card.Text>
-                            {facetContents[handle]}
-                        </Card.Text>
+                        <RenderReviewCard>
+                            <RenderMarkdown>
+                                {facetContents[handle]}
+                            </RenderMarkdown>
+                        </RenderReviewCard>
                     </Card.Body>
                 </Card>
             </Fragment>)

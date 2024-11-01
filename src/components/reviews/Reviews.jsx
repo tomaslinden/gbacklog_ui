@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Link } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import ReviewCreateSelect from './ReviewCreateSelect'
+import RenderMarkdown from './RenderMarkdown'
+import RenderReviewCard from './RenderReviewCard'
 
 const Reviews = ({ subjectService, frameworkService, reviewService }) => {
     const [frameworkId, setFrameworkId] = useState('')
@@ -51,6 +52,11 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
             })
     }
 
+    const getFacetContents = (review, facet) => {
+        return review.facetContents.find(
+            (contents) => contents.handle === facet.handle)?.contents
+    }
+
     return (
         <>
             <h1>Reviews</h1>
@@ -95,11 +101,11 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                                     <Card key={facet.handle}>
                                         <Card.Body>
                                             <Card.Title>{facet.name}</Card.Title>
-                                            <Card.Text>
-                                                {review.facetContents.find(
-                                                    (contents) => contents.handle === facet.handle)?.contents
-                                                }
-                                            </Card.Text>
+                                            <RenderReviewCard>
+                                                <RenderMarkdown>
+                                                    {getFacetContents(review, facet)}
+                                                </RenderMarkdown>
+                                            </RenderReviewCard>
                                         </Card.Body>
                                     </Card>
                                 )

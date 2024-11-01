@@ -60,9 +60,9 @@ function App() {
                   <Route path="/modifyFramework/:id" element={<FrameworkCreate {...{ frameworkService }} mode='modify' />} />
                   <Route path="/createFramework" element={<FrameworkCreate {...{ frameworkService }} mode='create'/>} />
                   <Route path="/reviews" element={<Reviews {...{ subjectService, frameworkService, reviewService }} />} />
-                  <Route path="/review/:id" element={<ReviewView {...{ reviewService, frameworkService }} />} />
+                  <Route path="/review/:id" element={<ReviewView {...{ subjectService, reviewService, frameworkService }} />} />
                   <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
-                  <Route path="/modifyReview/:id" element={<ReviewModify {...{ frameworkService, reviewService }} />} />
+                  <Route path="/modifyReview/:id" element={<ReviewModify {...{ subjectService, frameworkService, reviewService }} />} />
               </Routes>
             </div>
         </div>

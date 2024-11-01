@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Card from 'react-bootstrap/Card';
-import CloseButton from 'react-bootstrap/CloseButton';
+import ClosableCardTitle from './common/ClosableCardTitle'
 
 const GeneralUsageInstructions = () => {
   
@@ -10,18 +10,9 @@ const GeneralUsageInstructions = () => {
     {display &&
       <Card className='mt-4'>
         <Card.Body>
-          <Card.Title>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-              <div>General usage principles</div>
-                <CloseButton 
-                  onClick={() => setDisplay(false)}
-                  style={{
-                    width: '4px',
-                    backgroundSize: 'auto'
-                  }}
-                />
-            </div>
-          </Card.Title>
+          <ClosableCardTitle handleClose={() => setDisplay(false)}>
+            General usage principles
+          </ClosableCardTitle>
           <Card.Text>
             This service is meant to bring about positive change by providing a service for creating encouraging and constructive reviews on various topics. Do not target individuals or specific organizations. Please be considerate when using this service.
           </Card.Text>
