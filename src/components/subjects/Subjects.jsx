@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip';
 import { Link } from "react-router-dom";
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
+import { AlertTriangle, Edit } from 'react-feather';
+import IconButton from '../common/IconButton'
 
 const Subjects = ({ subjectService }) => {
     const [subjects, setSubjects] = useState([])
@@ -109,31 +113,45 @@ const Subjects = ({ subjectService }) => {
                         <div className="d-flex justify-content-between">
                             <div className="d-flex align-items-center">{subject.name}</div>
                             <div className="p-2"></div>
-                            {subject.status != 'final' &&
-                                <div className="btn-group" role="group">
-                                    <button className="btn btn-primary btn-sm" type="button"
-                                        onClick={() => {
-                                            openConfirmationDialog('finalize', subject)
-                                        }}
+                                <div style={{textAlign: 'right'}}>
+                                    {subject.status != 'final' && <>
+                                        <IconButton
+                                            onClick={() => {
+                                                openConfirmationDialog('finalize', subject)
+                                            }}
+                                            disabled={isConfirmationSuccess}
+                                            className='ms-1'
+                                            buttonVariant='primary'
+                                            iconType='check-square'
+                                            description='Finalize'
+                                        />
+                                        <IconButton
+                                            onClick={() => {
+                                                openConfirmationDialog('delete', subject)
+                                            }}
+                                            disabled={isConfirmationSuccess}
+                                            className='ms-1'
+                                            buttonVariant='primary'
+                                            iconType='trash-2'
+                                            description='Delete'
+                                        />
+                                        <IconButton 
+                                            className='ms-1'
+                                            buttonVariant='primary'
+                                            iconType='edit'
+                                            description='Modify'
+                                            linkTarget={`/modifySubject/${subject.id}`}
+                                        />
+                                    </>}
+                                    <IconButton
+                                        onClick={() => {}}
                                         disabled={isConfirmationSuccess}
-                                    >Finalize</button>
-
-                                    <button className="btn btn-primary btn-sm" type="button"
-                                        onClick={() => {
-                                            openConfirmationDialog('delete', subject)
-                                        }}
-                                        disabled={isConfirmationSuccess}
-                                    >Delete</button>
-
-                                    <Link to={`/modifySubject/${subject.id}`}>
-                                        <button className="btn btn-primary btn-sm me-md-2"
-                                            style={{position: 'relative', left:"-4px"}}
-                                            type="button">
-                                            Modify
-                                        </button>
-                                    </Link>
+                                        className='ms-1'
+                                        buttonVariant='danger'
+                                        iconType='flag'
+                                        description='Flag as inappropriate'
+                                    />
                                 </div>
-                            }
                         </div>
                     </li>
                 )}
