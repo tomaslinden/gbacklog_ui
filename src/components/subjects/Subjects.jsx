@@ -4,8 +4,9 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Link } from "react-router-dom";
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
-import { AlertTriangle, Edit } from 'react-feather';
+import { Info } from 'react-feather';
 import IconButton from '../common/IconButton'
+import RenderMarkdown from '../common/RenderMarkdown'
 
 const Subjects = ({ subjectService }) => {
     const [subjects, setSubjects] = useState([])
@@ -23,7 +24,7 @@ const Subjects = ({ subjectService }) => {
         subjectService
             .getAll()
             .then(subjects => {
-            setSubjects(subjects)
+                setSubjects(subjects)
             })
     }
 
@@ -111,7 +112,27 @@ const Subjects = ({ subjectService }) => {
                 {subjects.map(subject => 
                     <li key={subject.id} className="list-group-item">
                         <div className="d-flex justify-content-between">
-                            <div className="d-flex align-items-center">{subject.name}</div>
+                            <div className="d-flex align-items-center">
+                                <Link to={`/subject/${subject.id}`}>
+                                    {subject.name}
+                                </Link>
+                                {subject?.description?.trim().length > 0 &&
+                                <OverlayTrigger
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            <RenderMarkdown>{subject.description}</RenderMarkdown>
+                                        </Tooltip>
+                                    )}
+                                >
+                                    {/* Todo: Add a suitable aria label for the tooltip so that it becomes accessible */}
+                                    <Button
+                                        className="btn btn-light btn-sm"
+                                        style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+                                    ><Info size="24" /></Button>
+                                </OverlayTrigger>
+                                }
+                            </div>
                             <div className="p-2"></div>
                                 <div style={{textAlign: 'right'}}>
                                     {subject.status != 'final' && <>
