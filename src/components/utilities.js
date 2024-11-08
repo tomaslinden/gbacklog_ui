@@ -8,3 +8,8 @@ export const getFacetsFromReviewAsObject = (localReview) => {
 
     return newFacetContents
 }
+
+export const isValidMarkdown = ( markdown ) => {
+    console.log('isValidMarkdown', markdown, markdown.indexOf('#') === -1)
+    return markdown.indexOf('#') === -1
+}

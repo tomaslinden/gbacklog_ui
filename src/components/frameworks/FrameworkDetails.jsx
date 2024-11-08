@@ -2,6 +2,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import { Info } from 'react-feather';
+import RenderMarkdown from '../common/RenderMarkdown'
 
 const FrameworkDetails = ({
     frameworkName,
@@ -13,7 +14,8 @@ const FrameworkDetails = ({
 
     return (<>
         <h3 className='mt-5'>{frameworkName}</h3>
-        <p>{frameworkDescription}</p>
+        <RenderMarkdown>{frameworkDescription}</RenderMarkdown>
+
         {frameworkStatus && <p>Status: <em>{frameworkStatus}</em></p>}
         <h3 className='mt-4'>Facets</h3>
         {facets.map(({ name, handle, description }, index) => {
@@ -40,7 +42,7 @@ const FrameworkDetails = ({
                                 ><Info size="24" /></Button>
                             </OverlayTrigger>
                         </div>
-                        <p className="card-text">{description}</p>
+                        <RenderMarkdown>{description}</RenderMarkdown>
                     </div>
                 </div>
             )

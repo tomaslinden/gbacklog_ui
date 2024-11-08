@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import DescriptionInputInstructions from '../common/DescriptionInputInstructions'
+import { isValidMarkdown } from '../utilities'
 
 const trimAndRemoveDuplicateWhitespace = oldString => {
     let newString = structuredClone(oldString).trim()
@@ -34,11 +36,12 @@ const FrameworkCreateForm = ({
     const [isValidated, setIsValidated] = useState(false)
     const [facetErrors, setFacetErrors] = useState({})
 
-    const frameworkNameMaxLength = 50;
+    const frameworkAndFacetNameMaxLength = 50;
+    const frameworkFacetDescriptionMaxLength = 500;
 
     const facetTemplate = { handle: '', name: '', description: '' }
     let defaultFacet = structuredClone(facetTemplate)
-    defaultFacet.name = 'Facet #1'
+    defaultFacet.name = ''
 
     useEffect(() => {
         if (mode === 'create') {
@@ -74,48 +77,64 @@ const FrameworkCreateForm = ({
 
     const isFrameworkDescriptionValid = () => {
         // Todo add check for max length
-        return true
+        return frameworkDescriptionValidationError === ''
     }   
 
-    const isFacetNameValid = (index) => {
+    const isFacetPropertyValid = (index, property) => {
         // The facet is valid if it is not set in the facetErrors or it is an empty string
         // Todo fix validation of facet errors (seems to work in an illogical manner)
-        return facetErrors[index] === undefined || facetErrors[index]?.name === ''
+        const error = getFacetPropertyValidationError(index, property)
+        return error === undefined || error === ''
     }
 
-    const addFacetValidationError = (index, errorMessage) => {
-        let facetsErrorsCopy = structuredClone(facetErrors)
-        facetsErrorsCopy[index] = errorMessage
-        setFacetErrors(facetsErrorsCopy)
+    const getFacetPropertyValidationError = (index, property) => {
+        // The facet is valid if it is not set in the facetErrors or it is an empty string
+        // Todo fix validation of facet errors (seems to work in an illogical manner)
+        return facetErrors[index]?.[property]
     }
 
     const validateFacetName = (index) => {
-        const frameworkNameLength = facets[index].name.trim().length;
+        const frameworkFacetNameLength = facets[index].name.trim().length;
         let facetNameValidationError = '';
-        if (frameworkNameLength == 0) {
-            facetNameValidationError = 'Please provide a framework name'
-        } else if (frameworkNameLength > frameworkNameMaxLength) {
-            facetNameValidationError = `The framework name cannot exceed ${frameworkNameMaxLength} characters`
+        if (frameworkFacetNameLength == 0) {
+            facetNameValidationError = 'Please provide a facet name'
+        } else if (frameworkFacetNameLength > frameworkAndFacetNameMaxLength) {
+            facetNameValidationError = `The framework name cannot exceed ${frameworkAndFacetNameMaxLength} characters`
         }
-        addFacetValidationError(index, facetNameValidationError)
-        return facetNameValidationError === ''
+        return facetNameValidationError
+    }
+
+    const validateFacetDescription = (index) => {
+        const facetDescription = facets[index].description;
+        const facetDescriptionLength = facetDescription.trim().length;
+        let facetDescriptionValidationError = '';
+        if (facetDescriptionLength == 0) {
+            facetDescriptionValidationError = 'Please provide a facet description'
+        } else if (facetDescriptionLength > frameworkFacetDescriptionMaxLength) {
+            facetDescriptionValidationError = `The facet description cannot exceed ${frameworkAndFacetNameMaxLength} characters`
+        } else if (!isValidMarkdown(facetDescription)) {
+            facetDescriptionValidationError = `The facet description cannot contain markdown heading characters (i.e. "#" or "##")`
+        }
+        return facetDescriptionValidationError
     }
 
     const validateFacets = () => {
-        let isValid = true;
-        let localFacetHandles = {}
+        let facetsErrorsCopy = {}
         facets.forEach((facet, index) => {
-            isValid = isValid && validateFacetName(index)
-            const { name } = facet
-            if (localFacetHandles.hasOwnProperty(name)) {
-                isValid = false // A framework must have unique facet handles
-                addFacetValidationError(localFacetHandles[name], 'Facet names cannot be duplicates')
-                addFacetValidationError(index, 'Facet names cannot be duplicates')
-            } else {
-                localFacetHandles[name] = index
+            let facetNameError = validateFacetName(index)
+            let facetDescriptionError = validateFacetDescription(index)
+            if (facetNameError !== '' || facetDescriptionError !== '') {
+                facetsErrorsCopy[index] = {}
+            }
+            if (facetNameError !== '') {
+                facetsErrorsCopy[index].name = facetNameError
+            }
+            if (facetDescriptionError !== '') {
+                facetsErrorsCopy[index].description = facetDescriptionError
             }
         })
-        return isValid
+        setFacetErrors(facetsErrorsCopy)
+        return Object.keys(facetsErrorsCopy).length === 0
     }
 
     const validateFrameworkName = () => {
@@ -123,17 +142,33 @@ const FrameworkCreateForm = ({
         let frameworkNameValidationError = '';
         if (frameworkNameLength == 0) {
             frameworkNameValidationError = 'Please provide a framework name'
-        } else if (frameworkNameLength > frameworkNameMaxLength) {
-            frameworkNameValidationError = `The framework name cannot exceed ${frameworkNameMaxLength} characters`
+        } else if (frameworkNameLength > frameworkAndFacetNameMaxLength) {
+            frameworkNameValidationError = `The framework name cannot exceed ${frameworkAndFacetNameMaxLength} characters`
         }
         setFrameworkNameValidationError(frameworkNameValidationError);
         return frameworkNameValidationError === ''
     }
-    
+
+    const validateFrameworkDescription = () => {
+        const frameworkDescriptionLength = frameworkDescription.trim().length;
+        let frameworkDescriptionValidationError = '';
+        if (frameworkDescriptionLength == 0) {
+            frameworkDescriptionValidationError = 'Please provide a framework description'
+        } else if (frameworkDescriptionLength > frameworkAndFacetNameMaxLength) {
+            frameworkDescriptionValidationError = `The framework description cannot exceed ${frameworkAndFacetNameMaxLength} characters`
+        } else if (!isValidMarkdown(frameworkDescription)) {
+            frameworkDescriptionValidationError = `The framework description cannot contain markdown heading characters (i.e. "#" or "##")`
+        }
+        setFrameworkDescriptionValidationError(frameworkDescriptionValidationError);
+        return frameworkDescriptionValidationError === ''
+    }
+
     const validateForm = () => {
         let isValid = true;
-        isValid = isValid && validateFrameworkName()
-        isValid = isValid && validateFacets()
+        const isFrameworkNameValid = validateFrameworkName()
+        const isFrameworkDescriptionValid = validateFrameworkDescription()
+        const isFacetsValid = validateFacets()
+        isValid = isFrameworkNameValid && isFrameworkDescriptionValid && isFacetsValid 
         // Todo add test for testing for facet name and handle uniqueness
         // Todo add test for checking that there is at least one facet (and add a maximum number of facets also to the Mongoose schema)
         setIsValidated(true);
@@ -176,7 +211,7 @@ const FrameworkCreateForm = ({
         const defaultFacetNameLength = facetCopy.name.length;
         const defaultFacetNameWithoutNumber = facetCopy.name.substring(0, defaultFacetNameLength - 1);
         const numberOfFacets = facets.length + 1
-        facetCopy.name = defaultFacetNameWithoutNumber + numberOfFacets
+        facetCopy.name = ''
         facetsCopy.push(facetCopy)
         setFacets(facetsCopy)
     }
@@ -194,9 +229,11 @@ const FrameworkCreateForm = ({
             <button type='button' className='btn btn-primary mt-4'>Back to frameworks</button>
         </Link>
 
+        <DescriptionInputInstructions type='framework' className='mt-5' />
+
         <form className={getFormClass()} onSubmit={handleFormSubmit} noValidate>
             <div className='container mt-4'>
-                <div className='mb-3 col-md-6'>
+                <div className='mb-3 col-md-6 has-validation'>
                     <label htmlFor='frameworkName' className='form-label'>Framework name</label>
                     <input 
                         type='text'
@@ -208,10 +245,10 @@ const FrameworkCreateForm = ({
                         required
                     />
                     <div id='frameworkNameHelp' className='form-text'>A name for the framework</div>
-                    {isFrameworkNameValid && <div className='invalid-feedback'>{frameworkNameValidationError}</div>}
+                    {(!isFrameworkNameValid()) && <div className='invalid-feedback'>{frameworkNameValidationError}</div>}
                 </div>
 
-                <div className='mb-3 col-md-6'>
+                <div className='mb-3 col-md-6 has-validation'>
                     <label htmlFor='frameworkDescription' className='form-label'>Framework description</label>
                     <textarea
                         className={'form-control ' + (isFrameworkDescriptionValid() ? 'is-valid' : 'is-invalid')}
@@ -219,11 +256,11 @@ const FrameworkCreateForm = ({
                         aria-describedby='frameworkDescriptionHelp'
                         onChange={handleFrameworkDescriptionChange}
                         value={frameworkDescription}
+                        required
                     >
-                        
                     </textarea>
                     <div id='frameworkDescriptionHelp' className='form-text'>A description for the framework</div>
-                    {isFrameworkDescriptionValid && <div className='invalid-feedback'>{frameworkDescriptionValidationError}</div>}
+                    {(!isFrameworkDescriptionValid()) && <div className='invalid-feedback'>{frameworkDescriptionValidationError}</div>}
                     {/* Add displaying of characters left. Fetch these from the backend. */}
                 </div>
 
@@ -233,38 +270,42 @@ const FrameworkCreateForm = ({
                 This bug also affects framework preview. */}
                 {facets.map(({ name, description }, index) => (
                     <div className='row' key={index}>
-                        <div className='mb-4 col-md-4 mt-2'>
+                        <div className='mb-4 col-md-4 mt-2 has-validation'>
                             <label htmlFor='frameworkName' className='form-label'>A name for facet #{index + 1}</label>
                             <input 
                                 type='text'
-                                className={'form-control ' + (isFacetNameValid(index) ? 'is-valid' : 'is-invalid')}
-                                id={'framework-facet-' + index}
-                                aria-describedby='frameworkNameHelp'
+                                className={'form-control ' + (isFacetPropertyValid(index, 'name') ? 'is-valid' : 'is-invalid')}
+                                id={'framework-facet-name-' + index}
+                                aria-describedby={'framework-facet-name-help-' + index}
                                 value={name}
                                 onChange={(event) => {
                                     handleFrameworkFacetChange(event, index, 'name')
                                 }}
                                 required
                             />
-                            <div id='frameworkNameHelp' className='form-text'>A human-friendly name for facet #{index + 1}</div>
-                        </div>
+                            <div id={'framework-facet-name-help-' + index} className='form-text'>A name for facet #{index + 1}</div>
+                            {!isFacetPropertyValid(index, 'name') && <div className='invalid-feedback'>{getFacetPropertyValidationError(index, 'name')}</div>}
+                            </div>
                         {/* Todo: make handles editable (along with a "generate" button) */}
-                        <div className='mb-4 col-md-4 mt-2'>
+                        <div className='mb-4 col-md-4 mt-2 has-validation'>
                             <label htmlFor='frameworkDescription' className='form-label'>Description for facet #{index + 1}</label>
-                            <input 
-                                type='text'
-                                className={'form-control is-valid'}
-                                aria-describedby='frameworkDescriptionHelp'
-                                value={description}
+                            <textarea
+                                className={'form-control ' + (isFacetPropertyValid(index, 'description') ? 'is-valid' : 'is-invalid')}
+                                id={'framework-facet-description-' + index}
+                                aria-describedby={'framework-facet-description-help-' + index}
                                 onChange={(event) => {
                                     handleFrameworkFacetChange(event, index, 'description')
                                 }}
-                            />
-                            <div id='frameworkDescriptionHelp' className='form-text'>A description for facet #{index + 1}</div>
+                                value={description}
+                                required
+                            >
+                            </textarea>
+
+                            <div id={'framework-facet-description-help-' + index} className='form-text'>A description for facet #{index + 1}</div>
+                            {!isFacetPropertyValid(index, 'description') && <div className='invalid-feedback'>{getFacetPropertyValidationError(index, 'description')}</div>}
                             {/* Add displaying of characters left. Fetch these from the backend. */}
                         </div>
                         <div className='mb-4 col-md-4 mt-3' style={{display: 'flex', alignItems: 'center'}}>
-                            {/* Todo make delete facet work */}
                             <button className='btn btn-primary' onClick={(event) => {
                                 deleteFacet(event, index)
                             }}>

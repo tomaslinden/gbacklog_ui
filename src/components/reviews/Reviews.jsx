@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import ReviewCreateSelect from './ReviewCreateSelect'
-import RenderMarkdown from './RenderMarkdown'
+import RenderMarkdown from '../common/RenderMarkdown'
 import RenderReviewCard from './RenderReviewCard'
 
 const Reviews = ({ subjectService, frameworkService, reviewService }) => {

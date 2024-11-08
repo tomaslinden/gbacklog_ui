@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Info } from 'react-feather';
-import RenderMarkdown from './RenderMarkdown'
+import RenderMarkdown from '../common/RenderMarkdown'
 import RenderReviewCard from './RenderReviewCard'
 
 // Todo: rename selectedFramework to framework
