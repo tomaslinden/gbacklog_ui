@@ -41,6 +41,12 @@ const finalize = (id) => {
     return request.then(response => response.data)
 }
 
+const flag = (id) => {
+    const body = { flagged: true };
+    const request = axios.patch(`${baseUrl}/${id}`, body)
+    return request.then(response => response.data)
+}
+
 export default { 
     getAll, getAllFinal, getById, create, deleteSubject, update, finalize
 }
