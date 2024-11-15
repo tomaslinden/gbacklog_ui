@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import GeneralUsageInstructions from './components/GeneralUsageInstructions'
 import Subjects from './components/subjects/Subjects'
 import SubjectCreate from './components/Subjects/SubjectCreate'
+import SubjectView from './components/Subjects/SubjectView'
 import Frameworks from './components/frameworks/Frameworks'
 import FrameworkView from './components/frameworks/FrameworkView'
 import FrameworkCreate from './components/frameworks/FrameworkCreate'
@@ -11,6 +12,7 @@ import Reviews from './components/reviews/Reviews'
 import ReviewCreate from './components/reviews/ReviewCreate'
 import ReviewModify from './components/reviews/ReviewModify'
 import ReviewView from './components/reviews/ReviewView'
+import Flag from './components/Flag'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
 import prodFrameworkService from './services/frameworks';
@@ -52,6 +54,7 @@ function App() {
               <Routes>
                   <Route index element={<Subjects {...{ subjectService }} />} />
                   <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
+                  <Route path="/subject/:id" element={<SubjectView {...{ subjectService }} />} />
                   {/* Todo: add mode='create' to createSubject instead of having a default mode */}
                   <Route path="/createSubject" element={<SubjectCreate {...{ subjectService }} />} />
                   <Route path="/modifySubject/:id" element={<SubjectCreate {...{ subjectService }} mode='modify' />} />
@@ -63,6 +66,7 @@ function App() {
                   <Route path="/review/:id" element={<ReviewView {...{ subjectService, reviewService, frameworkService }} />} />
                   <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
                   <Route path="/modifyReview/:id" element={<ReviewModify {...{ subjectService, frameworkService, reviewService }} />} />
+                  <Route path="/flag/:targetType/:id" element={<Flag {...{ subjectService, frameworkService, reviewService }} />} />
               </Routes>
             </div>
         </div>

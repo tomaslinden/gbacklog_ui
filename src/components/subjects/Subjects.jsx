@@ -8,6 +8,14 @@ import { Info } from 'react-feather';
 import IconButton from '../common/IconButton'
 import RenderMarkdown from '../common/RenderMarkdown'
 
+const PageNavigationAndButtons = ({ children, heading }) => (<>
+    <h1>{ heading }</h1>
+
+    <div style={{textAlign: 'center'}}>
+        {children}
+    </div>
+</>)
+
 const Subjects = ({ subjectService }) => {
     const [subjects, setSubjects] = useState([])
 
@@ -74,11 +82,12 @@ const Subjects = ({ subjectService }) => {
 
     return (
         <>
-            <h1>Review subjects</h1>
-
-            <Link to="/createSubject">
-                <button type="button" className="btn btn-primary mt-4">Create subject</button>
-            </Link>
+            {/* Todo move this to its own file and propagate to other pages */}
+            <PageNavigationAndButtons heading='Review subjects'>
+                <Link to="/createSubject">
+                    <button type="button" className="btn btn-primary mt-4">Create subject</button>
+                </Link>
+            </PageNavigationAndButtons>
 
             {isConfirmationSuccess && (
                 <div className="alert alert-success mt-4" role="alert">
@@ -127,7 +136,7 @@ const Subjects = ({ subjectService }) => {
                                 >
                                     {/* Todo: Add a suitable aria label for the tooltip so that it becomes accessible */}
                                     <Button
-                                        className="btn btn-light btn-sm"
+                                        className="btn btn-light btn-sm button-icon-custom"
                                         style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                                     ><Info size="24" /></Button>
                                 </OverlayTrigger>
@@ -171,6 +180,7 @@ const Subjects = ({ subjectService }) => {
                                         buttonVariant='danger'
                                         iconType='flag'
                                         description='Flag as inappropriate'
+                                        linkTarget={`/flag/subject/${subject.id}`}
                                     />
                                 </div>
                         </div>

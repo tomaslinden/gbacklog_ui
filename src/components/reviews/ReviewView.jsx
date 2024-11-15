@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from "react-router-dom";
-import ReviewViewContents from './ReviewViewContents'
-import { getFacetsFromReviewAsObject } from '../utilities'
-import ReviewOverview from './ReviewOverview'
+import ReviewViewOverviewAndContents from './ReviewViewOverviewAndContents'
 
 const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
+    
+    // Consider moving the logic to ReviewViewOverviewAndContents in preparation for writing 
+    // the Flag component
     const [review, setReview] = useState()
     const [framework, setFramework] = useState()
     const [reviewTarget, setReviewTarget] = useState()
@@ -42,8 +43,6 @@ const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
         }
     }, [review]) 
     
-    const facetContentsAsObject = getFacetsFromReviewAsObject(review)
-
     return (<>
         <h1>View review</h1>
 
@@ -51,22 +50,18 @@ const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
             <button type="button" className="btn btn-primary mt-4">View all reviews</button>
         </Link>
 
-        {review && reviewTarget && framework && <>
-            <div className='mt-5'>
-                <ReviewOverview { ...{ 
-                    mode: 'view',
-                    reviewTargetType: review.targetType,
-                    reviewTargetName: reviewTarget.name,
-                    framework: framework
-                } } />
-            </div>
+        {/* Todo continue here: for upcoming flagging: 
+        consider simplifying ReviewViewOverviewAndContents
+        so that it only takes the review as an argument and then fetches what it needs by itself so it can display the review */}
 
-            <div className='mt-4'>
-                <ReviewViewContents {...{ 
-                    facetContents: facetContentsAsObject, 
-                    selectedFramework: framework
-                }} />
-            </div>
+        {review && reviewTarget && framework && <>
+            <ReviewViewOverviewAndContents
+                reviewTargetType={review.targetType}
+                reviewTargetName={reviewTarget.name}
+                framework={framework}
+                // facetContents={facetContentsAsObject}
+                review={review}
+            />
         </>}
 
     </>)

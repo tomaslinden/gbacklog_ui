@@ -1,13 +1,66 @@
+
 .main-content {
-  background-color: rgb(240,240,240);
   padding: 5px;
 }
 
 .navbar a {
   text-decoration: none;
-  color: gray;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: serif;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: rgb(108,59,170);
+  border: 1px solid rgb(108,59,170);
+  color: white;
+}
+
+.btn-secondary {}
+
+.btn-danger {}
+
+.btn-close {
+  color: white;
+}
+
+.button-icon-custom {
+  color: rgb(108,59,170);
+}
+
+.card {
+  border: 1px solid rgb(108,59,170);
+}
+
+.navbar {
+  background-color: rgb(108,59,170);
+  border-bottom: 1px solid rgb(108,59,170);
+}
+
+.navbar-toggler {
+  border: 1px solid white;
+}
+
+.navbar-custom .navbar-brand {
+  color: rgb(239,191,4);
+}
+
+.navbar-custom .navbar-text,
+.navbar-custom .navbar-nav a {
+  color: white;
+}
+
+
+.list-group {
+}
+
+.list-group a {
+  color: black;
+  text-decoration: none;
+}
+
+.list-group-item {
+  border: 1px solid rgb(108,59,170);
 }
