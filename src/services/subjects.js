@@ -48,5 +48,5 @@ const flag = (id) => {
 }
 
 export default { 
-    getAll, getAllFinal, getById, create, deleteSubject, update, finalize
+    getAll, getAllFinal, getById, create, deleteSubject, update, finalize, flag
 }

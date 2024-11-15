@@ -37,5 +37,5 @@ const flag = (id) => {
 }
 
 export default { 
-    getAll, getById, create, deleteReview, update
+    getAll, getById, create, deleteReview, update, flag
 }

@@ -48,5 +48,5 @@ const flag = (id) => {
 }
 
 export default { 
-    getAll, getAllFinal, getById, create, deleteFramework, update, finalize
+    getAll, getAllFinal, getById, create, deleteFramework, update, finalize, flag
 }
