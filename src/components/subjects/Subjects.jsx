@@ -8,7 +8,7 @@ import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import { Info } from 'react-feather';
 import IconButton from '../common/IconButton'
 import RenderMarkdown from '../common/RenderMarkdown'
-import PageNavigationAndButtons from '../common/PageNavigationAndButtons'
+import PageHeadingAndButtons from '../common/PageHeadingAndButtons'
 
 const Subjects = ({ subjectService }) => {
     const [subjects, setSubjects] = useState([])
@@ -78,11 +78,11 @@ const Subjects = ({ subjectService }) => {
     return (
         <>
             {/* Todo move this to its own file and propagate to other pages */}
-            <PageNavigationAndButtons heading='Review subjects'>
+            <PageHeadingAndButtons heading='Review subjects'>
                 <Link to="/createSubject">
                     <button type="button" className="btn btn-primary mt-4">Create subject</button>
                 </Link>
-            </PageNavigationAndButtons>
+            </PageHeadingAndButtons>
 
             {isConfirmationSuccess && (
                 <div className="alert alert-success mt-4" role="alert">
@@ -138,46 +138,46 @@ const Subjects = ({ subjectService }) => {
                                 }
                             </div>
                             <div className="p-2"></div>
-                                <div style={{textAlign: 'right'}}>
-                                    {subject.status != 'final' && <>
-                                        <IconButton
-                                            onClick={() => {
-                                                openConfirmationDialog('finalize', subject)
-                                            }}
-                                            disabled={isConfirmationSuccess}
-                                            className='ms-1'
-                                            buttonVariant='primary'
-                                            iconType='check-square'
-                                            description='Finalize'
-                                        />
-                                        <IconButton
-                                            onClick={() => {
-                                                openConfirmationDialog('delete', subject)
-                                            }}
-                                            disabled={isConfirmationSuccess}
-                                            className='ms-1'
-                                            buttonVariant='primary'
-                                            iconType='trash-2'
-                                            description='Delete'
-                                        />
-                                        <IconButton 
-                                            className='ms-1'
-                                            buttonVariant='primary'
-                                            iconType='edit'
-                                            description='Modify'
-                                            linkTarget={`/modifySubject/${subject.id}`}
-                                        />
-                                    </>}
+                            <div style={{textAlign: 'right'}}>
+                                {subject.status != 'final' && <>
                                     <IconButton
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                            openConfirmationDialog('finalize', subject)
+                                        }}
                                         disabled={isConfirmationSuccess}
                                         className='ms-1'
-                                        buttonVariant='danger'
-                                        iconType='flag'
-                                        description='Flag as inappropriate'
-                                        linkTarget={`/flag/subject/${subject.id}`}
+                                        buttonVariant='primary'
+                                        iconType='check-square'
+                                        description='Finalize'
                                     />
-                                </div>
+                                    <IconButton
+                                        onClick={() => {
+                                            openConfirmationDialog('delete', subject)
+                                        }}
+                                        disabled={isConfirmationSuccess}
+                                        className='ms-1'
+                                        buttonVariant='primary'
+                                        iconType='trash-2'
+                                        description='Delete'
+                                    />
+                                    <IconButton 
+                                        className='ms-1'
+                                        buttonVariant='primary'
+                                        iconType='edit'
+                                        description='Modify'
+                                        linkTarget={`/modifySubject/${subject.id}`}
+                                    />
+                                </>}
+                                <IconButton
+                                    onClick={() => {}}
+                                    disabled={isConfirmationSuccess}
+                                    className='ms-1'
+                                    buttonVariant='danger'
+                                    iconType='flag'
+                                    description='Flag as inappropriate'
+                                    linkTarget={`/flag/subject/${subject.id}`}
+                                />
+                            </div>
                         </div>
                     </li>
                 )}
@@ -187,7 +187,7 @@ const Subjects = ({ subjectService }) => {
 }
 
 Subjects.propTypes = {
-    subjectService: PropTypes.string.isRequired
+    subjectService: PropTypes.object.isRequired
 }
 
 export default Subjects

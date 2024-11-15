@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
 import { ConfirmationAlert } from '../common/ConfirmationAlert';
+import PageHeadingAndButtons from '../common/PageHeadingAndButtons'
+import IconButton from '../common/IconButton'
 
 const Frameworks = ({ frameworkService }) => {
     const [frameworks, setFrameworks] = useState([])
@@ -12,10 +14,10 @@ const Frameworks = ({ frameworkService }) => {
     const [isShowConfirmation, setShowConfirmation] = useState(false)
     const [itemSelectedForConfirmation, setItemSelectedForConfirmation] = useState(null)
     const [isConfirmationSuccess, setConfirmationSuccess] = useState(false)
-    
+
     useEffect(() => {
         getAllFrameworks()
-    }, []) 
+    }, [])
 
     const getAllFrameworks = () => {
         frameworkService
@@ -39,7 +41,7 @@ const Frameworks = ({ frameworkService }) => {
                 }, 3000)
             })
     }
-    
+
     const handleFrameworkFinalize = () => {
         frameworkService
             .finalize(itemSelectedForConfirmation.id)
@@ -54,7 +56,7 @@ const Frameworks = ({ frameworkService }) => {
                 }, 3000)
             })
     }
-    
+
     const closeConfirmationDialog = () => {
         setShowConfirmation(false)
         setItemSelectedForConfirmation(null)
@@ -66,14 +68,14 @@ const Frameworks = ({ frameworkService }) => {
         setShowConfirmation(true)
         window.scrollTo(0, 0)
     }
-    
+
     return (
         <>
-            <h1>Review frameworks</h1>
-
-            <Link to="/createFramework">
-                <button type="button" className="btn btn-primary mt-4">Create framework</button>
-            </Link>
+            <PageHeadingAndButtons heading='Review frameworks'>
+                <Link to="/createFramework">
+                    <button type="button" className="btn btn-primary mt-4">Create framework</button>
+                </Link>
+            </PageHeadingAndButtons>
 
             {isConfirmationSuccess && (
                 <div className="alert alert-success mt-4" role="alert">
@@ -104,7 +106,7 @@ const Frameworks = ({ frameworkService }) => {
             </>)}
 
             <ul className="list-group mt-4">
-                {frameworks.map(framework => 
+                {frameworks.map(framework =>
                     <li key={framework.id} className="list-group-item">
                         <div className="d-flex justify-content-between">
                             <div className="d-flex align-items-center">
@@ -113,7 +115,7 @@ const Frameworks = ({ frameworkService }) => {
                                 </Link>
                             </div>
                             <div className="p-2"></div>
-                            {framework.status != 'final' &&
+                            {/* {framework.status != 'final' &&
                                 <div className="btn-group" role="group">
                                     <button className="btn btn-primary btn-sm" type="button"
                                         onClick={() => {
@@ -137,7 +139,47 @@ const Frameworks = ({ frameworkService }) => {
                                         </button>
                                     </Link>
                                 </div>
-                            }
+                            } */}
+                            <div style={{ textAlign: 'right' }}>
+                                {framework.status != 'final' && <>
+                                    <IconButton
+                                        onClick={() => {
+                                            openConfirmationDialog('finalize', framework)
+                                        }}
+                                        disabled={isConfirmationSuccess}
+                                        className='ms-1'
+                                        buttonVariant='primary'
+                                        iconType='check-square'
+                                        description='Finalize'
+                                    />
+                                    <IconButton
+                                        onClick={() => {
+                                            openConfirmationDialog('delete', framework)
+                                        }}
+                                        disabled={isConfirmationSuccess}
+                                        className='ms-1'
+                                        buttonVariant='primary'
+                                        iconType='trash-2'
+                                        description='Delete'
+                                    />
+                                    <IconButton
+                                        className='ms-1'
+                                        buttonVariant='primary'
+                                        iconType='edit'
+                                        description='Modify'
+                                        linkTarget={`/modifyFramework/${framework.id}`}
+                                    />
+                                </>}
+                                <IconButton
+                                    onClick={() => { }}
+                                    disabled={isConfirmationSuccess}
+                                    className='ms-1'
+                                    buttonVariant='danger'
+                                    iconType='flag'
+                                    description='Flag as inappropriate'
+                                    linkTarget={`/flag/framework/${framework.id}`}
+                                />
+                            </div>
                         </div>
                     </li>
                 )}

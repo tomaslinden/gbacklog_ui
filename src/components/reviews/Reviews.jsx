@@ -6,6 +6,7 @@ import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import ReviewCreateSelect from './ReviewCreateSelect'
 import RenderMarkdown from '../common/RenderMarkdown'
 import RenderReviewCard from './RenderReviewCard'
+import PageHeadingAndButtons from '../common/PageHeadingAndButtons'
 
 const Reviews = ({ subjectService, frameworkService, reviewService }) => {
     const [frameworkId, setFrameworkId] = useState('')
@@ -59,12 +60,12 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
 
     return (
         <>
-            <h1>Reviews</h1>
+            <PageHeadingAndButtons heading='Reviews'>
+                <Link to="/createReview">
+                    <button type="button" className="btn btn-primary mt-4">Create review</button>
+                </Link>
+            </PageHeadingAndButtons>
 
-            <Link to="/createReview">
-                <button type="button" className="btn btn-primary mt-4">Create review</button>
-            </Link>
-            
             <ReviewCreateSelect { ...{ 
                 subjectService,
                 frameworkService,
@@ -131,7 +132,7 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                                 </button>
                             </Link>
 
-                            <button className="btn btn-primary" type="button"
+                            <button className="btn btn-primary me-md-2" type="button"
                                 onClick={() => {
                                     setReviewSelectedForDeletion(review)
                                     setShowReviewDeleteWarning(true)
@@ -139,6 +140,15 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                                 }}
                                 disabled={isReviewDeleteSuccess}
                             >Delete</button>
+
+                            <Link to={`/flag/review/${review.id}`}>
+                                <button className="btn btn-danger ms-2 me-md-2"
+                                    style={{position: 'relative', left:"-4px"}}
+                                    type="button"
+                                >
+                                    Flag
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 )

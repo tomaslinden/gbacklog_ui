@@ -4,6 +4,7 @@ import ReviewCreateSelect from './ReviewCreateSelect'
 import ReviewCreateForm from './ReviewCreateForm'
 import ReviewCreatePreview from './ReviewCreatePreview'
 import ReviewOverview from './ReviewOverview'
+import PageHeadingAndButtons from '../common/PageHeadingAndButtons'
 
 const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode }) => {
     const [frameworkId, setFrameworkId] = useState('')
@@ -16,11 +17,11 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
 
     return (
         <>
-            <h1>Create review</h1>
-
-            <Link to='/reviews'>
-                <button type='button' className='btn btn-primary mt-4'>Back to reviews</button>
-            </Link>
+            <PageHeadingAndButtons heading='Create review'>
+                <Link to='/reviews'>
+                    <button type='button' className='btn btn-primary mt-4'>Back to reviews</button>
+                </Link>
+            </PageHeadingAndButtons>
 
             {selectedReviewTarget && selectedFramework &&
                 <ReviewOverview { ...{ 

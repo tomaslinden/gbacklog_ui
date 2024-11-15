@@ -225,10 +225,6 @@ const FrameworkCreateForm = ({
     }
 
     return (<>
-        <Link to='/frameworks'>
-            <button type='button' className='btn btn-primary mt-4'>Back to frameworks</button>
-        </Link>
-
         <DescriptionInputInstructions type='framework' className='mt-5' />
 
         <form className={getFormClass()} onSubmit={handleFormSubmit} noValidate>
