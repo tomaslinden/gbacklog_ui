@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -7,14 +8,7 @@ import { ConfirmationAlert } from '../common/ConfirmationAlert';
 import { Info } from 'react-feather';
 import IconButton from '../common/IconButton'
 import RenderMarkdown from '../common/RenderMarkdown'
-
-const PageNavigationAndButtons = ({ children, heading }) => (<>
-    <h1>{ heading }</h1>
-
-    <div style={{textAlign: 'center'}}>
-        {children}
-    </div>
-</>)
+import PageNavigationAndButtons from '../common/PageNavigationAndButtons'
 
 const Subjects = ({ subjectService }) => {
     const [subjects, setSubjects] = useState([])
@@ -26,6 +20,7 @@ const Subjects = ({ subjectService }) => {
 
     useEffect(() => {
         getAllSubjects()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) 
 
     const getAllSubjects = () => {
@@ -189,6 +184,10 @@ const Subjects = ({ subjectService }) => {
             </ul>
         </>
     )
+}
+
+Subjects.propTypes = {
+    subjectService: PropTypes.string.isRequired
 }
 
 export default Subjects
