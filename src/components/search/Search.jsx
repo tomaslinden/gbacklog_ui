@@ -28,7 +28,6 @@ const Search = ({ searchService }) => {
     }, [])
 
     useEffect(() => {
-        console.log('useEffect searchInputText', searchInputText)
         if (!quickSearchTriggered && quickSearchTerm && searchInputText !== '') {
             setQuickSearchTriggered(true)
             performSearch()

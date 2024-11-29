@@ -1,16 +1,18 @@
 import { useState } from 'react'
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
+  const navigate = useNavigate();
+
   const handleFormSubmit = event => {
     event.preventDefault()
     event.stopPropagation()
     const trimmedSearchTerm = searchTerm.trim()
-    window.location.href = `/search/${trimmedSearchTerm}`;
+    navigate(`/search/${trimmedSearchTerm}`);
   }
 
   return (
