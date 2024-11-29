@@ -21,6 +21,8 @@ import devFrameworkService from './services/mockFrameworks';
 import prodReviewService from './services/reviews';
 import devReviewService from './services/mockReviews';
 import prodSearchService from './services/search';
+import devSearchService from './services/mockSearch';
+
 
 let subjectService;
 let frameworkService;
@@ -74,6 +76,7 @@ function App() {
                   <Route path="/modifyReview/:id" element={<ReviewModify {...{ subjectService, frameworkService, reviewService }} />} />
                   <Route path="/flag/:targetType/:id" element={<Flag {...{ subjectService, frameworkService, reviewService }} />} />
                   <Route path="/search/:quickSearchTerm" element={<Search {...{ searchService }} />} />
+                  <Route path="/search" element={<Search {...{ searchService }} />} />
               </Routes>
             </div>
         </div>

@@ -18,10 +18,7 @@ const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
             .getById(id)
             .then(receivedReview => {
                 setReview(receivedReview);
-                frameworkService.getById(receivedReview.frameworkId)
-                    .then((receivedFramework) => {
-                        setFramework(receivedFramework)
-                    })
+                setFramework(receivedReview?.reviewFramework)
             })
     }, []) 
 

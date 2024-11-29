@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import debounce from 'debounce';
+import PageHeadingAndButtons from '../common/PageHeadingAndButtons'
 import SearchForm from './SearchForm'
 import SearchResults from './SearchResults'
 
@@ -14,7 +15,6 @@ const Search = ({ searchService }) => {
     const { quickSearchTerm } = params
 
     const actualPerformSearch = () => {
-        console.log('performing search...', searchInputText)
         searchService.searchWithTerm(searchInputText).then((results) => {
             setSearchResults(results)
         })
@@ -36,6 +36,8 @@ const Search = ({ searchService }) => {
     }, [searchInputText])
 
     return (<>
+        <PageHeadingAndButtons heading='Search' />
+
         <SearchForm {...{ 
             searchInputText,
             setSearchInputText,

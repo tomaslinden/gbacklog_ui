@@ -27,7 +27,7 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                     // Todo update this so that it supports reviewTargetType
                     return (
                         review.targetId === reviewTargetId &&
-                        review.frameworkId === frameworkId
+                        review?.reviewFramework?.id === frameworkId
                     )
                 })
                 setReviews(filteredReviews)
