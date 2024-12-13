@@ -1,6 +1,9 @@
 import Table from 'react-bootstrap/Table';
+import { useNavigate } from "react-router-dom";
 
 const SearchResults = ({ searchResults }) => {
+    const navigate = useNavigate();
+  
     return (<>
         <h2>Subjects</h2>
         {searchResults?.subjects?.length > 0 && (
@@ -16,7 +19,12 @@ const SearchResults = ({ searchResults }) => {
                     {searchResults?.subjects?.map((subject) => {
                         const {id, name, status, updatedAt} = subject
                         return(
-                            <tr key={id}>
+                            <tr
+                                key={id}
+                                className='clickable'
+                                onClick={() => navigate(`/subject/${id}`)}
+                                role="button"
+                            >
                                 <td>{name}</td>
                                 <td>{status}</td>
                                 <td>{updatedAt}</td>
@@ -44,7 +52,12 @@ const SearchResults = ({ searchResults }) => {
                     {searchResults?.frameworks?.map((framework) => {
                         const {id, name, status, updatedAt} = framework
                         return(
-                            <tr key={id}>
+                            <tr
+                                key={id}
+                                className='clickable'
+                                onClick={() => navigate(`/framework/${id}`)}
+                                role="button"
+                            >
                                 <td>{name}</td>
                                 <td>{status}</td>
                                 <td>{updatedAt}</td>
@@ -82,7 +95,12 @@ const SearchResults = ({ searchResults }) => {
                             reviewFramework
                         } = reviews
                         return(
-                            <tr key={id}>
+                            <tr
+                                className='clickable'
+                                key={id}
+                                onClick={() => navigate(`/review/${id}`)}
+                                role="button"
+                            >
                                 <td>{targetType}</td>
                                 <td>{targetType === 'subject' ?
                                         subjectTarget?.name : frameworkTarget?.name

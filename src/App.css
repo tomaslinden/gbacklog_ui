@@ -67,3 +67,7 @@ h1 {
 .list-group-item {
   border: 1px solid rgb(108,59,170);
 }
+
+.clickable {
+  cursor: pointer;
+}
