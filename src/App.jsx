@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import './App.css'
 import Navbar from './components/Navbar'
 import GeneralUsageInstructions from './components/GeneralUsageInstructions'
@@ -50,7 +50,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <header>
           <Navbar />
         </header>
@@ -80,7 +80,7 @@ function App() {
               </Routes>
             </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </>
   )
 }
