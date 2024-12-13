@@ -19,27 +19,15 @@ const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
             .then(receivedReview => {
                 setReview(receivedReview);
                 setFramework(receivedReview?.reviewFramework)
+                if (receivedReview.targetType === 'subject') {
+                    setReviewTarget(receivedReview.subjectTarget)
+                // Review target is a framework
+                } else {
+                    setReviewTarget(receivedReview.frameworkTarget)
+                }
             })
     }, []) 
-
-    useEffect(() => {
-        if (review?.targetType === 'subject') {
-            subjectService
-                .getById(review.targetId)
-                .then(subject => {
-                    console.log('subject', subject)
-                    setReviewTarget(subject)
-                })
-        } else if (review?.targetType === 'framework') {
-            frameworkService
-                .getById(review.targetId)
-                .then(framework => {
-                    console.log('framework', framework)
-                    setReviewTarget(framework)
-                })
-        }
-    }, [review]) 
-    
+   
     return (<>
         <h1>View review</h1>
 

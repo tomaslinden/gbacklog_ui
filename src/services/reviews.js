@@ -10,6 +10,13 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
+const getManyByFrameworkAndTarget = (reviewFrameworkId, targetType, targetId) => {
+    const request = axios.get(
+        `${baseUrl}/framework/${reviewFrameworkId}/${targetType}/${targetId}`
+    )
+    return request.then(response => response.data)
+}
+
 const getById = id => {
     const request = axios.get(`${baseUrl}/${id}`)
     return request.then(response => response.data)
@@ -37,5 +44,5 @@ const flag = (id) => {
 }
 
 export default { 
-    getAll, getById, create, deleteReview, update, flag
+    getAll, getManyByFrameworkAndTarget, getById, create, deleteReview, update, flag
 }

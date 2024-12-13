@@ -21,17 +21,8 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
     
     const getAllReviews = () => {
         reviewService
-            .getAll()
-            .then(reviews => {
-                const filteredReviews = reviews.filter((review) => {
-                    // Todo update this so that it supports reviewTargetType
-                    return (
-                        review.targetId === reviewTargetId &&
-                        review?.reviewFramework?.id === frameworkId
-                    )
-                })
-                setReviews(filteredReviews)
-            })
+            .getManyByFrameworkAndTarget(frameworkId, reviewTargetType, reviewTargetId)
+            .then(reviews => setReviews(reviews))
     }
 
     const closeReviewDeletionDialog = () => {
@@ -93,7 +84,7 @@ const Reviews = ({ subjectService, frameworkService, reviewService }) => {
                 />
             </>)}
 
-            {selectedReviewTarget && selectedFramework && reviews.map(review => {
+            {selectedReviewTarget && selectedFramework && reviews?.map(review => {
                 return (
                     <div key={review.id}> 
                         <CardGroup className='mt-4'>

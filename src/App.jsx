@@ -73,7 +73,7 @@ function App() {
                   <Route path="/reviews" element={<Reviews {...{ subjectService, frameworkService, reviewService }} />} />
                   <Route path="/review/:id" element={<ReviewView {...{ subjectService, reviewService, frameworkService }} />} />
                   <Route path="/createReview" element={<ReviewCreate {...{ subjectService, frameworkService, reviewService }} />} />
-                  <Route path="/modifyReview/:id" element={<ReviewModify {...{ subjectService, frameworkService, reviewService }} />} />
+                  <Route path="/modifyReview/:id" element={<ReviewModify {...{ reviewService }} />} />
                   <Route path="/flag/:targetType/:id" element={<Flag {...{ subjectService, frameworkService, reviewService }} />} />
                   <Route path="/search/:quickSearchTerm" element={<Search {...{ searchService }} />} />
                   <Route path="/search" element={<Search {...{ searchService }} />} />

@@ -5,7 +5,7 @@ import ReviewCreatePreview from './ReviewCreatePreview'
 import { getFacetsFromReviewAsObject } from '../utilities'
 import ReviewOverview from './ReviewOverview'
 
-const ReviewModify = ({ subjectService, frameworkService, reviewService }) => {
+const ReviewModify = ({ reviewService }) => {
     const [subjectId, setSubjectId] = useState('')
     const [frameworkId, setFrameworkId] = useState('')
     const [selectedFramework, setSelectedFramework] = useState()
@@ -24,30 +24,18 @@ const ReviewModify = ({ subjectService, frameworkService, reviewService }) => {
             .getById(reviewId)
             .then(review => {
                 transformAndSetFacetContents(review)
-                setSubjectId(review.subjectId)
-                setFrameworkId(review.frameworkId)
-                setSelectedFrameworkAndReviewTarget(review)
-            })
-    }, []) 
-
-    const setSelectedFrameworkAndReviewTarget = (review) => {
-        frameworkService
-            .getById(review.frameworkId)
-            .then(framework => {
-                setSelectedFramework(framework)
+                setSelectedFramework(review.reviewFramework)
+                setFrameworkId(review.reviewFramework.id)
                 setReviewTargetType(review.targetType)
-                setReviewTargetId(review.targetId)
                 if (review.targetType === 'framework') {
-                    setSelectedReviewTarget(framework)
+                    setSelectedReviewTarget(review.frameworkTarget)
+                    setReviewTargetId(review.frameworkTarget.id)
                 } else if (review.targetType === 'subject') {
-                    subjectService
-                        .getById(review.targetId)
-                        .then(subject => {
-                            setSelectedReviewTarget(subject)
-                        })
+                    setSelectedReviewTarget(review.subjectTarget)
+                    setReviewTargetId(review.subjectTarget.id)
                 }        
             })
-    }
+    }, []) 
 
     const transformAndSetFacetContents = (localReview) => {
         const newFacetContents = getFacetsFromReviewAsObject(localReview)
