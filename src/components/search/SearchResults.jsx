@@ -64,7 +64,7 @@ const SearchResults = ({ searchResults }) => {
                 <thead>
                     <tr>
                         <th>Target type</th>
-                        <th>Target id</th>
+                        <th>Target name</th>
                         <th>Framework name</th>
                         <th>Created</th>
                         <th>Updated</th>
@@ -75,7 +75,8 @@ const SearchResults = ({ searchResults }) => {
                         const {
                             id,
                             targetType,
-                            targetId,
+                            subjectTarget,
+                            frameworkTarget,
                             createdAt,
                             updatedAt,
                             reviewFramework
@@ -83,7 +84,9 @@ const SearchResults = ({ searchResults }) => {
                         return(
                             <tr key={id}>
                                 <td>{targetType}</td>
-                                <td>{targetId}</td>
+                                <td>{targetType === 'subject' ?
+                                        subjectTarget?.name : frameworkTarget?.name
+                                }</td>
                                 <td>{reviewFramework?.name}</td>
                                 <td>{createdAt}</td>
                                 <td>{updatedAt}</td>
