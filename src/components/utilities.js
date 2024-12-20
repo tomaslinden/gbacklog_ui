@@ -16,3 +16,12 @@ export const isValidMarkdown = ( markdown ) => {
 export const getSubjectAndFrameworkByReviewId = (subjectId, frameworkId) => {
 
 }
+
+// Modified from StackOverflow: https://stackoverflow.com/a/175787
+export const isNumeric = (string) => {
+    if (typeof string != "string") {
+        return false // Only strings supported
+    } else {
+        return !isNaN(string) && !isNaN(parseFloat(string))
+    }
+}

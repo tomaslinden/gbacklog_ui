@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
 import DescriptionInputInstructions from '../common/DescriptionInputInstructions'
-import { isValidMarkdown } from '../utilities'
+import { isValidMarkdown, isNumeric } from '../utilities'
+import VerdictWidgetPreview from './VerdictWidgetPreview'
 
 const trimAndRemoveDuplicateWhitespace = oldString => {
     let newString = structuredClone(oldString).trim()
@@ -28,11 +28,16 @@ const FrameworkCreateForm = ({
     setFrameworkName,
     frameworkDescription,
     setFrameworkDescription,
+    frameworkNumericVerdictType,
+    setFrameworkNumericVerdictType,
+    frameworkNumericVerdictProperties,
+    setFrameworkNumericVerdictProperties,
     facets,
     setFacets
 }) => {
     const [frameworkNameValidationError, setFrameworkNameValidationError] = useState('')
     const [frameworkDescriptionValidationError, setFrameworkDescriptionValidationError] = useState('')
+    const [frameworkNumericVerdictPropertiesValidationError, setFrameworkNumericVerdictPropertiesValidationError] = useState()
     const [isValidated, setIsValidated] = useState(false)
     const [facetErrors, setFacetErrors] = useState({})
 
@@ -49,7 +54,14 @@ const FrameworkCreateForm = ({
                 setFacets([ defaultFacet ])
             }
         }
-    }, []) 
+    }, [])
+
+    useEffect(() => {
+        if (frameworkNumericVerdictType !== 'none') {
+            validateFrameworkNumericVerdictProperties()
+        }
+    }, [frameworkNumericVerdictProperties])
+
 
     const resetFacetErrors = () => {
         setFacetErrors({})
@@ -62,7 +74,11 @@ const FrameworkCreateForm = ({
     const handleFrameworkDescriptionChange = event => {
         setFrameworkDescription(event.target.value)
     }
-    
+
+    const handleFrameworkNumericVerdictTypeChange = event => {
+        setFrameworkNumericVerdictType(event.target.value)
+    }
+
     const handleFrameworkFacetChange = (event, index, fieldName) => {
         const value = event.target.value;
         let facetsCopy = structuredClone(facets)
@@ -79,6 +95,20 @@ const FrameworkCreateForm = ({
         // Todo add check for max length
         return frameworkDescriptionValidationError === ''
     }   
+
+    const isFrameworkVerdictPropertiesValid = () => {
+        return frameworkNumericVerdictPropertiesValidationError === ''
+    }   
+    
+    const getNumericVerdictPropertyValue = property => {
+        return frameworkNumericVerdictProperties[property]
+    }
+
+    const handleNumericVerdictPropertyValueChange = (property, event) => {
+        let frameworkNumericVerdictPropertiesCopy = structuredClone(frameworkNumericVerdictProperties)
+        frameworkNumericVerdictPropertiesCopy[property] = event.target.value
+        setFrameworkNumericVerdictProperties(frameworkNumericVerdictPropertiesCopy)
+    }
 
     const isFacetPropertyValid = (index, property) => {
         // The facet is valid if it is not set in the facetErrors or it is an empty string
@@ -163,14 +193,32 @@ const FrameworkCreateForm = ({
         return frameworkDescriptionValidationError === ''
     }
 
+    const validateFrameworkNumericVerdictProperties = () => {
+        const { max, min, stepSize } = frameworkNumericVerdictProperties;
+        let frameworkVerdictPropertiesValidationError = ''
+        if (!isNumeric(max) || !isNumeric(min) || !isNumeric(stepSize)) {
+            frameworkVerdictPropertiesValidationError = 'Please make sure the verdict values are numeric'
+        } else if (max <= min) {
+            frameworkVerdictPropertiesValidationError = 'Please make sure the verdict max value is greater than the min value'
+        } else if (stepSize <= 0) {
+            frameworkVerdictPropertiesValidationError = 'Please make sure the verdict scale step size is greater than zero'
+        }
+        setFrameworkNumericVerdictPropertiesValidationError(frameworkVerdictPropertiesValidationError)
+        return frameworkVerdictPropertiesValidationError === ''
+    }
+
     const validateForm = () => {
         let isValid = true;
         const isFrameworkNameValid = validateFrameworkName()
         const isFrameworkDescriptionValid = validateFrameworkDescription()
+        const isFrameworkNumericVerdictTypeInfoValid = validateFrameworkNumericVerdictProperties()
         const isFacetsValid = validateFacets()
-        isValid = isFrameworkNameValid && isFrameworkDescriptionValid && isFacetsValid 
+        isValid = isFrameworkNameValid &&
+            isFrameworkDescriptionValid &&
+            isFrameworkNumericVerdictTypeInfoValid &&
+            isFacetsValid 
         // Todo add test for testing for facet name and handle uniqueness
-        // Todo add test for checking that there is at least one facet (and add a maximum number of facets also to the Mongoose schema)
+        // Todo add test for checking that the framework has at least a verdict scale or at least one facet (and add a maximum number of facets also to the Mongoose schema)
         setIsValidated(true);
         return isValid;
     }
@@ -208,9 +256,6 @@ const FrameworkCreateForm = ({
         event.preventDefault()
         let facetsCopy = structuredClone(facets)
         let facetCopy = structuredClone(defaultFacet)
-        const defaultFacetNameLength = facetCopy.name.length;
-        const defaultFacetNameWithoutNumber = facetCopy.name.substring(0, defaultFacetNameLength - 1);
-        const numberOfFacets = facets.length + 1
         facetCopy.name = ''
         facetsCopy.push(facetCopy)
         setFacets(facetsCopy)
@@ -260,7 +305,69 @@ const FrameworkCreateForm = ({
                     {/* Add displaying of characters left. Fetch these from the backend. */}
                 </div>
 
-                <h2>Facets</h2>
+                <div className='mb-3 col-md-6 has-validation'>
+                    <label htmlFor='frameworkNumericVerdictType' className='form-label'>Framework numeric verdict type</label>
+                    <select
+                        className={'form-control is-valid'}
+                        id='frameworkNumericVerdictType'
+                        aria-describedby='frameworkNumericVerdictTypeHelp'
+                        onChange={handleFrameworkNumericVerdictTypeChange}
+                        value={frameworkNumericVerdictType}
+                    >
+                        <option value='none'>None</option>
+                        <option value='discrete'>Discrete scale</option>
+                    </select>
+                    <div id='frameworkNumericVerdictHelp' className='form-text'>A numeric verdict type for the reviews created using this framework</div>                
+
+                    {frameworkNumericVerdictType !== 'none' && <>
+                        <label htmlFor='frameworkNumericVerdictMax' className='form-label mt-2'>Verdict scale max value</label>
+                        <input
+                            type='text'
+                            className={'form-control ' + (isFrameworkVerdictPropertiesValid() ? 'is-valid' : 'is-invalid')}
+                            id='frameworkNumericVerdictMax'
+                            aria-describedby='frameworkNumericVerdictMaxHelp'
+                            value={getNumericVerdictPropertyValue('max')}
+                            onChange={(event) => handleNumericVerdictPropertyValueChange('max', event)}
+                            required
+                        />
+                        <div id='frameworkNumericVerdictMaxHelp' className='form-text'>The numeric verdict's max value</div>
+                        {(!isFrameworkVerdictPropertiesValid()) && <div className='invalid-feedback'>{frameworkNumericVerdictPropertiesValidationError}</div>}
+
+                        <label htmlFor='frameworkNumericVerdictMin' className='form-label mt-2'>Verdict scale min value</label>
+                        <input
+                            type='text'
+                            className={'form-control ' + (isFrameworkVerdictPropertiesValid() ? 'is-valid' : 'is-invalid')}
+                            id='frameworkNumericVerdictMin'
+                            aria-describedby='frameworkNumericVerdictMinHelp'
+                            value={getNumericVerdictPropertyValue('min')}
+                            onChange={(event) => handleNumericVerdictPropertyValueChange('min', event)}
+                            required
+                        />
+                        <div id='frameworkNumericVerdictMinHelp' className='form-text'>The numeric verdict's min value</div>
+                        {(!isFrameworkVerdictPropertiesValid()) && <div className='invalid-feedback'>{frameworkNumericVerdictPropertiesValidationError}</div>}
+
+                        <label htmlFor='frameworkNumericVerdictStepSize' className='form-label mt-2'>Verdict scale step size</label>
+                        <input
+                            type='text'
+                            className={'form-control ' + (isFrameworkVerdictPropertiesValid() ? 'is-valid' : 'is-invalid')}
+                            id='frameworkNumericVerdictStepSize'
+                            aria-describedby='frameworkNumericVerdictStepSizeHelp'
+                            value={getNumericVerdictPropertyValue('stepSize')}
+                            onChange={(event) => handleNumericVerdictPropertyValueChange('stepSize', event)}
+                            required
+                        />
+                        <div id='frameworkNumericVerdictStepSizeHelp' className='form-text mt-2'>The numeric verdict's step size</div>
+                        {(!isFrameworkVerdictPropertiesValid()) && <div className='invalid-feedback'>{frameworkNumericVerdictPropertiesValidationError}</div>}
+
+                        {isFrameworkVerdictPropertiesValid() &&
+                            <VerdictWidgetPreview
+                                widgetType={frameworkNumericVerdictType}
+                                verdictProperties={frameworkNumericVerdictProperties}
+                            />}
+                    </>}
+                </div>
+
+                <h2 className='mt-4'>Facets</h2>
                 {/* Todo add counter for facets so the numbering is correct.
                 How to reproduce: remove a facet, the re-add one -> the numbering is incorrect.
                 This bug also affects framework preview. */}

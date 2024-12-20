@@ -9,10 +9,14 @@ const FrameworkCreate = ({ frameworkService, mode }) => {
     const [frameworkId, setFrameworkId] = useState(null)
     const [frameworkName, setFrameworkName] = useState('')
     const [frameworkDescription, setFrameworkDescription] = useState('')
+    const [frameworkNumericVerdictType, setFrameworkNumericVerdictType] = useState('none')
+    const [frameworkNumericVerdictProperties, setFrameworkNumericVerdictProperties] = useState({min: '', max: '', stepSize: ''})
+    
     const [facets, setFacets] = useState([])
 
     let params = useParams();
 
+    // Todo update modify review framework with new verdict scale
     useEffect(() => {
         if (mode === 'modify') {
             const { id } = params
@@ -41,6 +45,8 @@ const FrameworkCreate = ({ frameworkService, mode }) => {
             frameworkId,
             frameworkName,
             frameworkDescription,
+            frameworkNumericVerdictType,
+            frameworkNumericVerdictProperties,
             facets,
             setIsPreview
         }} />}
@@ -52,6 +58,10 @@ const FrameworkCreate = ({ frameworkService, mode }) => {
             setFrameworkName,
             frameworkDescription,
             setFrameworkDescription,
+            frameworkNumericVerdictType,
+            setFrameworkNumericVerdictType,
+            frameworkNumericVerdictProperties,
+            setFrameworkNumericVerdictProperties,
             facets,
             setFacets
         }} />}

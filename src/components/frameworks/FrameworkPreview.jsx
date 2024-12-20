@@ -9,6 +9,8 @@ const FrameworkPreview = ({
     frameworkId,
     frameworkName,
     frameworkDescription,
+    frameworkNumericVerdictType,
+    frameworkNumericVerdictProperties,
     facets,
     setIsPreview
 }) => {
@@ -19,11 +21,22 @@ const FrameworkPreview = ({
     const closeSubjectCreateDialog = () => {
         setShowFrameworkCreateWarning(false)
     }
+
+    const getVerdictPropertiesAsNumbers = () => {
+        const { min, max, stepSize } = frameworkNumericVerdictProperties;
+        return {
+            min: +min,
+            max: +max,
+            stepSize: +stepSize
+        }
+    }
     
     const getFrameworkObjectToUpsert = () => {
         return {
             name: frameworkName,
             description: frameworkDescription,
+            verdictType: frameworkNumericVerdictType,
+            verdictProperties: getVerdictPropertiesAsNumbers(),
             facets
         }
     }
@@ -79,6 +92,8 @@ const FrameworkPreview = ({
                 {...{
                     frameworkName,
                     frameworkDescription,
+                    frameworkNumericVerdictType,
+                    frameworkNumericVerdictProperties,       
                     facets
                 }}
             />

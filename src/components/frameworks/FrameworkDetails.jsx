@@ -3,10 +3,13 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import { Info } from 'react-feather';
 import RenderMarkdown from '../common/RenderMarkdown'
+import VerdictWidgetPreview from './VerdictWidgetPreview';
 
 const FrameworkDetails = ({
     frameworkName,
     frameworkDescription,
+    frameworkNumericVerdictType,
+    frameworkNumericVerdictProperties,       
     frameworkStatus,
     facets
 }) => {
@@ -16,6 +19,11 @@ const FrameworkDetails = ({
         <h3 className='mt-5'>{frameworkName}</h3>
         <RenderMarkdown>{frameworkDescription}</RenderMarkdown>
 
+        <VerdictWidgetPreview
+            widgetType={frameworkNumericVerdictType}
+            verdictProperties={frameworkNumericVerdictProperties}
+        />
+    
         {frameworkStatus && <p>Status: <em>{frameworkStatus}</em></p>}
         <h3 className='mt-4'>Facets</h3>
         {facets.map(({ name, handle, description }, index) => {
