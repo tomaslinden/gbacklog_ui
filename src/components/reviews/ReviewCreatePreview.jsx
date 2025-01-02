@@ -11,13 +11,16 @@ const ReviewCreatePreview = ({
     mode,
     handleSave,
     reviewTargetType,
-    reviewTargetId
+    reviewTargetId,
+    verdictValue
 }) => {
     // Rename these to upsert
     const [isReviewCreateSuccess, setReviewCreateSuccess] = useState(false)
     const [createdReview, setCreatedReview] = useState(false)
 
     const facetHandles = Object.keys(facetContents)
+
+    const { verdictType } = selectedFramework
 
     const getReviewObject = () => {
         const facetContentsToSend = facetHandles.map((handle) => {
@@ -31,7 +34,8 @@ const ReviewCreatePreview = ({
             frameworkId,
             targetType: reviewTargetType,
             targetId: reviewTargetId,
-            facetContents: facetContentsToSend
+            facetContents: facetContentsToSend,
+            verdictValue
         }
     }
 
@@ -59,7 +63,12 @@ const ReviewCreatePreview = ({
             </Link>
         </>)}
 
-        <ReviewViewContents {...{ facetContents, selectedFramework }} />
+        <ReviewViewContents {...{
+            facetContents,
+            selectedFramework,
+            verdictType,
+            verdictValue
+        }} />
 
         {!isReviewCreateSuccess && <>
             <Button className='mt-4' variant="warning" onClick={handleReviewSave}>

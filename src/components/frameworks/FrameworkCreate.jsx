@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import FrameworkCreateForm from './FrameworkCreateForm'
 import FrameworkPreview from './FrameworkPreview'
 import PageHeadingAndButtons from '../common/PageHeadingAndButtons'
+import { convertVerdictPropertiesToString } from '../utilities'
 
 const FrameworkCreate = ({ frameworkService, mode }) => {
     const [isPreview, setIsPreview] = useState(false)
@@ -23,9 +24,13 @@ const FrameworkCreate = ({ frameworkService, mode }) => {
             frameworkService
                 .getById(id)
                 .then(framework => {
-                    const { name, description, facets } = framework
+                    const { name, description, verdictType, verdictProperties, facets } = framework
                     setFrameworkId(id)
                     setFrameworkName(name)
+                    setFrameworkNumericVerdictType(verdictType ?? 'none')
+                    setFrameworkNumericVerdictProperties(
+                        convertVerdictPropertiesToString(verdictProperties)
+                    )
                     setFrameworkDescription(description)
                     setFacets(facets)
                 })

@@ -6,7 +6,7 @@ import ReviewCreatePreview from './ReviewCreatePreview'
 import ReviewOverview from './ReviewOverview'
 import PageHeadingAndButtons from '../common/PageHeadingAndButtons'
 
-const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode }) => {
+const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
     const [frameworkId, setFrameworkId] = useState('')
     const [selectedFramework, setSelectedFramework] = useState()
     const [facetContents, setFacetContents] = useState({})
@@ -14,6 +14,7 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
     const [reviewTargetType, setReviewTargetType] = useState('')
     const [reviewTargetId, setReviewTargetId] = useState('')
     const [selectedReviewTarget, setSelectedReviewTarget] = useState()
+    const [verdictValue, setVerdictValue] = useState()
 
     return (
         <>
@@ -55,7 +56,9 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                     selectedFramework,
                     facetContents,
                     setFacetContents,
-                    setPhase
+                    setPhase,
+                    verdictValue,
+                    setVerdictValue                
                 } } />
             }
 
@@ -71,7 +74,8 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService, mode })
                         return reviewService.create(reviewToSave)
                     },
                     reviewTargetType,
-                    reviewTargetId
+                    reviewTargetId,
+                    verdictValue
                 }} />
             }
         </>

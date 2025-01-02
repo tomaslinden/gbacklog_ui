@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import FrameworkDetails from './FrameworkDetails';
+import { convertVerdictPropertiesToString } from '../utilities'
 
 const FrameworkView = ({ frameworkService }) => {
     const [framework, setFramework] = useState({})
@@ -16,7 +17,7 @@ const FrameworkView = ({ frameworkService }) => {
                 setFramework(receivedFramework);
                 setLoaded(true)
             })
-    }, []) 
+    }, [])
 
     return (<>{isLoaded &&<>
         <h1>View framework</h1>
@@ -28,6 +29,8 @@ const FrameworkView = ({ frameworkService }) => {
         <FrameworkDetails
             frameworkName={framework.name}
             frameworkDescription={framework.description}
+            frameworkNumericVerdictType={framework.verdictType}
+            frameworkNumericVerdictProperties={convertVerdictPropertiesToString(framework.verdictProperties)}
             frameworkStatus={framework.status}
             facets={framework.facets}
         />

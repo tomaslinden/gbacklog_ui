@@ -20,8 +20,8 @@ const getById = id => {
     return request.then(response => response.data)
 }
 
-const create = newSubject => {
-    const request = axios.post(baseUrl, newSubject)
+const create = newFramework => {
+    const request = axios.post(baseUrl, newFramework)
     return request.then(response => response.data)
 }
 

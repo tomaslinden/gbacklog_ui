@@ -19,12 +19,15 @@ const FrameworkDetails = ({
         <h3 className='mt-5'>{frameworkName}</h3>
         <RenderMarkdown>{frameworkDescription}</RenderMarkdown>
 
-        <VerdictWidgetPreview
-            widgetType={frameworkNumericVerdictType}
-            verdictProperties={frameworkNumericVerdictProperties}
-        />
-    
         {frameworkStatus && <p>Status: <em>{frameworkStatus}</em></p>}
+
+        {frameworkNumericVerdictType === 'discrete' &&
+            <VerdictWidgetPreview
+                verdictType={frameworkNumericVerdictType}
+                verdictProperties={frameworkNumericVerdictProperties}
+            />
+        }
+    
         <h3 className='mt-4'>Facets</h3>
         {facets.map(({ name, handle, description }, index) => {
             return (

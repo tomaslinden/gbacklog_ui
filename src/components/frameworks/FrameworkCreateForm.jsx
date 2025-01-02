@@ -184,8 +184,8 @@ const FrameworkCreateForm = ({
         let frameworkDescriptionValidationError = '';
         if (frameworkDescriptionLength == 0) {
             frameworkDescriptionValidationError = 'Please provide a framework description'
-        } else if (frameworkDescriptionLength > frameworkAndFacetNameMaxLength) {
-            frameworkDescriptionValidationError = `The framework description cannot exceed ${frameworkAndFacetNameMaxLength} characters`
+        } else if (frameworkDescriptionLength > frameworkFacetDescriptionMaxLength) {
+            frameworkDescriptionValidationError = `The framework description cannot exceed ${frameworkFacetDescriptionMaxLength} characters`
         } else if (!isValidMarkdown(frameworkDescription)) {
             frameworkDescriptionValidationError = `The framework description cannot contain markdown heading characters (i.e. "#" or "##")`
         }
@@ -194,14 +194,17 @@ const FrameworkCreateForm = ({
     }
 
     const validateFrameworkNumericVerdictProperties = () => {
-        const { max, min, stepSize } = frameworkNumericVerdictProperties;
         let frameworkVerdictPropertiesValidationError = ''
-        if (!isNumeric(max) || !isNumeric(min) || !isNumeric(stepSize)) {
-            frameworkVerdictPropertiesValidationError = 'Please make sure the verdict values are numeric'
-        } else if (max <= min) {
-            frameworkVerdictPropertiesValidationError = 'Please make sure the verdict max value is greater than the min value'
-        } else if (stepSize <= 0) {
-            frameworkVerdictPropertiesValidationError = 'Please make sure the verdict scale step size is greater than zero'
+        if (frameworkNumericVerdictType === 'discrete') {
+            const { max, min, stepSize } = frameworkNumericVerdictProperties;
+            
+            if (!isNumeric(max) || !isNumeric(min) || !isNumeric(stepSize)) {
+                frameworkVerdictPropertiesValidationError = 'Please make sure the verdict values are numeric'
+            } else if (max <= min) {
+                frameworkVerdictPropertiesValidationError = 'Please make sure the verdict max value is greater than the min value'
+            } else if (stepSize <= 0) {
+                frameworkVerdictPropertiesValidationError = 'Please make sure the verdict scale step size is greater than zero'
+            }
         }
         setFrameworkNumericVerdictPropertiesValidationError(frameworkVerdictPropertiesValidationError)
         return frameworkVerdictPropertiesValidationError === ''
@@ -361,7 +364,7 @@ const FrameworkCreateForm = ({
 
                         {isFrameworkVerdictPropertiesValid() &&
                             <VerdictWidgetPreview
-                                widgetType={frameworkNumericVerdictType}
+                                verdictType={frameworkNumericVerdictType}
                                 verdictProperties={frameworkNumericVerdictProperties}
                             />}
                     </>}

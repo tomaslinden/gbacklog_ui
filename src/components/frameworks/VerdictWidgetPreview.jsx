@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Card from 'react-bootstrap/Card'
-import { ThumbsUp } from 'react-feather'
-import Form from 'react-bootstrap/Form';
+import VerdictWidget from '../common/VerdictWidget'
 
-const VerdictWidgetPreview = ({ widgetType, verdictProperties }) => {
+const VerdictWidgetPreview = ({ verdictType, verdictProperties }) => {
 
     const [verdictValue, setVerdictValue] = useState()
 
@@ -13,44 +12,37 @@ const VerdictWidgetPreview = ({ widgetType, verdictProperties }) => {
         return (max - min) / stepSize + 1
     }
 
-    const isBinary = () => {
-        return max === '1' && min === '0' && stepSize === '1' 
-    }
+    useEffect(() => {
+        setVerdictValue(max)
+    }, [verdictProperties, verdictType]) 
 
     return (
         <Card className='mt-2'>
             <Card.Body>
-                <Card.Text>Preview verdict scale</Card.Text>
                 <Card.Text as='div'>
-                    {widgetType === 'none' && <>(None selected)</>}
+                    <div style={{display: 'flex'}}>
+                        <div>
+                            {verdictType === 'none' && <>(None selected)</>}
 
-                    {widgetType === 'discrete' &&
-                        <p>Number of possible values: {getNumberOfSteps()}</p>
-                    }
+                            {verdictType === 'discrete' &&
+                                <p>Number of possible values: {getNumberOfSteps()}</p>
+                            }
 
-                    {widgetType === 'discrete' && isBinary() &&
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Form.Check
-                                type="switch"
-                            />
-                            <ThumbsUp size="18" style={{position: 'relative', top: '-0.1rem'}}/>
+                            <div style={{display: 'flex'}}>
+                                <div>Preview: </div>
+                                {/* Todo extract verdict widget into its own component and use when creating reviews with non-none verdict */}
+                                <VerdictWidget
+                                    {...{
+                                        verdictType,
+                                        verdictProperties,
+                                        verdictValue,
+                                        setVerdictValue,
+                                    }}
+                                    style={{ marginLeft: '0.5em' }}
+                                />
+                            </div>
                         </div>
-                    }
-
-                    {widgetType === 'discrete' && !isBinary() && <>
-                        <div style={{display: 'flex'}}>
-                            <input
-                                type="range"
-                                id="numeric-verdict-properties-preview"
-                                name="numeric-verdict-properties-preview"
-                                min={min}
-                                max={max}
-                                step={stepSize}
-                                onChange={(event) => setVerdictValue(event.target.value)}
-                            />
-                            <label className='ms-2' htmlFor="numeric-verdict-properties-preview">{verdictValue}</label>
-                        </div>
-                    </>}
+                    </div>
                 </Card.Text>
             </Card.Body>
         </Card>

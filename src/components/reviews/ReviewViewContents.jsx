@@ -6,9 +6,15 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { Info } from 'react-feather';
 import RenderMarkdown from '../common/RenderMarkdown'
 import RenderReviewCard from './RenderReviewCard'
+import VerdictWidget from '../common/VerdictWidget'
 
 // Todo: rename selectedFramework to framework
-const ReviewViewContents = ({ facetContents, selectedFramework }) => {
+const ReviewViewContents = ({
+    facetContents,
+    selectedFramework,
+    verdictType,
+    verdictValue
+}) => {
     const facetHandles = Object.keys(facetContents)
 
     const getFacetProperty = (facetHandle, property) => {
@@ -17,6 +23,27 @@ const ReviewViewContents = ({ facetContents, selectedFramework }) => {
     }
 
     return (<Fragment>
+        {verdictType && verdictType !== 'none' && <>
+            <Card className='mt-4'>
+                    <Card.Body>
+                        <Card.Title style={{display: 'flex', alignItems: 'center'}}>
+                            <div>Verdict</div>
+                        </Card.Title>
+                        <Card.Text as='div'>
+                            <VerdictWidget
+                                {...{
+                                    verdictType,
+                                    verdictValue,
+                                }}
+                                verdictProperties={selectedFramework?.verdictProperties}
+                                className='ms-1'
+                                disabled={true}
+                            />
+                        </Card.Text>
+                    </Card.Body>
+            </Card>
+        </>}
+
         {facetHandles.map((handle) => {
             return (<Fragment key={handle}>
                 <Card className='mt-4'>

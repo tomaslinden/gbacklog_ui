@@ -5,18 +5,21 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Info } from 'react-feather';
 import DescriptionInputInstructions from '../common/DescriptionInputInstructions'
+import VerdictWidget from '../common/VerdictWidget'
 import { isValidMarkdown } from '../utilities'
 
 const ReviewCreateForm = ({
     selectedFramework,
     setPhase,
     facetContents,
-    setFacetContents
+    setFacetContents,
+    verdictValue,
+    setVerdictValue
 }) => {
     const [facetContentValidations, setFacetContentValidations] = useState({})
     const [facetContentTouched, setFacetContentTouched] = useState({})
 
-    const { facets } = selectedFramework
+    const { verdictType, verdictProperties, facets } = selectedFramework
 
     useEffect(() => {
         let newFacetContents = {}
@@ -71,11 +74,21 @@ const ReviewCreateForm = ({
         }
         return isValid
     }
+
+    const validateVerdict = () => {
+        if (verdictProperties && verdictProperties?.min && verdictProperties?.max) {
+            return verdictValue !== undefined &&
+                verdictValue >= verdictProperties.min &&
+                verdictValue <= verdictProperties.max
+        } else {
+            return true
+        }
+    }
     
     const handleFormSubmit = event => {
         event.preventDefault()
         event.stopPropagation()
-        if (validateFacets()) {
+        if (validateForm()) {
             setPhase('preview')
         }
     }
@@ -92,15 +105,36 @@ const ReviewCreateForm = ({
         setFacetContentTouched(facetContentsTouchedCopy)
     }
 
+    const validateForm = () => {
+        return validateFacets() && validateVerdict()
+    }
+
     return (<>
         <DescriptionInputInstructions type='review' className='mt-4' />
+
+        {verdictType && verdictType !== 'none' &&
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+                <Form.Label className='mt-4'>
+                    Verdict
+                </Form.Label>
+                <VerdictWidget
+                    {...{
+                        verdictType,
+                        verdictProperties,
+                        verdictValue,
+                        setVerdictValue,
+                    }}
+                    className='ms-1'
+                />
+                {(!validateVerdict()) && <div className='invalid-feedback' style={{display: 'block'}}>Please check the verdict</div>}
+            </Form.Group>}
 
         <Form className={getFormClass()} noValidate onSubmit={handleFormSubmit}>
             {facets.map((facet, index) => {
                 const { handle, name, description } = facet
                 return (
                     <Fragment key={handle}>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                        <Form.Group controlId={'facet.ControlTextarea' + index}>
                             <Form.Label>
                                 <div
                                     className='mt-2'
