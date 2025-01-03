@@ -35,3 +35,5 @@ export const convertVerdictPropertiesToString = (verdictProperties) => {
         }    
     }
 }
+
+export const getMetaReviewFrameworkId = () => '67658a8f7ee31ced58af9939'

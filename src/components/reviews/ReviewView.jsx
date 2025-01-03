@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from "react-router-dom";
 import ReviewViewOverviewAndContents from './ReviewViewOverviewAndContents'
+import ReviewMetaReviews from './ReviewMetaReviews'
 
-const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
-    
+const ReviewView = ({ reviewService }) => {
     // Consider moving the logic to ReviewViewOverviewAndContents in preparation for writing 
     // the Flag component
     const [review, setReview] = useState()
@@ -11,9 +11,9 @@ const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
     const [reviewTarget, setReviewTarget] = useState()
 
     let params = useParams();
+    const { id } = params
 
     useEffect(() => {
-        const { id } = params
         reviewService
             .getById(id)
             .then(receivedReview => {
@@ -27,7 +27,7 @@ const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
                 }
             })
     }, []) 
-   
+
     return (<>
         <h1>View review</h1>
 
@@ -44,9 +44,13 @@ const ReviewView = ({ subjectService, reviewService, frameworkService }) => {
                 reviewTargetType={review.targetType}
                 reviewTargetName={reviewTarget.name}
                 framework={framework}
-                // facetContents={facetContentsAsObject}
                 review={review}
             />
+
+            <ReviewMetaReviews className='mt-5' {...{
+                reviewService,
+                reviewTargetId: id,
+            }} />
         </>}
 
     </>)

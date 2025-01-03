@@ -1,4 +1,4 @@
-import { ThumbsUp } from 'react-feather'
+import { ThumbsUp, ThumbsDown } from 'react-feather'
 import Form from 'react-bootstrap/Form';
 
 const VerdictWidget = ({
@@ -18,9 +18,9 @@ const VerdictWidget = ({
     }
 
     const convertVerdictEventValue = (value) => {
-        if (isBinary() && value === true) {
+        if (isBinary() && (value === true || value === 1)) {
             return 1
-        } else if (isBinary && value === false) {
+        } else if (isBinary && value === false || value === 0) {
             return 0
         } else {
             return value
@@ -31,14 +31,32 @@ const VerdictWidget = ({
         <div {...{ style, className }}>
             {verdictType === 'discrete' && isBinary() &&
                 <div style={{ display: 'flex', alignItems: 'center', position: 'relative', top: '0.1em'}}>
-                    <Form.Check
-                        type="switch"
-                        checked={verdictValue}
-                        onChange={(event) => 
-                            setVerdictValue(convertVerdictEventValue(event.target.checked))
-                        }
-                    />
-                    <ThumbsUp size="18" style={{position: 'relative', top: '-0.1rem'}}/>
+                    {disabled !== true && <>
+                        <Form.Check
+                            type="switch"
+                            checked={verdictValue ? true : false}
+                            onChange={(event) => 
+                                setVerdictValue(convertVerdictEventValue(event.target.checked))
+                            }
+                            {...{ disabled }}
+                        />
+                        <ThumbsUp size="18" style={{position: 'relative', top: '-0.1rem'}}/>
+                    </>}
+                    {disabled === true && <>
+                        <ThumbsDown
+                            size="18"
+                            color={verdictValue ? '#CCCCCC' : '#6C3BAA'}
+                            alt={verdictValue ? 'Positive' : 'Negative'}
+                            aria-label={verdictValue ? 'Positive' : 'Negative'}
+                        />
+                        <ThumbsUp
+                            className='ms-2'
+                            size="18"
+                            color={verdictValue ? '#6C3BAA' : '#CCCCCC'}
+                            alt={verdictValue ? 'Positive' : 'Negative'}
+                            aria-label={verdictValue? 'Positive' : 'Negative'}
+                        />
+                    </>}
                 </div>
             }
 

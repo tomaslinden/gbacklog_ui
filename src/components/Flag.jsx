@@ -43,29 +43,35 @@ const Flag = ({ subjectService, frameworkService, reviewService }) => {
                 .then(receivedReview => {
                     setTarget(receivedReview);
                     let newTargetAdditionalInfo = {}
-                    frameworkService
-                        .getById(receivedReview.frameworkId)
-                        .then(receivedReviewFramework => {
-                            newTargetAdditionalInfo.framework = receivedReviewFramework
-                            if (receivedReview?.targetType === 'subject') {
-                                subjectService
-                                    .getById(receivedReview.targetId)
-                                    .then(receivedSubject => {
-                                        newTargetAdditionalInfo.reviewTarget = receivedSubject
-                                        setTargetAdditionalInfo(newTargetAdditionalInfo)
-                                        setLoaded(true)
-                                    })
-                            } else if (receivedReview?.targetType === 'framework') {
-                                frameworkService
-                                    .getById(receivedReview.targetId)
-                                    .then(receivedReviewTargetFramework => {
-                                        newTargetAdditionalInfo.reviewTarget = receivedReviewTargetFramework
-                                        setTargetAdditionalInfo(newTargetAdditionalInfo)
-                                        setLoaded(true)
-                                    })
-                            }
-                                    
-                        })
+                    // Todo also simplify this by relying on the review population functionality
+                    if (receivedReview?.targetType === 'subject') {
+                        subjectService
+                            // .getById(receivedReview.targetId)
+                            .getById(receivedReview.reviewTarget.id)
+                            .then(receivedSubject => {
+                                newTargetAdditionalInfo.reviewTarget = receivedSubject
+                                setTargetAdditionalInfo(newTargetAdditionalInfo)
+                                setLoaded(true)
+                            })
+                    } else if (receivedReview?.targetType === 'framework') {
+                        frameworkService
+                            // .getById(receivedReview.targetId)
+                            .getById(receivedReview.reviewTarget.id)
+                            receivedReview.reviewTarget.id
+                            .then(receivedReviewTargetFramework => {
+                                newTargetAdditionalInfo.reviewTarget = receivedReviewTargetFramework
+                                setTargetAdditionalInfo(newTargetAdditionalInfo)
+                                setLoaded(true)
+                            })
+                    } else if (receivedReview?.targetType === 'review') {
+                        reviewService
+                            .getById(receivedReview.reviewTarget.id)
+                            .then(receivedReviewTargetReview => {
+                                newTargetAdditionalInfo.reviewTarget = receivedReviewTargetReview
+                                setTargetAdditionalInfo(newTargetAdditionalInfo)
+                                setLoaded(true)
+                            })
+                    }
                 })
         }
     }, []) 
@@ -137,12 +143,13 @@ const Flag = ({ subjectService, frameworkService, reviewService }) => {
 
             {targetType === 'review' &&
                 target?.targetType &&
-                targetAdditionalInfo?.reviewTarget?.name &&
-                targetAdditionalInfo?.framework && (<>
+                targetAdditionalInfo?.reviewTarget?.facetContents &&
+                target?.reviewFramework &&
+                (<>
                 <ReviewViewOverviewAndContents
                     reviewTargetType={target.targetType}
-                    reviewTargetName={targetAdditionalInfo.reviewTarget.name}
-                    framework={targetAdditionalInfo.framework}
+                    reviewFacetContents={targetAdditionalInfo.reviewTarget.facetContents}
+                    framework={target?.reviewFramework}
                     review={target} />
             </>)}
 
