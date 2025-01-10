@@ -36,7 +36,6 @@ const ReviewCreateSelect = ({
 
     useEffect(() => {
         if(componentUsagetype === 'searchReviews' && reviewTargetId?.length > 0 && frameworkId?.length > 0) {
-            console.log('triggered')
             handleFormSubmit()
         }
     }, [reviewTargetId, frameworkId])

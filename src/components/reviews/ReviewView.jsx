@@ -7,6 +7,7 @@ const ReviewView = ({ reviewService }) => {
     // Consider moving the logic to ReviewViewOverviewAndContents in preparation for writing 
     // the Flag component
     const [review, setReview] = useState()
+    const [metaReviewAverage, setMetaReviewAverage] = useState()
     const [framework, setFramework] = useState()
     const [reviewTarget, setReviewTarget] = useState()
 
@@ -26,7 +27,11 @@ const ReviewView = ({ reviewService }) => {
                     setReviewTarget(receivedReview.frameworkTarget)
                 }
             })
-    }, []) 
+
+        reviewService
+            .getMetaReviewAverage(id)
+            .then(receivedAverage => setMetaReviewAverage(receivedAverage))
+    }, [])
 
     return (<>
         <h1>View review</h1>
@@ -35,8 +40,7 @@ const ReviewView = ({ reviewService }) => {
             <button type="button" className="btn btn-primary mt-4">View all reviews</button>
         </Link>
 
-        {/* Todo continue here: for upcoming flagging: 
-        consider simplifying ReviewViewOverviewAndContents
+        {/* consider simplifying ReviewViewOverviewAndContents
         so that it only takes the review as an argument and then fetches what it needs by itself so it can display the review */}
 
         {review && reviewTarget && framework && <>
@@ -45,6 +49,7 @@ const ReviewView = ({ reviewService }) => {
                 reviewTargetName={reviewTarget.name}
                 framework={framework}
                 review={review}
+                metaReviewAverage={metaReviewAverage}
             />
 
             <ReviewMetaReviews className='mt-5' {...{

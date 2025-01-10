@@ -43,6 +43,11 @@ const flag = (id) => {
     return request.then(response => response.data)
 }
 
+const getMetaReviewAverage = (id) => {
+    const request = axios.get(`${baseUrl}/metareviewaverage/${id}`)
+    return request.then(response => response.data)
+}
+
 export default { 
-    getAll, getManyByFrameworkAndTarget, getById, create, deleteReview, update, flag
+    getAll, getManyByFrameworkAndTarget, getById, create, deleteReview, update, flag, getMetaReviewAverage
 }

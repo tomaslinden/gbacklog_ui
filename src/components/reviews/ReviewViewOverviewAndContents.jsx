@@ -7,6 +7,7 @@ const ReviewViewOverviewAndContents = ({
     reviewTargetName,
     framework,
     review,
+    metaReviewAverage
 }) => {
     const facetContentsAsObject = getFacetsFromReviewAsObject(review)
 
@@ -17,9 +18,7 @@ const ReviewViewOverviewAndContents = ({
         <div className='mt-5'>
             <ReviewOverview
                 mode='view'
-                {...{ reviewTargetType }}
-                {...{ reviewTargetName }}
-                {...{ framework }}
+                {...{ reviewTargetType, reviewTargetName, framework, metaReviewAverage }}
             />
         </div>
 

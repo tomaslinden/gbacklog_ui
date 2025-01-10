@@ -115,8 +115,8 @@ const ReviewMetaReviews = ({ className, reviewService, reviewTargetId }) => {
         </Card>
 
         <h2 className='mt-5'>Meta-reviews</h2>
-        {metaReviews.length > 0 && metaReviews.map((metaReview) => <>
-            <Card as='div' className='mt-2'>
+        {metaReviews.length > 0 && metaReviews.map((metaReview) => 
+            <Card as='div' className='mt-2' key={metaReview.id}>
                 <div style={{display: 'flex'}}>
                     <Card.Body>
                         <VerdictWidget
@@ -144,8 +144,7 @@ const ReviewMetaReviews = ({ className, reviewService, reviewTargetId }) => {
                     </div>
                 </div>
             </Card>
-        </>)
-        }
+        )}
     </div>)
 }
 
