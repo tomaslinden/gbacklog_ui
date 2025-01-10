@@ -19,7 +19,8 @@ const ReviewOverview = ({
                     {framework.description}
                 </p>
                 {metaReviewAverage && <p style={{marginBottom: '0px'}}>
-                    Meta-review average: {metaReviewAverage}
+                    {/* https://stackoverflow.com/a/11832950 */}
+                    Meta-review average: {Math.round((metaReviewAverage + Number.EPSILON) * 100) / 100}
                 </p>}
             </RenderReviewCard>
         </Card.Body>

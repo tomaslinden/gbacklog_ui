@@ -7,7 +7,6 @@ const ReviewView = ({ reviewService }) => {
     // Consider moving the logic to ReviewViewOverviewAndContents in preparation for writing 
     // the Flag component
     const [review, setReview] = useState()
-    const [metaReviewAverage, setMetaReviewAverage] = useState()
     const [framework, setFramework] = useState()
     const [reviewTarget, setReviewTarget] = useState()
 
@@ -15,6 +14,10 @@ const ReviewView = ({ reviewService }) => {
     const { id } = params
 
     useEffect(() => {
+        updateReview()
+    }, [])
+
+    const updateReview = () => {
         reviewService
             .getById(id)
             .then(receivedReview => {
@@ -27,11 +30,7 @@ const ReviewView = ({ reviewService }) => {
                     setReviewTarget(receivedReview.frameworkTarget)
                 }
             })
-
-        reviewService
-            .getMetaReviewAverage(id)
-            .then(receivedAverage => setMetaReviewAverage(receivedAverage))
-    }, [])
+    }
 
     return (<>
         <h1>View review</h1>
@@ -49,13 +48,15 @@ const ReviewView = ({ reviewService }) => {
                 reviewTargetName={reviewTarget.name}
                 framework={framework}
                 review={review}
-                metaReviewAverage={metaReviewAverage}
             />
 
-            <ReviewMetaReviews className='mt-5' {...{
-                reviewService,
-                reviewTargetId: id,
-            }} />
+            <ReviewMetaReviews className='mt-5'
+                {...{
+                    reviewService,
+                    reviewTargetId: id,
+                }}
+                updateReview={() => updateReview()}
+            />
         </>}
 
     </>)

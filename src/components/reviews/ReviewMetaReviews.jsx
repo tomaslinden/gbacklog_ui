@@ -6,7 +6,7 @@ import IconButton from '../common/IconButton'
 import VerdictWidget from '../common/VerdictWidget'
 import { getMetaReviewFrameworkId } from '../utilities'
 
-const ReviewMetaReviews = ({ className, reviewService, reviewTargetId }) => {
+const ReviewMetaReviews = ({ className, reviewService, reviewTargetId, updateReview }) => {
     const [commentText, setCommentText] = useState('')
     const [commentVerdict, setCommentVerdict] = useState(false)
     const [metaReviews, setMetaReviews] = useState([])
@@ -54,7 +54,17 @@ const ReviewMetaReviews = ({ className, reviewService, reviewTargetId }) => {
                     contents: commentText
                 }],
                 verdictValue: commentVerdict ? 1 : 0
-            }).then(() => {
+            }).then(() => reviewService
+                .getMetaReviewAverage(reviewTargetId)
+                .then(receivedAverage => receivedAverage)
+            // Note that if multiple people submit meta reviews to the same review simultaneously,
+            // then the meta review average calculated here will not be accurate.
+            // Consider adding logic for checking for inconsistencies with regard to the
+            // meta review averages stored in the reviews.
+            ).then((metaReviewAverage) => 
+                reviewService.patch(reviewTargetId, { metaReviewAverage })
+            ).then(() => {
+                updateReview()
                 getMetaReviews()
                 clearMetaReviewForm()
                 displayOnSuccessFlashAlert()
@@ -99,7 +109,6 @@ const ReviewMetaReviews = ({ className, reviewService, reviewTargetId }) => {
                         <Form.Control as="textarea" rows={3}
                             value={commentText}
                             onChange={(event) => {
-                                console.log(event)
                                 setCommentText(event.target.value)
                             }}
                         />
