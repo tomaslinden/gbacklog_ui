@@ -24,7 +24,7 @@ const SubjectView = ({ subjectService }) => {
         <h1>View subject</h1>
 
         <Link to='/subjects'>
-            <button type='button' className='btn btn-primary mt-4'>Back to subjects</button>
+            <button type='button' className='btn btn-primary mt-4'>View all subjects</button>
         </Link>
 
         <SubjectViewContents className='mt-4' {...{ name, description }} />

@@ -86,7 +86,7 @@ const ReviewCreateSelect = ({
             setSelectedFramework(frameworks.find(framework => framework.id === frameworkId))
             onSelectSuccess && onSelectSuccess()
         } else {
-            console.log('There are validation errors')
+            // Todo add validation error notification
         }
     }
    

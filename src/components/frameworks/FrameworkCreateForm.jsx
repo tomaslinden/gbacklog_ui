@@ -42,7 +42,7 @@ const FrameworkCreateForm = ({
     const [facetErrors, setFacetErrors] = useState({})
 
     const frameworkAndFacetNameMaxLength = 50;
-    const frameworkFacetDescriptionMaxLength = 500;
+    const frameworkFacetDescriptionMaxLength = 1000;
 
     const facetTemplate = { handle: '', name: '', description: '' }
     let defaultFacet = structuredClone(facetTemplate)
@@ -138,6 +138,7 @@ const FrameworkCreateForm = ({
         const facetDescription = facets[index].description;
         const facetDescriptionLength = facetDescription.trim().length;
         let facetDescriptionValidationError = '';
+
         if (facetDescriptionLength == 0) {
             facetDescriptionValidationError = 'Please provide a facet description'
         } else if (facetDescriptionLength > frameworkFacetDescriptionMaxLength) {
@@ -233,7 +234,7 @@ const FrameworkCreateForm = ({
             addHandlesToFacets()
             setIsPreview(true)
         } else {
-            console.log('There are validation errors')
+            // Todo add validation error notification
         }
     }
 
@@ -301,6 +302,7 @@ const FrameworkCreateForm = ({
                         onChange={handleFrameworkDescriptionChange}
                         value={frameworkDescription}
                         required
+                        rows={5}
                     >
                     </textarea>
                     <div id='frameworkDescriptionHelp' className='form-text'>A description for the framework</div>

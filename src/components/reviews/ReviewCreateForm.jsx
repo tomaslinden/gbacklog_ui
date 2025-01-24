@@ -60,7 +60,7 @@ const ReviewCreateForm = ({
             facets.forEach(({ handle }) => {
                 const singleFacetContents = facetContents[handle];
                 const facetContentsLength = singleFacetContents.length
-                if (facetContentsLength === 0 || facetContentsLength > 500) { // Synchronize with backend
+                if (facetContentsLength === 0 || facetContentsLength > 1000) { // Synchronize with backend
                     isValid = false
                     facetContentValidationsCopy[handle] = false
                 } else if (!isValidMarkdown(singleFacetContents)) {

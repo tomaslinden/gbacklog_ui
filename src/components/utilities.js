@@ -10,7 +10,8 @@ export const getFacetsFromReviewAsObject = (localReview) => {
 }
 
 export const isValidMarkdown = ( markdown ) => {
-    return markdown.indexOf('#') === -1
+    // return markdown.indexOf('#') === -1
+    return true
 }
 
 // Modified from StackOverflow: https://stackoverflow.com/a/175787

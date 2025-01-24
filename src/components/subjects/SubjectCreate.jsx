@@ -92,7 +92,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
         if (validateForm()) {
             setPreview(true)
         } else {
-            console.log('There are validation errors')
+            // Todo add validation error notification
         }
     }
    
@@ -104,7 +104,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
                 createSubject()
             }
         } else {
-            console.log('There are validation errors')
+            // Todo add validation error notification
         }
     }
 
@@ -194,6 +194,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
                         value={subjectDescription}
                         required
                         disabled={isSubjectSuccess}
+                        rows={5}
                     >
                     </textarea>
                     <div id='subjectDescriptionHelp' className='form-text'>A description for the review subject</div>
