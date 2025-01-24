@@ -9,9 +9,9 @@ const SubjectView = ({ subjectService }) => {
     const { name, description } = subject
 
     let params = useParams();
+    const { id } = params
 
     useEffect(() => {
-        const { id } = params
         subjectService
             .getById(id)
             .then(receivedSubject => {
@@ -28,6 +28,10 @@ const SubjectView = ({ subjectService }) => {
         </Link>
 
         <SubjectViewContents className='mt-4' {...{ name, description }} />
+
+        <Link to={`/search/${id}`}>
+            <button type='button' className='btn btn-primary mt-4'>Search for subject</button>
+        </Link>
     </>}</>)
 }
 

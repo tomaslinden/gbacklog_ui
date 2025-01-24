@@ -8,9 +8,9 @@ const FrameworkView = ({ frameworkService }) => {
     const [isLoaded, setLoaded] = useState(false)
 
     let params = useParams();
+    const { id } = params
 
     useEffect(() => {
-        const { id } = params
         frameworkService
             .getById(id)
             .then(receivedFramework => {
@@ -34,6 +34,10 @@ const FrameworkView = ({ frameworkService }) => {
             frameworkStatus={framework.status}
             facets={framework.facets}
         />
+
+        <Link to={`/search/${id}`}>
+            <button type='button' className='btn btn-primary mt-4'>Search with framework</button>
+        </Link>
     </>}</>)
 }
 

@@ -5,7 +5,7 @@ const SearchResults = ({ searchResults }) => {
     const navigate = useNavigate();
   
     return (<>
-        <h2>Subjects</h2>
+        <h2 className='mt-4'>Subjects</h2>
         {searchResults?.subjects?.length > 0 && (
             <Table striped bordered hover>
                 <thead>
@@ -38,7 +38,7 @@ const SearchResults = ({ searchResults }) => {
             No subjects found
         </>}
 
-        <h2>Frameworks</h2>
+        <h2 className='mt-4'>Frameworks</h2>
         {searchResults?.frameworks?.length > 0 && (
             <Table striped bordered hover>
                 <thead>
@@ -71,7 +71,7 @@ const SearchResults = ({ searchResults }) => {
             No frameworks found
         </>}
 
-        <h2>Reviews</h2>
+        <h2 className='mt-4'>Reviews</h2>
         {searchResults?.reviews?.length > 0 && (
             <Table striped bordered hover>
                 <thead>
