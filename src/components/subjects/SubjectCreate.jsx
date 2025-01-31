@@ -17,7 +17,7 @@ const SubjectCreate = ({ subjectService, mode }) => {
     const [isSubjectError, setIsSubjectError] = useState(false)
 
     const subjectNameMaxLength = 100; // Keep this in sync with the DB schema
-    const subjectDescriptionMaxLength = 500; // Keep this in sync with the DB schema
+    const subjectDescriptionMaxLength = 1000; // Keep this in sync with the DB schema
     
     const navigate = useNavigate()
 

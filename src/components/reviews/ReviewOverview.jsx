@@ -1,22 +1,29 @@
 import Card from 'react-bootstrap/Card';
+import { Link } from "react-router-dom";
 import RenderReviewCard from './RenderReviewCard'
+import RenderMarkdown from '../common/RenderMarkdown'
 
 const ReviewOverview = ({
     mode,
     reviewTargetType,
     reviewTargetName,
     framework,
-    metaReviewAverage
+    metaReviewAverage,
+    reviewTargetId
 }) => (
     <Card className='mt-4'>
         <Card.Body>
             <RenderReviewCard>
                 <p>
-                    {mode === 'create' ? 'Creating a' : 'A'} review of {reviewTargetType === 'review' ? 'a' : 'the'} <em>{reviewTargetType}</em> <strong>{reviewTargetName}</strong> using the framework <strong>{framework.name}</strong>.
+                    {mode === 'create' ? 'Creating a' : 'A'} review of {reviewTargetType === 'review' ? 'a' : 'the'} <em>{reviewTargetType}</em> <Link to={`/${reviewTargetType}/${reviewTargetId}`}>
+                        <strong>{reviewTargetName}</strong>
+                    </Link> using the framework <Link to={`/framework/${framework.id}`}>
+                        <strong>{framework.name}</strong>
+                    </Link>.
                 </p>
                 <p style={{marginBottom: metaReviewAverage ? 'default' : '0px'}}>
                     {/* Todo add check for period at the end of description */}
-                    {framework.description}
+                    <RenderMarkdown>{framework.description}</RenderMarkdown>
                 </p>
                 {metaReviewAverage && <p style={{marginBottom: '0px'}}>
                     {/* https://stackoverflow.com/a/11832950 */}

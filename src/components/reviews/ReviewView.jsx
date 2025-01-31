@@ -48,6 +48,7 @@ const ReviewView = ({ reviewService }) => {
                 reviewTargetName={reviewTarget.name}
                 framework={framework}
                 review={review}
+                reviewTargetId={reviewTarget.id}
             />
 
             <ReviewMetaReviews className='mt-5'

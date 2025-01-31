@@ -154,9 +154,8 @@ const ReviewCreateForm = ({
                                                 <Tooltip {...props}>{description}</Tooltip>
                                             )}
                                         >
-                                            {/* Todo: Add a suitable aria label for the tooltip so that it becomes accessible */}
                                             <Button
-                                                className="btn btn-light btn-sm"
+                                                className="btn btn-light btn-sm button-icon-custom"
                                                 style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                                             ><Info size="24" /></Button>
                                         </OverlayTrigger>

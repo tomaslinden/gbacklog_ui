@@ -2,9 +2,12 @@ import ReviewViewContents from './ReviewViewContents'
 import ReviewOverview from './ReviewOverview'
 import { getFacetsFromReviewAsObject } from '../utilities'
 
+// Todo rationalize the component signature to only receive the review and the get
+// the type, name and id of the review from the review object.
 const ReviewViewOverviewAndContents = ({
     reviewTargetType,
     reviewTargetName,
+    reviewTargetId,
     framework,
     review
 }) => {
@@ -17,7 +20,13 @@ const ReviewViewOverviewAndContents = ({
         <div className='mt-5'>
             <ReviewOverview
                 mode='view'
-                {...{ reviewTargetType, reviewTargetName, framework, metaReviewAverage }}
+                {...{
+                    reviewTargetType,
+                    reviewTargetName,
+                    reviewTargetId,
+                    framework,
+                    metaReviewAverage,
+                }}
             />
         </div>
 

@@ -53,7 +53,8 @@ const ReviewModify = ({ reviewService }) => {
                     mode: 'view',
                     reviewTargetType,
                     reviewTargetName: selectedReviewTarget.name,
-                    framework: selectedFramework
+                    framework: selectedFramework,
+                    reviewTargetId
                 } } />
             </div>
         }

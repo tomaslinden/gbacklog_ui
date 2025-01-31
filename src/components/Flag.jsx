@@ -150,7 +150,9 @@ const Flag = ({ subjectService, frameworkService, reviewService }) => {
                     reviewTargetType={target.targetType}
                     reviewFacetContents={targetAdditionalInfo.reviewTarget.facetContents}
                     framework={target?.reviewFramework}
-                    review={target} />
+                    review={target}
+                    reviewTargetId={target.id}
+                />
             </>)}
 
             <Button

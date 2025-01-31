@@ -29,7 +29,8 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
                     mode: 'create',
                     reviewTargetType,
                     reviewTargetName: selectedReviewTarget.name,
-                    framework: selectedFramework
+                    framework: selectedFramework,
+                    reviewTargetId
                 } } />
             }
 
