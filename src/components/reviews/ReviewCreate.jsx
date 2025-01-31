@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom';
 import ReviewCreateSelect from './ReviewCreateSelect'
 import ReviewCreateForm from './ReviewCreateForm'
 import ReviewCreatePreview from './ReviewCreatePreview'
@@ -15,6 +15,29 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
     const [reviewTargetId, setReviewTargetId] = useState('')
     const [selectedReviewTarget, setSelectedReviewTarget] = useState()
     const [verdictValue, setVerdictValue] = useState()
+
+    const query = new URLSearchParams(useLocation().search);
+
+    const reviewTargetTypeFromUrl = query.get("reviewTargetType");
+    const reviewTargetIdFromUrl = query.get("reviewTargetId");
+    const frameworkIdFromUrl = query.get("frameworkId");
+
+    useEffect(() => {
+        if ((reviewTargetTypeFromUrl === 'subject' || reviewTargetTypeFromUrl === 'framework') && reviewTargetIdFromUrl) {
+            setReviewTargetType(reviewTargetTypeFromUrl)
+            setReviewTargetId(reviewTargetIdFromUrl)
+        }
+        if (frameworkIdFromUrl) {
+            setFrameworkId(frameworkIdFromUrl)
+        }
+    }, [])
+
+    const renderSelect = () => {
+        return phase === 'select' && (
+            (frameworkIdFromUrl && frameworkId) ||
+            (reviewTargetTypeFromUrl && reviewTargetType && reviewTargetIdFromUrl && reviewTargetId)
+        )
+    }
 
     return (
         <>
@@ -34,7 +57,7 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
                 } } />
             }
 
-            {phase === 'select' &&
+            {renderSelect() &&
                 <ReviewCreateSelect { ...{ 
                     subjectService,
                     frameworkService,

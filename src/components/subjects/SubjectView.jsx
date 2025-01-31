@@ -32,6 +32,10 @@ const SubjectView = ({ subjectService }) => {
         <Link to={`/search/${id}`}>
             <button type='button' className='btn btn-primary mt-4'>Search for subject</button>
         </Link>
+
+        <Link to={`/createReview?reviewTargetType=subject&reviewTargetId=${id}`}>
+            <button type='button' className='btn btn-primary mt-4 ms-2'>Write a review</button>
+        </Link>
     </>}</>)
 }
 

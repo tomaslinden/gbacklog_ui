@@ -47,7 +47,21 @@ const ReviewCreateSelect = ({
             setReviewTargets(frameworks)
         }
     }, [reviewTargetType])
-    
+
+    useEffect(() => {
+        if (reviewTargetType === 'subject') {
+            setReviewTargets(subjects)
+        } else if (reviewTargetType === 'framework') {
+            setReviewTargets(frameworks)
+        }
+    }, [subjects, frameworks])
+
+    useEffect(() => {
+        if (reviewTargetId) {
+            setSelectedReviewTarget(reviewTargetId)
+        }
+    }, [reviewTargets])
+
     const isReviewTargetTypeValid = () => {
         return reviewTargetType !== ''
     }

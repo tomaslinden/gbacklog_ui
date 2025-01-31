@@ -38,6 +38,13 @@ const FrameworkView = ({ frameworkService }) => {
         <Link to={`/search/${id}`}>
             <button type='button' className='btn btn-primary mt-4'>Search with framework</button>
         </Link>
+
+        <Link to={`/createReview?reviewTargetType=framework&reviewTargetId=${id}`}>
+            <button type='button' className='btn btn-primary mt-4 ms-2'>Review this framework</button>
+        </Link>
+        <Link to={`/createReview?frameworkId=${id}`}>
+            <button type='button' className='btn btn-primary mt-4 ms-2'>Write a review using this framework</button>
+        </Link>
     </>}</>)
 }
 
