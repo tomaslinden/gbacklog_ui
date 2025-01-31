@@ -12,7 +12,7 @@ const ReviewOverview = ({
     reviewTargetId
 }) => (
     <Card className='mt-4'>
-        <Card.Body>
+        <Card.Body as='div'>
             <RenderReviewCard>
                 <p>
                     {mode === 'create' ? 'Creating a' : 'A'} review of {reviewTargetType === 'review' ? 'a' : 'the'} <em>{reviewTargetType}</em> <Link to={`/${reviewTargetType}/${reviewTargetId}`}>
@@ -21,10 +21,10 @@ const ReviewOverview = ({
                         <strong>{framework.name}</strong>
                     </Link>.
                 </p>
-                <p style={{marginBottom: metaReviewAverage ? 'default' : '0px'}}>
+                <div style={{marginBottom: metaReviewAverage ? 'default' : '0px'}}>
                     {/* Todo add check for period at the end of description */}
                     <RenderMarkdown>{framework.description}</RenderMarkdown>
-                </p>
+                </div>
                 {metaReviewAverage && <p style={{marginBottom: '0px'}}>
                     {/* https://stackoverflow.com/a/11832950 */}
                     Meta-review average: {Math.round((metaReviewAverage + Number.EPSILON) * 100) / 100}
