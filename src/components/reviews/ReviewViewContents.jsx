@@ -13,7 +13,8 @@ const ReviewViewContents = ({
     facetContents,
     selectedFramework,
     verdictType,
-    verdictValue
+    verdictValue,
+    notes
 }) => {
     const facetHandles = Object.keys(facetContents)
 
@@ -23,24 +24,38 @@ const ReviewViewContents = ({
     }
 
     return (<Fragment>
+
+        <Card className='mt-4'>
+            <Card.Body>
+                <Card.Title style={{display: 'flex', alignItems: 'center'}}>
+                    <div>Review notes</div>
+                </Card.Title>
+                <Card.Text as='div'>
+                    <RenderMarkdown>
+                        {notes}
+                    </RenderMarkdown>
+                </Card.Text>
+            </Card.Body>
+        </Card>
+
         {verdictType && verdictType !== 'none' && <>
             <Card className='mt-4'>
-                    <Card.Body>
-                        <Card.Title style={{display: 'flex', alignItems: 'center'}}>
-                            <div>Verdict</div>
-                        </Card.Title>
-                        <Card.Text as='div'>
-                            <VerdictWidget
-                                {...{
-                                    verdictType,
-                                    verdictValue,
-                                }}
-                                verdictProperties={selectedFramework?.verdictProperties}
-                                className='ms-1'
-                                disabled={true}
-                            />
-                        </Card.Text>
-                    </Card.Body>
+                <Card.Body>
+                    <Card.Title style={{display: 'flex', alignItems: 'center'}}>
+                        <div>Verdict</div>
+                    </Card.Title>
+                    <Card.Text as='div'>
+                        <VerdictWidget
+                            {...{
+                                verdictType,
+                                verdictValue,
+                            }}
+                            verdictProperties={selectedFramework?.verdictProperties}
+                            className='ms-1'
+                            disabled={true}
+                        />
+                    </Card.Text>
+                </Card.Body>
             </Card>
         </>}
 

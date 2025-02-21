@@ -14,10 +14,14 @@ const ReviewCreateForm = ({
     facetContents,
     setFacetContents,
     verdictValue,
-    setVerdictValue
+    setVerdictValue,
+    notes,
+    setNotes
 }) => {
     const [facetContentValidations, setFacetContentValidations] = useState({})
     const [facetContentTouched, setFacetContentTouched] = useState({})
+    const [notesValid, setNotesValid] = useState(true)
+    const [notesTouched, setNotesTouched] = useState(false)
 
     const { verdictType, verdictProperties, facets } = selectedFramework
 
@@ -37,7 +41,8 @@ const ReviewCreateForm = ({
 
     useEffect(() => {
         validateFacets()
-    }, [facetContents])
+        validateNotes()
+    }, [facetContents, notes])
     
     const getFormClass = () => {
         let formClass = 'mt-4 needs-validation'
@@ -60,7 +65,7 @@ const ReviewCreateForm = ({
             facets.forEach(({ handle }) => {
                 const singleFacetContents = facetContents[handle];
                 const facetContentsLength = singleFacetContents.length
-                if (facetContentsLength === 0 || facetContentsLength > 1000) { // Synchronize with backend
+                if (facetContentsLength === 0 || facetContentsLength > 2000) { // Synchronize with backend
                     isValid = false
                     facetContentValidationsCopy[handle] = false
                 } else if (!isValidMarkdown(singleFacetContents)) {
@@ -84,7 +89,14 @@ const ReviewCreateForm = ({
             return true
         }
     }
-    
+
+    const validateNotes = () => {
+        // Sync the max length of the facet notes with the backend validations
+        const isNotesValid = notes && notes <= 2000
+        setNotesValid(isNotesValid)
+        return isNotesValid
+    }
+
     const handleFormSubmit = event => {
         event.preventDefault()
         event.stopPropagation()
@@ -112,24 +124,65 @@ const ReviewCreateForm = ({
     return (<>
         <DescriptionInputInstructions type='review' className='mt-4' />
 
-        {verdictType && verdictType !== 'none' &&
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-                <Form.Label className='mt-4'>
-                    Verdict
-                </Form.Label>
-                <VerdictWidget
-                    {...{
-                        verdictType,
-                        verdictProperties,
-                        verdictValue,
-                        setVerdictValue,
-                    }}
-                    className='ms-1'
-                />
-                {(!validateVerdict()) && <div className='invalid-feedback' style={{display: 'block'}}>Please check the verdict</div>}
-            </Form.Group>}
-
         <Form className={getFormClass()} noValidate onSubmit={handleFormSubmit}>
+
+            <Form.Group controlId={''}>
+                <Form.Label>
+                    <div
+                        className='mt-2'
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <div>Review notes</div>
+                        <div>
+                            <OverlayTrigger
+                                delay={{ hide: 450, show: 300 }}
+                                overlay={(props) => (
+                                    <Tooltip {...props}>
+                                        Generic notes for the review that are not part of the facets. The author of the review can be put here.
+                                    </Tooltip>
+                                )}
+                            >
+                                <Button
+                                    className="btn btn-light btn-sm button-icon-custom"
+                                    style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+                                ><Info size="24" /></Button>
+                            </OverlayTrigger>
+                        </div>
+                    </div>
+
+                </Form.Label>
+                <Form.Control as="textarea" rows={3}
+                    value={notes}
+                    onChange={(event) => {
+                        setNotes(event.target.value)
+                        setNotesTouched(true)
+                    }}
+                    isValid={notesTouched && notesValid}
+                    isInvalid={notesTouched && notesValid}
+                />
+            </Form.Group>
+
+            {verdictType && verdictType !== 'none' &&
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Label className='mt-4'>
+                        Verdict
+                    </Form.Label>
+                    <VerdictWidget
+                        {...{
+                            verdictType,
+                            verdictProperties,
+                            verdictValue,
+                            setVerdictValue,
+                        }}
+                        className='ms-1'
+                    />
+                    {(!validateVerdict()) && <div className='invalid-feedback' style={{display: 'block'}}>Please check the verdict</div>}
+                </Form.Group>}
+
             {facets.map((facet, index) => {
                 const { handle, name, description } = facet
                 return (

@@ -12,7 +12,8 @@ const ReviewCreatePreview = ({
     handleSave,
     reviewTargetType,
     reviewTargetId,
-    verdictValue
+    verdictValue,
+    notes
 }) => {
     // Rename these to upsert
     const [isReviewCreateSuccess, setReviewCreateSuccess] = useState(false)
@@ -35,7 +36,8 @@ const ReviewCreatePreview = ({
             targetType: reviewTargetType,
             targetId: reviewTargetId,
             facetContents: facetContentsToSend,
-            verdictValue
+            verdictValue,
+            notes
         }
     }
 
@@ -67,7 +69,8 @@ const ReviewCreatePreview = ({
             facetContents,
             selectedFramework,
             verdictType,
-            verdictValue
+            verdictValue,
+            notes
         }} />
 
         {!isReviewCreateSuccess && <>

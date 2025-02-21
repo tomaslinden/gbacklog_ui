@@ -15,6 +15,7 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
     const [reviewTargetId, setReviewTargetId] = useState('')
     const [selectedReviewTarget, setSelectedReviewTarget] = useState()
     const [verdictValue, setVerdictValue] = useState()
+    const [notes, setNotes] = useState('')
 
     const query = new URLSearchParams(useLocation().search);
 
@@ -33,10 +34,12 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
     }, [])
 
     const renderSelect = () => {
-        return phase === 'select' && (
-            (frameworkIdFromUrl && frameworkId) ||
-            (reviewTargetTypeFromUrl && reviewTargetType && reviewTargetIdFromUrl && reviewTargetId)
-        )
+        // Todo check if the commented out code is needed.
+        // return phase === 'select' && (
+        //     (frameworkIdFromUrl && frameworkId) ||
+        //     (reviewTargetTypeFromUrl && reviewTargetType && reviewTargetIdFromUrl && reviewTargetId)
+        // )
+        return phase === 'select';
     }
 
     return (
@@ -82,7 +85,9 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
                     setFacetContents,
                     setPhase,
                     verdictValue,
-                    setVerdictValue                
+                    setVerdictValue,
+                    notes,
+                    setNotes
                 } } />
             }
 
@@ -99,7 +104,8 @@ const ReviewCreate = ({ subjectService, frameworkService, reviewService }) => {
                     },
                     reviewTargetType,
                     reviewTargetId,
-                    verdictValue
+                    verdictValue,
+                    notes
                 }} />
             }
         </>
