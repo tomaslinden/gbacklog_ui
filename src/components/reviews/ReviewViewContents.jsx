@@ -32,7 +32,7 @@ const ReviewViewContents = ({
                 </Card.Title>
                 <Card.Text as='div'>
                     <RenderMarkdown>
-                        {notes}
+                        {notes?.trim().length > 0 ? notes : '(No notes)'}
                     </RenderMarkdown>
                 </Card.Text>
             </Card.Body>
