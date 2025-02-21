@@ -1,9 +1,13 @@
 import Table from 'react-bootstrap/Table';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const SearchResults = ({ searchResults }) => {
-    const navigate = useNavigate();
-  
+    // const navigate = useNavigate();
+
+    const openInNewTab = (location) => {
+        window.open(location, '_blank')
+    }
+
     return (<>
         <h2 className='mt-4'>Subjects</h2>
         {searchResults?.subjects?.length > 0 && (
@@ -22,7 +26,8 @@ const SearchResults = ({ searchResults }) => {
                             <tr
                                 key={id}
                                 className='clickable'
-                                onClick={() => navigate(`/subject/${id}`)}
+                                // onClick={() => navigate(`/subject/${id}`)}
+                                onClick={() => openInNewTab(`#/subject/${id}`)}
                                 role="button"
                             >
                                 <td>{name}</td>
@@ -55,7 +60,8 @@ const SearchResults = ({ searchResults }) => {
                             <tr
                                 key={id}
                                 className='clickable'
-                                onClick={() => navigate(`/framework/${id}`)}
+                                // onClick={() => navigate(`/framework/${id}`)}
+                                onClick={() => openInNewTab(`#/framework/${id}`)}
                                 role="button"
                             >
                                 <td>{name}</td>
@@ -98,7 +104,8 @@ const SearchResults = ({ searchResults }) => {
                             <tr
                                 className='clickable'
                                 key={id}
-                                onClick={() => navigate(`/review/${id}`)}
+                                // onClick={() => navigate(`/review/${id}`)}
+                                onClick={() => openInNewTab(`#/review/${id}`)}
                                 role="button"
                             >
                                 <td>{targetType}</td>
