@@ -1,8 +1,10 @@
 import Markdown from 'react-markdown'
 
-const RenderMarkdown = ({ children }) => {
+const RenderMarkdown = ({ children, disallowHeadings = true }) => {
     return (<>
-        <Markdown disallowedElements={['h1', 'h2', 'h3', 'h4', 'h5', 'h6']}>
+        <Markdown disallowedElements={
+            disallowHeadings ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []
+        }>
             {children}
         </Markdown>
     </>)

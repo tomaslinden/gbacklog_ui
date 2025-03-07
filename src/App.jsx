@@ -14,7 +14,7 @@ import ReviewModify from './components/reviews/ReviewModify'
 import ReviewView from './components/reviews/ReviewView'
 import Flag from './components/Flag'
 import Search from './components/search/Search'
-import Instructions from './components/Instructions'
+import Instructions from './components/instructions/Instructions'
 import prodSubjectService from './services/subjects';
 import devSubjectService from './services/mockSubjects';
 import prodFrameworkService from './services/frameworks';
