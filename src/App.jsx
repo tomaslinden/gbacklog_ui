@@ -61,7 +61,7 @@ function App() {
 
             <div className="mt-4">
               <Routes>
-                  <Route index element={<Subjects {...{ subjectService }} />} />
+                  <Route index element={<Instructions />} />
                   <Route path="/subjects" element={<Subjects {...{ subjectService }} />} />
                   <Route path="/subject/:id" element={<SubjectView {...{ subjectService }} />} />
                   {/* Todo: add mode='create' to createSubject instead of having a default mode */}
