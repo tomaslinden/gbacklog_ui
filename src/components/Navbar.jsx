@@ -34,6 +34,9 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link to="/reviews">Reviews&nbsp;&nbsp;&nbsp;</Link>
               </li>
+              <li className="nav-item">
+                <Link to="/instructions">Instructions&nbsp;&nbsp;&nbsp;</Link>
+              </li>
             </ul>
             <Form className="d-flex" role="search" onSubmit={handleFormSubmit}>
               <Form.Control as="input"
